@@ -98,10 +98,10 @@ switch (ENVIRONMENT)
  * Set the path if it is not in the same directory as this file.
  */
 // for carl
-//	$system_path = '/var/www/html/system';
+$system_path = '/var/www/system';
 
 // for william
-	$system_path = 'D:/Project/system';
+// system_path = 'D:/Project/system';
 
 
 /*
@@ -119,7 +119,11 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'D:/Project/application';
+ // for Carl
+ $application_folder = '/var/www/application';
+
+ // for william
+ //	$application_folder = 'D:/Project/application';
 
 /*
  *---------------------------------------------------------------

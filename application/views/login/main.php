@@ -8,8 +8,8 @@
 <hr />
 <h4 class="text-center"><?php echo $message ?></h4>
 <br />
-
-    <form action="<?php echo base_Url(); ?>index.php/welcome/index" method="post">
+    <!-- Login Form -->
+    <form action="<?php echo base_Url(); ?>index.php/login/login" method="post">
         
         <div class="form-group row">
             <label for="name" class="offset-md-2 col-md-2 col-form-label text-right">Name:</label>

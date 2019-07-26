@@ -1,6 +1,6 @@
 <?php
 
-class Home extends CI_Controller {
+class Personcenter extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -13,17 +13,20 @@ class Home extends CI_Controller {
 	}
 	public function index()
 	{	
-		$data['userType'] = 'anyone';
-		if(isset($_SESSION['userName'])){
-            $data['userName'] = $_SESSION['userName'];
-			$data['userType'] = $_SESSION['userType'];
+        // Check username and the passwd
+		if(! isset($_SESSION['userType'])){
+			redirect('/login/index');
 		}
 		
-		$data['title'] = "This is Home Page";
+		$data['userName'] = $_SESSION['userName'];
+		$data['userType'] = $_SESSION['userType'];
+        $data['message'] = "Please Login";
+		$data['title'] = "This is Personal Center Page";
 		$this->load->view('templates/header');
 		$this->load->view('templates/navtop', $data);
 		$this->load->view('templates/navbar');
-        $this->load->view('home/main', $data);
+        $this->load->view('personcenter/main', $data);
         $this->load->view('templates/footer');
-	}
+    }
+    
 }

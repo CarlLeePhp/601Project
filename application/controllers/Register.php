@@ -28,13 +28,17 @@ class Register extends CI_Controller {
 
             $userPasswd = do_hash($userPasswd, 'sha256');
             $this->register_model->addUser($userName, $userEmail, $userPasswd, $userType);
+        } else {
+            $data['userType'] = 'anyone';
+            $data['title'] = 'Register Page';
+            $this->load->view('templates/header');
+            $this->load->view('templates/navtop', $data);
+            $this->load->view('templates/navbar');
+            $this->load->view('register/main', $data);
+            $this->load->view('templates/footer');
         }
 
-
-        $data['title'] = 'Register Page';
-        $this->load->view('templates/header');
-        $this->load->view('register/main', $data);
-        $this->load->view('templates/footer');
+        
     }
 
     function edit_sale($sale_id){

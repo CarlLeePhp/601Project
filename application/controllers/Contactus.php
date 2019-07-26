@@ -1,6 +1,6 @@
 <?php
 
-class Home extends CI_Controller {
+class Contactus extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -19,7 +19,7 @@ class Home extends CI_Controller {
 			$data['userType'] = $_SESSION['userType'];
 		}
 		
-		$data['title'] = "This is Home Page";
+		$data['title'] = "This is Contact Us Page";
 		$this->load->view('templates/header');
 		$this->load->view('templates/navtop', $data);
 		$this->load->view('templates/navbar');

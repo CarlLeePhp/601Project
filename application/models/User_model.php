@@ -1,5 +1,5 @@
 <?php
-class Sale_model extends CI_Model {
+class User_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
@@ -7,11 +7,11 @@ class Sale_model extends CI_Model {
     /**
      * Select Functions
     */
-    // get all sale, available = yes
-    public function get_sale(){
-        $this->db->where('AVAILABLE', 'yes');
-        $query = $this->db->get('SALE');
-        return $query->result_array();
+    // get an user by user name
+    public function getUserByName($userName){
+        $this->db->where('UserName', $userName);
+        $query = $this->db->get('User');
+        return $query->row_array();
     }
 
     public function get_sale_id($sale_id){

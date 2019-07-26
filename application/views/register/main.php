@@ -29,8 +29,6 @@
 	                
 			        <option value="client">Client</option>
                     <option value="candidate">Candidate</option>
-                    <option value="staff">Staff</option>
-                    <option value="admin">Admin</option>
 		            
 	            </select>
             </div>

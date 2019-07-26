@@ -9,47 +9,52 @@ class Login extends CI_Controller {
 		
 		// Load url helper
         $this->load->helper('url');
+        $this->load->helper('security');
+        $this->load->library('session');
         // Load Models
-        $this->load->model('sale_model');
+        $this->load->model('user_model');
     }
 
     function index(){
         $data['message'] = "";
-
-        // when get update, update the sale
-        if(isset($_POST['update'])){
-            $sale_id = $_POST['update'];
-            $sale_name = $_POST['sale_name'];
-            $sale_email = $_POST['sale_email'];
-
-            $this->sale_model->update_sale($sale_id, $sale_name, $sale_email);
-            $data['message'] = "Information of ".$sale_name." was updated.";
-        }
-        // when get new, insert a sale
-        if(isset($_POST['new'])){
-            $sale_name = $_POST['sale_name'];
-            $sale_email = $_POST['sale_email'];
-        
-            $this->sale_model->add_sale($sale_name, $sale_email);
-            $data['message'] = $sale_name." was added.";
-        }
-
-        // when get remove, update the sale, set available = no
-        if(isset($_POST['remove'])){
-            $sale_id = $_POST['remove'];
-            $sale_name = $_POST['sale_name'];
-            
-            $this->sale_model->remove_sale($sale_id);
-            $data['message'] = $sale_name." was removed.";
-        }
-        
+        $data['userType'] = 'anyone';
 
         $data['title'] = 'Login Page';
         $this->load->view('templates/header');
+		$this->load->view('templates/navtop', $data);
+		$this->load->view('templates/navbar');
         $this->load->view('login/main', $data);
         $this->load->view('templates/footer');
     }
 
+    public function login(){
+        // When someone enter this link without login, it should be redirecte to login/index
+        if(isset($_POST['name'])){
+            $userName = $_POST['name'];
+            $userPasswd = $_POST['passwd'];
+            $userPasswd = do_hash($userPasswd, 'sha256');
+            // get the user's information from database
+            $data['user'] = $this->user_model->getUserByName($userName);
+            if($data['user']['UserPasswd'] == $userPasswd){
+                $newdata = array(
+                    'userName' => $userName,
+                    'email' => $data['user']['UserEmail'],
+                    'userType' => $data['user']['UserType']
+                );
+                $this->session->set_userdata($newdata);
+
+                redirect('/personcenter/index');
+            }
+
+        } else {
+            redirect('/login/index');
+        }
+    }
+
+    public function logout(){
+        $this->session->sess_destroy();
+        redirect('home/index/');
+    }
 
     /**
      * AJAX
