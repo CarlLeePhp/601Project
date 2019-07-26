@@ -10,6 +10,7 @@
 
     <form action="<?php echo base_Url(); ?>index.php/register/index" method="post">
         <input type="text" name="new" value="new" class="d-none"/>
+        <input type="text" name="type" value="candidate" class="d-none"/>
         <div class="form-group row">
             <label for="name" class="offset-md-2 col-md-2 col-form-label text-right">Name:</label>
             <div class="col-md-4"> 
@@ -20,17 +21,6 @@
             <label for="email" class="offset-md-2 col-md-2 col-form-label text-right">Email:</label>
             <div class="col-md-4"> 
                 <input type="text" name="email" class="form-control" placeholder="Email">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="type" class="offset-md-2 col-md-2 col-form-label text-right">User Type:</label>
-            <div class="col-md-4"> 
-                <select name="type" class="form-control">
-	                
-			        <option value="client">Client</option>
-                    <option value="candidate">Candidate</option>
-		            
-	            </select>
             </div>
         </div>
         <div class="form-group row">
