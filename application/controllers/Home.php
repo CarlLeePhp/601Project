@@ -13,17 +13,13 @@ class Home extends CI_Controller {
 	}
 	public function index()
 	{	
-		$data['userType'] = 'anyone';
-		if(isset($_SESSION['userName'])){
-            $data['userName'] = $_SESSION['userName'];
-			$data['userType'] = $_SESSION['userType'];
+		$userdata['userType'] = 'anyone';
+        if(isset($_SESSION['userEmail'])){
+            $userdata['userEmail'] = $_SESSION['userEmail'];
+			$userdata['userType'] = $_SESSION['userType'];
 		}
-		
-		$data['title'] = "This is Home Page";
-		$this->load->view('templates/header');
-		$this->load->view('templates/navtop', $data);
-		$this->load->view('templates/navbar');
-        $this->load->view('home/main', $data);
+        $this->load->view('templates/header', $userdata);
+        $this->load->view('pages/main');
         $this->load->view('templates/footer');
 	}
 }

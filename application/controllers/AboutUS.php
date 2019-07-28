@@ -1,6 +1,6 @@
 <?php
 
-class Jobs extends CI_Controller {
+class AboutUS extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -19,7 +19,7 @@ class Jobs extends CI_Controller {
 			$userdata['userType'] = $_SESSION['userType'];
 		}
         $this->load->view('templates/header', $userdata);
-        $this->load->view('pages/jobs');
+        $this->load->view('pages/aboutUs');
         $this->load->view('templates/footer');
 	}
 }

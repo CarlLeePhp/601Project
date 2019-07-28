@@ -1,20 +1,16 @@
 
 
-<div id="app">    
-<div style="height: 50px;"></div>
-
-<h2 class="text-center"><?php echo $title; ?></h2>
-
-<hr />
-<h4 class="text-center"><?php echo $message ?></h4>
+<div id="app" class="container m-md-5">    
+<span class="display-4">Please Login</span>
+<hr>
 <br />
     <!-- Login Form -->
     <form action="<?php echo base_Url(); ?>index.php/login/login" method="post">
         
         <div class="form-group row">
-            <label for="name" class="offset-md-2 col-md-2 col-form-label text-right">Name:</label>
+            <label for="email" class="offset-md-2 col-md-2 col-form-label text-right">Name:</label>
             <div class="col-md-4"> 
-                <input type="text" name="name" class="form-control" placeholder="Full Name">
+                <input type="text" name="email" class="form-control" placeholder="Email">
             </div>
         </div>
         <div class="form-group row">

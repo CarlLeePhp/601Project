@@ -19,38 +19,40 @@ class Register extends CI_Controller {
     }
 
     function index(){
-        // get new register
-        if(isset($_POST['new'])){
-            $userName = $_POST['name'];
-            $userEmail = $_POST['email'];
-            $userType = $_POST['type'];
-            $userPasswd = $_POST['passwd'];
-
-            $userPasswd = do_hash($userPasswd, 'sha256');
-            $this->register_model->addUser($userName, $userEmail, $userPasswd, $userType);
-
-            $data['message'] = "Register Successfully, please Login.";
-            $data['userType'] = 'anyone';
-
-            $data['title'] = 'Login Page';
-            $this->load->view('templates/header');
-            $this->load->view('templates/navtop', $data);
-            $this->load->view('templates/navbar');
-            $this->load->view('login/main', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $data['userType'] = 'anyone';
-            $data['title'] = 'Register Page';
-            $this->load->view('templates/header');
-            $this->load->view('templates/navtop', $data);
-            $this->load->view('templates/navbar');
-            $this->load->view('register/main', $data);
-            $this->load->view('templates/footer');
-        }
+                
+        $userdata['userType'] = 'anyone';
+        
+        $this->load->view('templates/header', $userdata);
+        $this->load->view('pages/register');
+        $this->load->view('templates/footer');
+        
 
         
     }
 
+    function newUser(){
+        $userEmail = $_POST['Email'];
+        $userPasswd = $_POST['password'];
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $DOB = $_POST['DOB'];
+        $Address = $_POST['Address'];
+        $City = $_POST['City'];
+        $ZipCode = $_POST['ZipCode'];
+        $Suburb = $_POST['Suburb'];
+        $PhoneNumber = $_POST['PhoneNumber'];
+        $gender = $_POST['gender'];
+
+        $userType = 'candidate';
+        $userPasswd = do_hash($userPasswd, 'sha256');
+
+        $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
+        
+        $userdata['userType'] = 'anyone';
+        $this->load->view('templates/header', $userdata);
+        $this->load->view('login');
+        $this->load->view('templates/footer');
+    }
     function edit_sale($sale_id){
         // find the sale by ID
         $data['sale'] = $this->sale_model->get_sale_id($sale_id);

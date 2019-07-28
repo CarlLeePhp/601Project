@@ -5,7 +5,7 @@
 
 <h2 class="text-center"><?php echo $title; ?></h2>
 <hr />
-<p>Welcome back, <?php echo $userName; ?>!</p>
+<p>Welcome back, <?php echo $firstName; ?>!</p>
 <p>Your cannot see this page without login.</p>
 
 <?php if($userType == 'admin'): ?>

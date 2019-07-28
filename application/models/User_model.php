@@ -8,10 +8,14 @@ class User_model extends CI_Model {
      * Select Functions
     */
     // get an user by user name
-    public function getUserByName($userName){
-        $this->db->where('UserName', $userName);
+    public function getUserByEmail($userEmail){
+        $this->db->where('Email', $userEmail);
         $query = $this->db->get('User');
         return $query->row_array();
+    }
+
+    public function getAllEmail(){
+        
     }
 
     public function get_sale_id($sale_id){
@@ -24,16 +28,7 @@ class User_model extends CI_Model {
     /**
      * Insert functions
      */
-    // Insert a check list item
-    public function add_sale($sale_name, $sale_email) {
-        $data = array(
-            'SALE_NAME' => $sale_name,
-            'SALE_EMAIL' => $sale_email,
-            'AVAILABLE' => 'yes'
-        );
-        $this->db->insert('SALE', $data);
-    }
-    
+   
 
     /**
      * Update Functions
