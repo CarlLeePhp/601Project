@@ -16,7 +16,7 @@
         <div class="form-group row">
             <label for="passwd" class="offset-md-2 col-md-2 col-form-label text-right">Pass Word:</label>
             <div class="col-md-4"> 
-                <input type="text" name="passwd" class="form-control" placeholder="Email Address">
+                <input type="password" name="passwd" class="form-control" placeholder="Pass Word">
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
             
