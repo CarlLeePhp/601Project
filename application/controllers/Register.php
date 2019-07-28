@@ -50,7 +50,7 @@ class Register extends CI_Controller {
         
         $userdata['userType'] = 'anyone';
         $this->load->view('templates/header', $userdata);
-        $this->load->view('login');
+        $this->load->view('login/main');
         $this->load->view('templates/footer');
     }
     function edit_sale($sale_id){

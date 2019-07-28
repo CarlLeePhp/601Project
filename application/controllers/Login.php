@@ -41,6 +41,8 @@ class Login extends CI_Controller {
                 $this->session->set_userdata($newdata);
 
                 redirect('/personcenter/index');
+            } else {
+                redirect('/login/index');
             }
 
         } else {
