@@ -42,7 +42,7 @@
             
 
             <div class="text-center">
-        <a href="<?php echo base_url() ?>EmployerMission/index/3">
+        <a href="<?php echo base_url() ?>index.php/EmployerMission/index/3">
         <input type="button" class="btn btn-secondary" value="Submit your vacancy"/>
         </a>
             </div>
