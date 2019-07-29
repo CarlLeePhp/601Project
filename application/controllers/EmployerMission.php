@@ -9,7 +9,10 @@ class EmployerMission extends CI_Controller{
 		$this->load->helper('url');
 		$this->load->helper('security');
 
-		$this->load->library('session');
+        $this->load->library('session');
+        
+        // Load Models
+        $this->load->model('job_model');
 	}
     public function index($param=''){
 
@@ -33,5 +36,30 @@ class EmployerMission extends CI_Controller{
         $this->load->view('pages/employerMission', $data);
         $this->load->view('templates/footer');
 
+    }
+
+    public function addJob(){
+        $clientTitle = $_POST['clientTitle'];
+        $clientName = $_POST['clientName'];
+        $clientCompany = $_POST['clientCompany'];
+        $clientEmail = $_POST['clientEmail'];
+        $clientContact = $_POST['clientContact'];
+        $clientCity = $_POST['clientCity'];
+        $clientAddress = $_POST['clientAddress'];
+        $clientJobTitle = $_POST['clientJobTitle'];
+        $clientJobType = $_POST['clientJobType'];
+        $description = $_POST['description'];
+        
+        $userdata['userType'] = 'anyone';
+        if(isset($_SESSION['userEmail'])){
+            $userdata['userEmail'] = $_SESSION['userEmail'];
+			$userdata['userType'] = $_SESSION['userType'];
+        }
+        $this->job_model->addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description);
+
+        $data['title'] = 'Job was added successfully.';
+        $this->load->view('templates/header', $userdata);
+        $this->load->view('home/main', $data);
+        $this->load->view('templates/footer');
     }
 }

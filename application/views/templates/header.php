@@ -23,9 +23,9 @@
                 </a>
             </div>
             <!-- space -->
-            <div class="col-md-6"></div>
+            <div class="col-md-5"></div>
             <!-- topmost Right nav -->
-            <nav class="col-md-3 navbar navbar-expand-sm justify-content-around">
+            <nav class="col-md-4 navbar navbar-expand-sm justify-content-around">
                 <?php if($userType == 'anyone'): ?>
                 <a class="nav-link text-dark mx-4" href="<?php echo base_url() ?>index.php/login">Login</a>
                 <a class="nav-link text-dark mx-4" href="<?php echo base_url() ?>index.php/Register">Register</a>

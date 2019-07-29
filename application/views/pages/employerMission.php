@@ -94,7 +94,7 @@
             <hr>
             <div class="col-12">
             
-            <form action="<?php echo base_url()?>TestControl/index/" class="m-md-5" method="POST">
+            <form action="<?php echo base_url()?>index.php/EmployerMission/addJob/" class="m-md-5" method="POST">
             <div class="row">
                 <div class="col-2 p-0">
                 <label for="clientTitleID" class="font-weight-bold">Title</label>
