@@ -72,13 +72,21 @@
             <span class="display-4 ">Submit Application</span>
             <hr>
             <!-- CheckSession User == "" -->
+        <?php if($userType != 'anyone') { 
+            $this->load->view('pages/candidateApplicationForm');
+        } else { ?> 
+        <div>
             <p>You have to Login first before submitting your application form,
             by logging in it will help you tracking your application, and updating your own data.</p>
-            <a href="<?php echo base_url() ?>index.php/Register"><p>Register here</p></a>
+            <a href="<?php echo base_url() ?>index.php/Register" class="font-weight-bold">Register here</a> Or 
+            <a href="<?php echo base_url() ?>index.php/Login" class="font-weight-bold">Login</a>
+            if you already have an account.
+        </div>
+        <?php } ?>
+            
     </div>
-       
-    
-    </div> <!--endOfPane-->
+    </div><!--endOfPane-->
+    </div> 
 </div>
 </div>
     

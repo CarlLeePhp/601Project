@@ -55,6 +55,13 @@ class Login extends CI_Controller {
         redirect('home/index/');
     }
 
+    public function forgotPassword(){
+        $userdata['userType'] = 'anyone';
+        $this->load->view('templates/header',$userdata);
+        $this->load->view('login/forgotPassword');
+        $this->load->view('templates/footer');
+    }
+
     /**
      * AJAX
      */

@@ -41,4 +41,29 @@
         <li>We endeavour to get people into the job that suits them for their skills, stage of life, ambitions and future plans.</li>
         <li>We aim to find the best suitable candidate for a client, who suit the work environment not only on a professional but also a personal level.</li>
         <li>Successfully employed people are people who enjoy coming to work every day. Our aim is to build a better, happier community for all of us to enjoy.</li>
+</ul>
+<div class="row justify-content-center my-5">
+    <div class="col-md-4">
+    <div class="card">
+        <div class="row justify-content-center">
+        <img class="card-img-top mt-4" src="<?php echo base_url() ?>lib/images/Jobs.png" style="width:200px;height:140px;" alt="Jobs Icons">
+</div>
+        <div class="card-body">
+        <p class="card-text">See what jobs are currently available at Lee Recruitment.</p>
+        <div class="text-center " ><a href="<?php echo base_url()?>Jobs" class="btn btn-warning border border-dark">Jobs Available</a></div>
+        </div>
+    </div>
+    </div>
+    <div class="col-md-4 mt-md-0 mt-4">
+    <div class="card">
+        <div class="row justify-content-center mr-5">
+        <img class="card-img-top mt-4 " src="<?php echo base_url() ?>lib/images/contactUS.png" style="width:130px;height:140px;" alt="ContactUS icon">
+        </div>
+        <div class="card-body">
+        <p class="card-text">Have any inquiries or assistance regarding our services? feel free to contact us.</p>
+        <div class="text-center" ><a href="<?php echo base_url()?>ContactUS" class="btn btn-dark border border-dark">Contact Us</a></div>
+        </div>
+    </div>
+    </div>
+    </div>
 </div>

@@ -24,7 +24,7 @@ class CandidateMission extends CI_Controller{
 			$userdata['userType'] = $_SESSION['userType'];
 		}
         $this->load->view('templates/header', $userdata);
-        $this->load->view('pages/candidatesMission', $data);
+        $this->load->view('pages/candidatesMission', $data, $userdata);
         $this->load->view('templates/footer');
     }
 

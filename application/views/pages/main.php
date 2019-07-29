@@ -3,8 +3,8 @@
 <div id="content">
   <div class="centerY">
     <div class="container text-center ">
-        <a href="<?php echo base_url() ?>EmployerMission/index/3" class="btn customButton customText mr-md-4 mr-2 lead">Seek a staff</a>
-        <a href="" class="btn customButton customText ml-md-4 ml-2 lead">Seek a Job</a>
+        <a href="<?php echo base_url() ?>index.php/EmployerMission/index/3" class="btn customButton customText mr-md-4 mr-2 lead">Seek a staff</a>
+        <a href="<?php echo base_url() ?>index.php/Jobs" class="btn customButton customText ml-md-4 ml-2 lead">Seek a Job</a>
     </div>
   </div>
 </div>
@@ -127,7 +127,7 @@
           </div>
         </div>  <!--end row-->
         <div class="row justify-content-end m-5">
-        <a href="#" class="btn btn-outline-dark "> More Jobs</a>
+        <a href="<?php echo base_url()?>index.php/Jobs" class="btn btn-outline-dark "> More Jobs</a>
       </div> <!--end row-->
 
     </div> <!--end container-->
