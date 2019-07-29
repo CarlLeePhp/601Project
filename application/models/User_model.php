@@ -34,6 +34,14 @@ class User_model extends CI_Model {
      * Update Functions
      */
 
+    public function updatePasswdByEmail($email, $userPasswd){
+        $data = array(
+            'UserPasswd' => $userPasswd
+        );
+        $this->db->where('Email', $email);
+        $this->db->update('User', $data);
+    }
+
     public function update_sale($sale_id, $sale_name, $sale_email){
         $data = array(
             'SALE_NAME' => $sale_name,

@@ -15,10 +15,12 @@ class Register extends CI_Controller {
         $this->load->helper('security');
         // Load Models
         $this->load->model('register_model');
+        $this->load->model('user_model');
         $this->load->library('session');
+        $this->load->library('email');
     }
 
-    function index(){
+    public function index(){
                 
         $userdata['userType'] = 'anyone';
         
@@ -30,7 +32,7 @@ class Register extends CI_Controller {
         
     }
 
-    function newUser(){
+    public function newUser(){
         $userEmail = $_POST['Email'];
         $userPasswd = $_POST['password'];
         $firstName = $_POST['firstName'];
@@ -53,43 +55,60 @@ class Register extends CI_Controller {
         $this->load->view('login/main');
         $this->load->view('templates/footer');
     }
-    function edit_sale($sale_id){
-        // find the sale by ID
-        $data['sale'] = $this->sale_model->get_sale_id($sale_id);
-        $data['title'] = "Sale Edit";
-        $this->load->view('templates/header');
-        $this->load->view('sale/edit_sale', $data);
+
+    public function forgotPasswd(){
+        $userdata['userType'] = 'anyone';
+        $this->load->view('templates/header', $userdata);
+        $this->load->view('login/forgot');
         $this->load->view('templates/footer');
     }
-
-    function remove_sale($sale_id){
-        $data['sale'] = $this->sale_model->get_sale_id($sale_id);
-        $data['title'] = "Are you sure you want to remove:";
-
-        $this->load->view('templates/header');
-        $this->load->view('sale/remove_sale', $data);
-        $this->load->view('templates/footer');        
-    }
-
+    
     /**
      * AJAX
      */
-    // return check list item
-    function getItem($model_id){
-        $data = $this->checklist_model->get_item($model_id);
-        $result = "";
-        foreach ($data as $item){
-            $result = $result.$item['CLTP_DES'].",";
+    public function sendPasswd(){
+        $userEmail = $_POST['email'];
+
+        // Random a string
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 10; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        $result = substr($result, 0, strlen($result) - 1);
-        echo $result;
-    }
-
-    // add a new boat model
-    function add_model(){
-        $new_model = $_POST['new_model'];
         
-        $this->boatmodel_model->add_model($new_model);
+        $userPasswd = do_hash($randomString, 'sha256');
 
+        // check the email
+        $data['user'] = $this->user_model->getUserByEmail($userEmail);
+        if($data['user'] != null){
+            // update the user information by email
+            $this->user_model->updatePasswdByEmail($userEmail, $userPasswd);
+
+            /**
+             * development config
+             */
+            
+            $config['smtp_host'] = 'smtp.google.com';
+            $config['smtp_user'] = 'kunhuilearners1@gmail.com';
+            $config['smtp_pass'] = 'diligence';
+            $config['smtp_port'] = '587';
+            $config['smtp_crypto'] = 'tls';
+            $this->email->from('kunhuilearners1@gmail.com', 'Carl Lee');
+            $this->email->to($userEmail);
+
+            $this->email->subject('Message from Mark Lee');
+            $this->email->message('Your new password: '.$randomString);
+
+            if($this->email->send()){
+                echo "New password was sent to you email.";
+            } else {
+                echo "Email was send failed, please try again later.";
+            }
+            
+            echo 'Password was reset';
+        } else {
+            echo 'The email is not exist.';
+        }
     }
 }
