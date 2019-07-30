@@ -25,9 +25,9 @@ class Login extends CI_Controller {
 
     public function login(){
         // When someone enter this link without login, it should be redirecte to login/index
-        if(isset($_POST['email'])){
-            $userEmail = $_POST['email'];
-            $userPasswd = $_POST['passwd'];
+        if(isset($_POST['Email'])){
+            $userEmail = $_POST['Email'];
+            $userPasswd = $_POST['Password'];
             $userPasswd = do_hash($userPasswd, 'sha256');
             // get the user's information from database
             $data['user'] = $this->user_model->getUserByEmail($userEmail);
