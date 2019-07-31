@@ -33,8 +33,13 @@ class Register extends CI_Controller {
     }
 
     public function newUser(){
+        /**
+         * Check password and confirm password.
+         * If they are different, return an information.
+         */
         $userEmail = $_POST['Email'];
         $userPasswd = $_POST['password'];
+        $confirmPassword= $_POST['confirmPassword'];
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
         $DOB = $_POST['DOB'];

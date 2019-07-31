@@ -4,7 +4,7 @@
 
 
 
-    <form action="<?php echo base_url()?>index.php/Register/newUser/" class="m-md-5" method="POST" @submit.stop="formCheck">
+    <form action="<?php echo base_url()?>index.php/Register/newUser/" class="m-md-5" method="POST" @submit="checkForm">
         <h3 class="text-warning ml-0 my-3"> Log-in Information</h3>
         <div class="col-12 mb-5">
             <div class="row">
@@ -28,7 +28,10 @@
                         id="confirmpasswordID" v-model="confirmPasswd">
                 </div>
             </div>
-
+            <div class="row mt-3" v-if="errors.length">
+                <p class="text-danger" v-text="errors"></p>
+            </div>
+            
         </div>
         <hr />
         <h3 class="text-warning ml-0 my-3"> Personal Information</h3>
@@ -112,11 +115,7 @@
         </div>
 
     </form>
-    <p v-if="errors.length">
-        <ul>
-            <li v-for="error in errors">{{ error }}</li>
-        </ul>
-    </p>
+    
 </div>
 
 
@@ -129,19 +128,18 @@
     var app = new Vue({
         el: '#app',
         data: {
-            errors: [],
+            errors: "",
             confirmPasswd: "",
             password: ""
         },
         methods: {
             checkForm: function(e){
                 if(this.confirmPasswd == this.password){
-                    this.errors.push("You get the same password.")
+                    return true
                 } else {
-                    this.errors.push("Please confirm your password.")
+                    this.errors = "Password did not match"
+                    e.preventDefault()
                 }
-
-                e.preventDefault()
             }
         }
         
