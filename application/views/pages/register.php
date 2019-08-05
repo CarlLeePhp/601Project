@@ -10,8 +10,11 @@
             <div class="row">
                 <div class="col-md-4 p-0">
                     <label for="EmailID" class="font-weight-bold">E-mail</label>
-                    <input type="email" class="form-control" placeholder="Enter Email" name="Email" id="EmailID" />
+                    <input type="email" class="form-control" placeholder="Enter Email" name="Email" id="EmailID" @change="checkEmail" v-model="email"/>
                 </div>
+            </div>
+            <div class="row mt-3" v-if="emailError.length">
+                <p class="text-danger" v-text="emailError"></p>
             </div>
             <div class="row mt-3">
                 <div class="col-md-4 px-1 p-0">
@@ -27,8 +30,8 @@
                         id="confirmpasswordID" v-model="confirmPasswd">
                 </div>
             </div>
-            <div class="row mt-3" v-if="errors.length">
-                <p class="text-danger" v-text="errors"></p>
+            <div class="row mt-3" v-if="passwdError.length">
+                <p class="text-danger" v-text="passwdError"></p>
             </div>
             
         </div>
@@ -108,7 +111,7 @@
                 </div>
             </div>
             <div class="row my-4 justify-content-md-start justify-content-center">
-                <input type="submit" value="Register" class="btn btn-primary m-0 ">
+                <input type="submit" value="Register" class="btn btn-primary m-0 " :disabled="isButton">
             </div>
 
         </div>
@@ -127,17 +130,34 @@
     var app = new Vue({
         el: '#app',
         data: {
-            errors: "",
+            emailError: "",
+            passwdError: "",
             confirmPasswd: "",
-            password: ""
+            password: "",
+            email: "",
+            emails: [
+                <?php foreach($users as $user): ?>
+                    "<?php echo $user['Email']; ?>",
+                <?php endforeach; ?>
+            ],
+            isButton: true
         },
         methods: {
             checkForm: function(e){
                 if(this.confirmPasswd == this.password){
                     return true
                 } else {
-                    this.errors = "Password did not match"
+                    this.passwdError = "Password did not match"
                     e.preventDefault()
+                }
+            },
+            checkEmail: function(){
+                if(this.emails.includes(this.email)){
+                    this.emailError = "this email already exists"
+                    this.isButton = true
+                } else {
+                    this.emailError = ""
+                    this.isButton = false
                 }
             }
         }

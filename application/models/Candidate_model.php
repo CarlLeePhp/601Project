@@ -1,5 +1,5 @@
 <?php
-class User_model extends CI_Model {
+class Candidate_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
@@ -20,6 +20,11 @@ class User_model extends CI_Model {
         return $query->result_array();
     }
     
+    // get all citizenships
+    public function get_citizenships(){
+        $query = $this->db->get('Citizenship');
+        return $query->result_array();
+    }
 
     public function get_sale_id($sale_id){
         $this->db->where('SALE_ID', $sale_id);
@@ -31,7 +36,10 @@ class User_model extends CI_Model {
     /**
      * Insert functions
      */
-   
+    public function applyJob($data) {
+       
+        $this->db->insert('Candidate', $data);
+    }
 
     /**
      * Update Functions
@@ -60,31 +68,5 @@ class User_model extends CI_Model {
         );
         $this->db->where('SALE_ID', $sale_id);
         $this->db->update('SALE', $data);
-    }
-
-    public function getAllStaff(){
-        $this->db->where('UserType', 'staff');
-        $query = $this->db->get('User');
-        return $query->result_array();
-    }
-
-    public function update_staffPassword($staffID, $newpassword){
-        $password = do_hash($newpassword, 'sha256');
-        $data = array(
-            'UserID' => $staffID,
-            'UserPasswd' => $password
-        );
-       
-        $this->db->where('UserID', $staffID);
-        $this->db->update('user', $data);
-    }
-
-    
-    public function delete_staff($staffID) {
-        $data = array(
-            'UserID' => $staffID
-        );
-        $this->db->where('UserID',$staffID);
-        $this->db->delete('user',$data);
     }
 }

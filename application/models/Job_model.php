@@ -7,8 +7,9 @@ class Job_model extends CI_Model {
     /**
      * Select Functions
     */
-    public function get_dealer() {
-        $query = $this->db->get('DEALER');
+    // get all jobs
+    public function get_jobs() {
+        $query = $this->db->get('Job');
         return $query->result_array();
     }
 

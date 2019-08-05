@@ -1,18 +1,19 @@
 <?php
 
+class TestControl extends CI_Controller
+{
 
-class TestControl extends CI_Controller {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        }
+    }
 
-    public function index(){
-        
+    public function index()
+    {
+
         $data = array(
             'jobInterest' => $this->input->post('jobInterest'),
             'jobType' => $this->input->post('jobType'),
-            'jobCV' => $this->input->post('jobCV'),
             'transportation' => $this->input->post('transportation'),
             'LicenseNumber' => $this->input->post('LicenseNumber'),
             'classLicense' => $this->input->post('classLicense'),
@@ -39,19 +40,33 @@ class TestControl extends CI_Controller {
             'usingDrugs' => $this->input->post('usingDrugs'),
             'usingContactLenses' => $this->input->post('usingContactLenses'),
             'RSI' => $this->input->post('RSI'),
-
             'dependants' => $this->input->post('dependants'),
             'smoke' => $this->input->post('smoke'),
             'conviction' => $this->input->post('conviction'),
-            'convictionDetails' => $this->input->post('convictionDetails')
+            'convictionDetails' => $this->input->post('convictionDetails'),
 
-           
-            );
+        );
 
-            foreach($data as $key => $value) {
-                echo "$key: $value <br>";
-            } 
+        foreach ($data as $key => $value) {
+            echo "$key: $value <br>";
+        }
+
+        $config['upload_path'] = '/var/www/candidatesCV/';
+        $config['allowed_types'] = 'doc|jpg|png';
+        $config['max_size'] = 10000;
+        $config['max_width'] = 0;
+        $config['max_height'] = 0;
+
+        $this->load->library('upload', $config);
+        $fileName = $_FILES['jobCV']['name'];
+        echo "File Name: ".$fileName;
+        if (!$this->upload->do_upload('jobCV')) {
+            echo "Failed";
+        } else {
+            echo "OK";
+        }
+
+        
     }
-
 
 }
