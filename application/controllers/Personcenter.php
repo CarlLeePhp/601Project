@@ -23,10 +23,42 @@ class Personcenter extends CI_Controller {
 		
 		$data['firstName'] = $_SESSION['firstName'];
         $data['message'] = "Please Login";
-		$data['title'] = "This is Personal Center Page";
+		$data['title'] = "Personal Center";
 		$this->load->view('templates/header', $userdata);
         $this->load->view('personcenter/main', $data);
         $this->load->view('templates/footer');
-    }
+	}
+	
+	public function manageStaff(){
+		
+		$userdata['userType'] = $_SESSION['userType'];
+		
+		if(!(isset($_SESSION['userType']))){
+			redirect('/');
+		}
+		
+		$data['title'] = "Manage Staff";
+		$data['message'] = "";
+		$data['modalHeader'] ="";
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/manageStaff',$data);
+		$this->load->view('templates/footer');
+		
     
+	}
+
+	public function updateInfo(){
+		
+		$userdata['userType'] = $_SESSION['userType'];
+		
+		if(!(isset($_SESSION['userType']))){
+			redirect('/');
+		}
+		
+		$data['UserID'] = $_SESSION['UserID'];
+		$data['title'] = "Personal Information";
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/updateInfo',$data);
+		$this->load->view('templates/footer');
+	}
 }

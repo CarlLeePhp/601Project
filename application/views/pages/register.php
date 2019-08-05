@@ -12,7 +12,6 @@
                     <label for="EmailID" class="font-weight-bold">E-mail</label>
                     <input type="email" class="form-control" placeholder="Enter Email" name="Email" id="EmailID" />
                 </div>
-
             </div>
             <div class="row mt-3">
                 <div class="col-md-4 px-1 p-0">

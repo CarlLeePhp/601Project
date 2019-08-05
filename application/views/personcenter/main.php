@@ -5,11 +5,14 @@
 
 <h2 class="text-center"><?php echo $title; ?></h2>
 <hr />
-<p>Welcome back, <?php echo $firstName; ?>!</p>
-<p>Your cannot see this page without login.</p>
+<!-- <p>Welcome back, <?php echo $firstName; ?>!</p>
+<p>Your cannot see this page without login.</p> -->
 
-<?php if($userType == 'admin'): ?>
-    <p>Admin can see this part.</p>
+<div class="container mb-5 p-5">
+<?php if($userType == 'admin'): {
+    $this->load->view('personcenter/adminPanel');
+}?>
+    
 <?php endif; ?>
 
 <?php if($userType == 'staff'): ?>
@@ -18,7 +21,9 @@
 
 <?php if($userType == 'candidate'): ?>
     <p>Candidate can see this part.</p>
-<?php endif; ?>
+<?php endif; ?> 
+</div>
+
 
 </div> <!-- App -->
 

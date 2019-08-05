@@ -1,5 +1,4 @@
 
-
 <div id="app" class="container m-md-5">    
    
 
@@ -14,9 +13,10 @@
         <label for="PasswordID" class="font-weight-bold mt-4">Password:</label>
         <input type="password" class="shadow-none rounded-0 form-control border-dark border-top-0 
         border-left-0 border-right-0 " placeholder="Enter Password" id="PasswordID" name="Password"/>
-
+        <!-- a message if the user entered a wrong info -->
+        <?php if($wrongInfo!='undefined') { echo '<small class="text-danger"> You entered either incorrect email or password, please try again. </small>';} ?>
         <input type="submit" class="border-secondary btn btn-warning form-control mt-4" value="Log In">
-    
+        
         <a href="<?php echo base_url() ?>index.php/Register" class="btn btn-outline-dark form-control mt-3"> Register</a>
         
         <div class="mt-2 align-self-center">

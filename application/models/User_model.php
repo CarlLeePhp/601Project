@@ -58,4 +58,10 @@ class User_model extends CI_Model {
         $this->db->where('SALE_ID', $sale_id);
         $this->db->update('SALE', $data);
     }
+
+    public function getAllStaff(){
+        $this->db->where('UserType', 'staff');
+        $query = $this->db->get('User');
+        return $query->row_array();
+    }
 }
