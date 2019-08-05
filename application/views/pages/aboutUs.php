@@ -45,19 +45,23 @@
 <div class="row justify-content-center my-5">
     <div class="col-md-4">
     <div class="card">
+        <div class="bg-dark border border-dark">
         <div class="row justify-content-center">
         <img class="card-img-top mt-4" src="<?php echo base_url() ?>lib/images/Jobs.png" style="width:200px;height:140px;" alt="Jobs Icons">
-</div>
+        </div>
+        </div>
         <div class="card-body">
         <p class="card-text">See what jobs are currently available at Lee Recruitment.</p>
-        <div class="text-center " ><a href="<?php echo base_url()?>Jobs" class="btn btn-warning border border-dark">Jobs Available</a></div>
+        <div class="text-center " ><a href="<?php echo base_url()?>Jobs" class="btn btn-dark border border-dark">Jobs Available</a></div>
         </div>
     </div>
     </div>
     <div class="col-md-4 mt-md-0 mt-4">
     <div class="card">
+        <div class="bg-primary border border-dark">
         <div class="row justify-content-center mr-5">
         <img class="card-img-top mt-4 " src="<?php echo base_url() ?>lib/images/contactUS.png" style="width:130px;height:140px;" alt="ContactUS icon">
+        </div>
         </div>
         <div class="card-body">
         <p class="card-text">Have any inquiries or assistance regarding our services? feel free to contact us.</p>

@@ -17,9 +17,9 @@ class Login extends CI_Controller {
 
     function index(){
         $userdata['userType'] = 'anyone';
-        
+        $message['wrongInfo'] = 'undefined';
         $this->load->view('templates/header', $userdata);
-        $this->load->view('login/main');
+        $this->load->view('login/main',$message);
         $this->load->view('templates/footer');
     }
 
@@ -43,7 +43,13 @@ class Login extends CI_Controller {
 
                 redirect('/personcenter/index');
             } else {
-                redirect('/login/index');
+              
+                $userdata['userType'] = 'anyone';
+                
+                $message['wrongInfo'] = "invalidInfo";
+                $this->load->view('templates/header', $userdata);
+                $this->load->view('login/main',$message);
+                $this->load->view('templates/footer');
             }
 
         } else {

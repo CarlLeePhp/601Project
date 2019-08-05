@@ -12,7 +12,6 @@
                     <label for="EmailID" class="font-weight-bold">E-mail</label>
                     <input type="email" class="form-control" placeholder="Enter Email" name="Email" id="EmailID" @change="checkEmail" v-model="email"/>
                 </div>
-
             </div>
             <div class="row mt-3" v-if="emailError.length">
                 <p class="text-danger" v-text="emailError"></p>
