@@ -77,15 +77,9 @@ class Register extends CI_Controller {
         $userType = 'staff';
         $userPasswd = do_hash($userPasswd, 'sha256');
         $data['message'] = "";
-        $data['modalHeader'] = "";
-        if($userPasswd == $confirmPassword){
-            $data['modalHeader']="Success";
-            $data['message']='Successful in adding a new staff';
+        
         $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
-        } else {
-            $data['modalHeader']="Failed";
-            $data['message']='The password and the confirmation did not match!, Failed to add a staff into database';
-        }  
+       
         $userdata['userType'] = $_SESSION['userType'];
         $data['title'] = "Manage Staff";
         $this->load->view('templates/header',$userdata);

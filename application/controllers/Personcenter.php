@@ -20,8 +20,8 @@ class Personcenter extends CI_Controller {
 		
 		$userdata['userEmail'] = $_SESSION['userEmail'];
 		$userdata['userType'] = $_SESSION['userType'];
-		
 		$data['firstName'] = $_SESSION['firstName'];
+
         $data['message'] = "Please Login";
 		$data['title'] = "Personal Center";
 		$this->load->view('templates/header', $userdata);
