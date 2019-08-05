@@ -33,6 +33,10 @@ class CandidateMission extends CI_Controller{
     }
 
     public function applyJob(){
+        if(!isset($_SESSION['userEmail'])){
+            redirect('/personcenter/index');
+        }
+        $userID = $_SESSION['userID'];
         $data = array(
         'jobInterest' => $this->input->post('jobInterest'),
         'jobType' => $this->input->post('jobType'),
@@ -66,7 +70,8 @@ class CandidateMission extends CI_Controller{
         'dependants' => $this->input->post('dependants'),
         'smoke' => $this->input->post('smoke'),
         'conviction' => $this->input->post('conviction'),
-        'convictionDetails' => $this->input->post('convictionDetails')
+        'convictionDetails' => $this->input->post('convictionDetails'),
+        'UserID' => $userID
         );
 
         $this->candidate_model->applyJob($data);
