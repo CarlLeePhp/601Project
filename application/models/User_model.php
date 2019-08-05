@@ -62,6 +62,26 @@ class User_model extends CI_Model {
     public function getAllStaff(){
         $this->db->where('UserType', 'staff');
         $query = $this->db->get('User');
-        return $query->row_array();
+        return $query->result_array();
+    }
+
+    public function update_staffPassword($staffID, $newpassword){
+        $password = do_hash($newpassword, 'sha256');
+        $data = array(
+            'UserID' => $staffID,
+            'UserPasswd' => $password
+        );
+       
+        $this->db->where('UserID', $staffID);
+        $this->db->update('user', $data);
+    }
+
+    
+    public function delete_staff($staffID) {
+        $data = array(
+            'UserID' => $staffID
+        );
+        $this->db->where('UserID',$staffID);
+        $this->db->delete('user',$data);
     }
 }

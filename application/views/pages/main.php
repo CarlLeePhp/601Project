@@ -32,13 +32,13 @@
 
           <select class="form-control " type="text" id="Location" aria-label="Location">
               <option selected>Any Locations</option>
-              <option value="1">Invercargill</option>
-              <option value="2">Te Anau</option>
-              <option value="3">Otago</option>
-              <option value="4">Queenstown</option>
-              <option value="5">Dunedin</option>
-              <option value="6">Timaru</option>
-              <option value="7">Nelson</option>
+              <option value="Invercargill">Invercargill</option>
+              <option value="TeAnau">Te Anau</option>
+              <option value="Otago">Otago</option>
+              <option value="Queenstown">Queenstown</option>
+              <option value="Dunedin">Dunedin</option>
+              <option value="Timaru">Timaru</option>
+              <option value="Nelson">Nelson</option>
           </select>
                 </div>
                 <div class="col-md-1 align-self-end my-3 my-md-0">
@@ -51,24 +51,28 @@
 </div>
 
 <!-- BriefOfLeeRecruitment -->
-
-<div class="container row col-md-12 mt-5 align-items-center mb-5  mx-1">
+<div class="display-4 mt-5 ml-5" style="font-size:3rem">Company Profile</div>
+<hr>
+<div class="container row col-md-12 align-items-center mb-5 mx-1">
 <div class="col-1"></div>
-  <div class="col-md-7 lead">
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore eum ut, 
-  officia vitae consectetur dolor placeat ipsum blanditiis itaque error laborum, 
-  odio commodi debitis eveniet, excepturi sapiente voluptatum voluptate natus.
-  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat quibusdam ullam magni omnis
-   deserunt maiores quis assumenda sint reiciendis architecto veritatis consequatur,
-    nemo doloremque maxime tempora perferendis totam. Reprehenderit, assumenda.
+  <div class="col-md-7 lead text-justify" style="font-size:1.1rem">
+    <p>Lee Recruitment started in 2013. It is a locally owned and operated recruitment agency with an
+    aim to help build a better community for all of us through meaningful employment. </p>
+    <p>Our Goal is to find suitable employment for people in accordance with their skills and ambitions. </p>
+    <p>Our moving force and the first contact person is Mark Lee - Director of Lee Recruitment. Mark
+    has been in the recruitment industry for over 14 years. He has broad experience in all aspects of
+    recruitment, and has a certain understanding of working conditions, requirements and the
+    general trading environment, which helps him to find the most qualified and skilled personnel.</p>
+    <p>He thoroughly enjoys the process of 'putting good people into good jobs' and is driven to help
+    people achieve their employment goals.</p>
   </div>
   <div class="col-md-3 text-center mt-4">
-    <img src="./lib/images/MarkLee.jpg" class="img-fluid">
+    <img src="<?php echo base_url();?>lib/images/MarkLee.jpg" class="img-fluid">
   </div>
 </div>
 
 <!-- LatestJobsPHP -->
-  <span class="display-4 m-5">Latest Jobs</span>
+  <span class="display-4 m-5" style="font-size:3rem">Latest Jobs</span>
   <hr>
   <div class="container">
       
@@ -134,7 +138,7 @@
 
 <!-- Testimonial -->
 <hr>
-<span class="display-4 m-5">Testimonial</span>
+<span class="display-4 m-5" style="font-size:3rem">Testimonial</span>
   <hr>
   <div class="container mb-5 mt-4">
       <b class="text-warning">Testimonial from Findlater Sawmilling Ltd</b>

@@ -36,7 +36,9 @@ class Login extends CI_Controller {
                     'userEmail' => $userEmail,
                     'userType' => $data['user']['UserType'],
                     'firstName' => $data['user']['FirstName'],
-                    'lastName' => $data['user']['LastName']
+                    'lastName' => $data['user']['LastName'],
+                    'userPassword' => $data['user']['UserPasswd'],
+                    'userID' => $data['user']['UserID'],
                 );
                 $this->session->set_userdata($newdata);
 

@@ -64,8 +64,8 @@ class Register extends CI_Controller {
         $userEmail = $_POST['email'];
         $userPasswd = $_POST['password'];
         $confirmPassword= $_POST['confirmPassword'];
-        $firstName = '';
-        $lastName = '';
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
         $DOB = '';
         $Address = '';
         $City = '';
@@ -82,6 +82,7 @@ class Register extends CI_Controller {
        
         $userdata['userType'] = $_SESSION['userType'];
         $data['title'] = "Manage Staff";
+        $data['staffs'] = $this->user_model->getAllStaff();
         $this->load->view('templates/header',$userdata);
         $this->load->view('pages/manageStaff',$data);
         $this->load->view('templates/footer');
