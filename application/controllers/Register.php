@@ -24,8 +24,11 @@ class Register extends CI_Controller {
                 
         $userdata['userType'] = 'anyone';
         
+
+        $data['users'] = $this->user_model->getUsers();
+
         $this->load->view('templates/header', $userdata);
-        $this->load->view('pages/register');
+        $this->load->view('pages/register', $data);
         $this->load->view('templates/footer');
         
 

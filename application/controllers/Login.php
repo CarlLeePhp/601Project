@@ -34,6 +34,7 @@ class Login extends CI_Controller {
             if($data['user']['UserPasswd'] == $userPasswd){
                 $newdata = array(
                     'userEmail' => $userEmail,
+                    'userID' => $data['user']['UserID'],
                     'userType' => $data['user']['UserType'],
                     'firstName' => $data['user']['FirstName'],
                     'lastName' => $data['user']['LastName']
