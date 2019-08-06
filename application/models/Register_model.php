@@ -25,8 +25,21 @@ class Register_model extends CI_Model {
      * Insert functions
      */
     // Insert a check list item
-    public function addUser($data) {
-        
+    public function addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender) {
+        $data = array(
+            'FirstName' => $firstName,
+            'LastName' => $lastName,
+            'Email' => $userEmail,
+            'UserPasswd' => $userPasswd,
+            'Address' => $Address,
+            'City' => $City,
+            'ZipCode' => $ZipCode,
+            'Suburb' => $Suburb,
+            'UserType' => $userType,
+            'PhoneNumber' => $PhoneNumber,
+            'DOB' => $DOB,
+            'Gender' => $gender
+        );
         $this->db->insert('User', $data);
     }
     

@@ -54,9 +54,12 @@
     <div class="container m-md-5">
             <span class="display-4">Associated Service</span>
             <hr>
+            <div class="d-flex-row m-0 p-0" style="background-color: #c0dfff">
+            <img src="<?php echo base_url()?>lib/images/banner.jpg" alt="banner" class="img img-fluid">
+            </div>
             <div class="col-12">
             
-            <h3 class="text-warning font-weight-bold ">Health and Safety Compliance</h3>
+            <h3 class="text-warning font-weight-bold mt-3">Health and Safety Compliance</h3>
             <p class="font-weight-bold">Find your business's path to healthier and safer future with Lee Consulting.</p>
             <p>Locally owned and operated here in Southland, Lee Consulting specialises in Health and Safety compliance.
                 Our clients are wide-ranging from industrial trades-based businesses to local government. 

@@ -16,7 +16,7 @@
 
             <a href="<?php echo base_url()?>index.php/PersonCenter/manageStaff" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">
                 <div class="row justify-content-center card-body">
-                <img style="width:150px;height:150px;"  src="<?php echo base_url()?>lib/images/AddStaff.png">
+                <img style="width:150px;height:150px;"  src="<?php echo base_url()?>lib/images/AddStaff1.png">
                 </div>
                 <div class="card-title font-weight-bold">Manage your staffs</div>
                 <p class="card-text text-justify m-4">Adding new staff, removing staff or changing password for staff.</p>
