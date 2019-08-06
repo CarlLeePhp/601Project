@@ -57,9 +57,9 @@ class Register extends CI_Controller {
         $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
         
         $userdata['userType'] = 'anyone';
-        
+        $message['wrongInfo'] = 'undefined';
         $this->load->view('templates/header', $userdata);
-        $this->load->view('login/main');
+        $this->load->view('login/main',$message);
         $this->load->view('templates/footer');
     }
 
