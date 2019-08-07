@@ -100,6 +100,77 @@ class Personcenter extends CI_Controller {
 		
 		$data['userID'] = $_SESSION['userID'];
 		$data['title'] = "Personal Information";
+		$data['userEmail'] = $_SESSION['userEmail'];
+		$data['lastName'] = $_SESSION['lastName'];
+		$data['firstName'] = $_SESSION['firstName'];
+		$data['DOB'] = $_SESSION['DOB'];
+		$data['address'] = $_SESSION['address'];
+		$data['city'] = $_SESSION['city'];
+		$data['zipcode'] = $_SESSION['zip'];
+		$data['suburb'] = $_SESSION['suburb'];
+		$data['phoneNumber'] = $_SESSION['phoneNumber'];
+		$data['message'] = '';
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/personalInfo',$data);
+		$this->load->view('templates/footer');
+	}
+
+	public function updatePassword(){
+		$userdata['userType'] = $_SESSION['userType'];
+		$userID = $_SESSION['userID'];
+		$newPassword = $_POST['newPassword'];
+		if(!(isset($_SESSION['userType']))){
+			redirect('/');
+		}
+		$encryptPass = do_hash( $_POST['oldPassword'], 'sha256');
+		$data['message'] = "";
+
+		if($_SESSION['userPassword'] != $encryptPass){
+			$data['message'] = "Password is not the same as your current password, failed to update password";
+		} else {
+			$this->User_model->update_personalPassword($userID,$newPassword);
+			$data['message'] = "Success! Your password has been changed";
+		}
+
+		$data['userID'] = $_SESSION['userID'];
+		$data['title'] = "Personal Information";
+		$data['userEmail'] = $_SESSION['userEmail'];
+		$data['lastName'] = $_SESSION['lastName'];
+		$data['firstName'] = $_SESSION['firstName'];
+		$data['DOB'] = $_SESSION['DOB'];
+		$data['address'] = $_SESSION['address'];
+		$data['city'] = $_SESSION['city'];
+		$data['zipcode'] = $_SESSION['zip'];
+		$data['suburb'] = $_SESSION['suburb'];
+		$data['phoneNumber'] = $_SESSION['phoneNumber'];
+		$data['title'] = "Personal Information";
+		$data['userEmail'] = $_SESSION['userEmail'];
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/personalInfo',$data);
+		$this->load->view('templates/footer');
+	}
+
+	public function updateDetails(){
+		$userdata['userType'] = $_SESSION['userType'];
+		$userID = $_SESSION['userID'];
+		if(!(isset($_SESSION['userType']))){
+			redirect('/');
+		}
+		
+		$data['lastName'] = $_POST['lastName'];
+		$data['firstName'] = $_POST['firstName'];
+		$data['DOB'] = $_POST['DOB'];
+		$data['address'] = $_POST['address'];
+		$data['city'] = $_POST['city'];
+		$data['zipcode'] = $_POST['zip'];
+		$data['suburb'] = $_POST['suburb'];
+		$data['phoneNumber'] = $_POST['phoneNumber'];
+		
+		$this->User_model->update_personalDetails($userID,$data);
+		
+		$data['message'] = "Your data has been updated successfully!";
+		$data['title'] = "Personal Information";
+		$data['userEmail'] = $_SESSION['userEmail'];
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/personalInfo',$data);
 		$this->load->view('templates/footer');

@@ -39,7 +39,13 @@ class Login extends CI_Controller {
                     'firstName' => $data['user']['FirstName'],
                     'lastName' => $data['user']['LastName'],
                     'userPassword' => $data['user']['UserPasswd'],
-                    'userID' => $data['user']['UserID'],
+                    'DOB' => $data['user']['DOB'],
+                    'address' => $data['user']['Address'],
+                    'city' => $data['user']['City'],
+                    'zip' => $data['user']['ZipCode'],
+                    'suburb' => $data['user']['Suburb'],
+                    'phoneNumber' => $data['user']['PhoneNumber'],
+                    
                 );
                 $this->session->set_userdata($newdata);
 

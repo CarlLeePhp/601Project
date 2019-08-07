@@ -87,4 +87,20 @@ class User_model extends CI_Model {
         $this->db->where('UserID',$staffID);
         $this->db->delete('user',$data);
     }
+
+    public function update_personalPassword($userID, $newpassword){
+        $password = do_hash($newpassword, 'sha256');
+        $data = array(
+            'UserID' => $userID,
+            'UserPasswd' => $password
+        );
+       
+        $this->db->where('UserID', $userID);
+        $this->db->update('user', $data);
+    }
+
+    public function update_personalDetails($userID,$data){
+        $this->db->where('UserID', $userID);
+        $this->db->update('user', $data);
+    }
 }
