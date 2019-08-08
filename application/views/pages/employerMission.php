@@ -104,11 +104,11 @@
 
                 <select class="form-control p-2" type="text" name="clientTitle" id="clientTitleID" >
                     <option selected>-</option>
-                    <option value="1">Mr.</option>
-                    <option value="2">Mrs.</option>
-                    <option value="3">Miss</option>
-                    <option value="4">Ms.</option>
-                    <option value="5">Dr.</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
                 </select>
                 </div>
                 <div class="col-5 px-1 px-md-4">
