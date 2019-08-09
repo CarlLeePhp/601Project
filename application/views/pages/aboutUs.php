@@ -47,7 +47,7 @@
     <div class="card">
         <div class="bg-dark border border-dark">
         <div class="row justify-content-center">
-        <img class="card-img-top mt-4" src="<?php echo base_url() ?>lib/images/Jobs.png" style="width:200px;height:140px;" alt="Jobs Icons">
+        <img class="card-img-top mt-4" src="<?php echo base_url() ?>lib/images/Jobs.png" style="width:110px;height:140px;" alt="Jobs Icons">
         </div>
         </div>
         <div class="card-body">
