@@ -10,7 +10,9 @@ class Personcenter extends CI_Controller {
 		$this->load->helper('security');
 		$this->load->model('User_model');
 		$this->load->library('session');
+		$this->load->model('city_model');
 	}
+	
 	public function index()
 	{	
         // Check username and the passwd
@@ -79,7 +81,7 @@ class Personcenter extends CI_Controller {
 		$staffID = $_POST['staffID'];
 		$data['message'] = "";
 		if($_SESSION['userPassword'] != $encryptPass){
-			$data['message'] = "wrong password";
+			$data['message'] = "wrong admin's password";
 		} else {
 		$this->User_model->delete_staff($staffID);
 		}
@@ -110,6 +112,7 @@ class Personcenter extends CI_Controller {
 		$data['suburb'] = $_SESSION['suburb'];
 		$data['phoneNumber'] = $_SESSION['phoneNumber'];
 		$data['message'] = '';
+		$data['cities'] = $this->city_model->get_cities();
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/personalInfo',$data);
 		$this->load->view('templates/footer');
@@ -144,7 +147,7 @@ class Personcenter extends CI_Controller {
 		$data['suburb'] = $_SESSION['suburb'];
 		$data['phoneNumber'] = $_SESSION['phoneNumber'];
 		$data['title'] = "Personal Information";
-		$data['userEmail'] = $_SESSION['userEmail'];
+		$data['cities'] = $this->city_model->get_cities();
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/personalInfo',$data);
 		$this->load->view('templates/footer');
@@ -165,12 +168,22 @@ class Personcenter extends CI_Controller {
 		$data['zipcode'] = $_POST['zip'];
 		$data['suburb'] = $_POST['suburb'];
 		$data['phoneNumber'] = $_POST['phoneNumber'];
+
+		$_SESSION['lastName'] = $_POST['lastName'];
+		$_SESSION['firstName'] = $_POST['firstName'];
+		$_SESSION['DOB'] = $_POST['DOB'];
+		$_SESSION['address'] = $_POST['address'];
+		$_SESSION['city'] = $_POST['city'];
+		$_SESSION['zipcode'] = $_POST['zip'];
+		$_SESSION['suburb'] = $_POST['suburb'];
+		$_SESSION['phoneNumber'] = $_POST['phoneNumber'];
 		
 		$this->User_model->update_personalDetails($userID,$data);
 		
 		$data['message'] = "Your data has been updated successfully!";
 		$data['title'] = "Personal Information";
 		$data['userEmail'] = $_SESSION['userEmail'];
+		$data['cities'] = $this->city_model->get_cities();
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/personalInfo',$data);
 		$this->load->view('templates/footer');

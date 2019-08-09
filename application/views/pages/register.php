@@ -65,16 +65,9 @@
                     <label for="CityID" class="font-weight-bold">City:</label>
                     <select class="form-control" type="text" name="City" id="CityID" required >
                     <option selected></option>
-                    <option value="Auckland">Auckland</option>
-                    <option value="Wellington">Wellington</option>
-                    <option value="Christchurch">Christchurch</option>
-                    <option value="Dunedin">Dunedin</option>
-                    <option value="Hamilton">Hamilton</option>
-                    <option value="Queenstown">Queenstown</option>
-                    <option value="Tauranga">Tauranga</option>
-                    <option value="Rotorua">Rotorua</option>
-                    <option value="Napier">Napier</option>
-                    <option value="Invercargill">Invercargill</option>
+                    <?php foreach($cities as $city): ?>
+                    <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
+                    <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-md-1 pr-md-3 p-0 mt-2 mt-md-0 col-3">

@@ -25,7 +25,6 @@ class CandidateMission extends CI_Controller{
             $userdata['userEmail'] = $_SESSION['userEmail'];
 			$userdata['userType'] = $_SESSION['userType'];
         }
-        
         $data['citizenships'] = $this->candidate_model->get_citizenships();
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/candidatesMission', $data, $userdata);

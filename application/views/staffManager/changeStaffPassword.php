@@ -1,5 +1,5 @@
 <div class="container mt-5">
-    <form action="<?php echo base_url()?>index.php/Personcenter/newStaffPassword" method="post">
+    <form action="<?php echo base_url()?>index.php/Personcenter/newStaffPassword" method="post" @submit="checkForm2">
         <div class="container justify-content-center">
             <div class="row mt-2">
                 <label class="font-weight-bold" for="staff">Staff ID: </label>
@@ -11,13 +11,13 @@
                 <label class="font-weight-bold" for="newPasswordID">New Password: </label>
             </div>
             <div class="row">
-            <input type="password" class="form-control col-md-5" id="newPasswordID" name="newPassword" required>
+            <input type="password" v-model="updateStaffPassword" class="form-control col-md-5" id="newPasswordID" name="newPassword" required>
             </div>
             <div class="row mt-2">
                 <label class="font-weight-bold" for="confirmNewPasswordID">ConfirmPassword: </label>
             </div>
             <div class="row">
-            <input type="password" class="form-control col-md-5" id="confirmNewPasswordID" name="confirmNewPassword" required>
+            <input type="password" class="form-control col-md-5" v-model="confirmUpdate" id="confirmNewPasswordID" name="confirmNewPassword" required>
             </div>
             <div class="row mt-4">
             <input type="submit" class="btn btn-info" value="Update Staff's Password"/>

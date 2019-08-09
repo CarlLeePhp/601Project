@@ -61,6 +61,7 @@
           &copy; 2014 Lee Consulting Services Ltd
         </p>
       </div>
+
 <script src="<?php echo base_url()?>lib/jquery/jquery.slim.min.js"></script>
 <script src="<?php echo base_url()?>lib/popper/popper.min.js"></script>
 <script src="<?php echo base_url()?>lib/bootstrap/js/bootstrap.min.js"></script>

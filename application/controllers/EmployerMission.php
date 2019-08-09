@@ -12,6 +12,7 @@ class EmployerMission extends CI_Controller{
         $this->load->library('session');
         
         // Load Models
+        $this->load->model('city_model');
         $this->load->model('job_model');
 	}
     public function index($param=''){
@@ -31,7 +32,8 @@ class EmployerMission extends CI_Controller{
         if(isset($_SESSION['userEmail'])){
             $userdata['userEmail'] = $_SESSION['userEmail'];
 			$userdata['userType'] = $_SESSION['userType'];
-		}
+        }
+        $data['cities'] = $this->city_model->get_cities();
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/employerMission', $data);
         $this->load->view('templates/footer');
@@ -56,7 +58,7 @@ class EmployerMission extends CI_Controller{
 			$userdata['userType'] = $_SESSION['userType'];
         }
         $this->job_model->addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description);
-
+        $data['cities'] = $this->city_model->get_cities();
         $data['title'] = 'Job was added successfully.';
         $this->load->view('templates/header', $userdata);
         $this->load->view('home/main', $data);

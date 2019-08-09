@@ -31,14 +31,9 @@
             <label for="Location" class="font-weight-bold">Location:</label>
 
           <select class="form-control " type="text" id="Location" aria-label="Location">
-              <option selected>Any Locations</option>
-              <option value="Invercargill">Invercargill</option>
-              <option value="TeAnau">Te Anau</option>
-              <option value="Otago">Otago</option>
-              <option value="Queenstown">Queenstown</option>
-              <option value="Dunedin">Dunedin</option>
-              <option value="Timaru">Timaru</option>
-              <option value="Nelson">Nelson</option>
+          <?php foreach($cities as $city): ?>
+                    <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
+                    <?php endforeach; ?>
           </select>
                 </div>
                 <div class="col-md-1 align-self-end my-3 my-md-0">

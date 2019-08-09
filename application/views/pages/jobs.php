@@ -28,14 +28,9 @@
                     <div class="col-md-4 ">
                         <label for="Location" class="font-weight-bold">Location:</label>
                         <select class="form-control " type="text" id="Location" aria-label="Location" v-model="location">
-                            <option selected>Any Locations</option>
-                            <option value="1">Invercargill</option>
-                            <option value="2">Te Anau</option>
-                            <option value="3">Otago</option>
-                            <option value="4">Queenstown</option>
-                            <option value="5">Dunedin</option>
-                            <option value="6">Timaru</option>
-                            <option value="7">Nelson</option>
+                        <?php foreach($cities as $city): ?>
+                            <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
+                        <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="col-md-1 align-self-end my-3 my-md-0">

@@ -18,6 +18,7 @@ class Register extends CI_Controller {
         $this->load->model('user_model');
         $this->load->library('session');
         $this->load->library('email');
+        $this->load->model('City_model');
     }
 
     public function index(){
@@ -26,7 +27,7 @@ class Register extends CI_Controller {
         
 
         $data['users'] = $this->user_model->getUsers();
-
+        $data['cities'] = $this->City_model->get_cities();
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/register', $data);
         $this->load->view('templates/footer');

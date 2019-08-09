@@ -138,9 +138,9 @@
                  <label for="clientCityID" class="font-weight-bold">City:</label>
                  <select class="form-control" type="text" name="clientCity" id="clientCityID" >
                     <option selected>-</option>
-                    <option value="1">Dunedin</option>
-                    <option value="2">Otago</option>
-                    <option value="3">Invercargill</option>
+                    <?php foreach($cities as $city): ?>
+                    <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
+                    <?php endforeach; ?>
                 </select></div>
                 <div class="col-md-9 col-8 pr-0">
                  <label for="clientAddressID" class="font-weight-bold">Address Number:</label>

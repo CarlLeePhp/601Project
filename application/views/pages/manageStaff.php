@@ -39,16 +39,17 @@
 
     </div>
     <div style="overflow:auto">
-      <table class="table mt-5" >
+      <table class="table mt-5 table-hover" >
         <thead>
           <tr>
-            <th scope="col"><a href="#" @click.stop.prevent="sortBy('id')">userID</a></th>
-            <th scope="col"><a href="#" @click.stop.prevent="sortBy('email')">Email</a></th>
-            <th scope="col"><a href="#" @click.stop.prevent="sortBy('firstName')">FirstName</a></th>
-            <th scope="col"><a href="#" @click.stop.prevent="sortBy('lastName')">LastName</a></th>
-            <th scope="col"><a href="#" @click.stop.prevent="sortBy('city')">City</a></th>
-            <th scope="col"><a href="#" @click.stop.prevent="sortBy('address')">Address</a></th>
-            <th scope="col"><a href="#" @click.stop.prevent="sortBy('phoneNumber')">PhoneNumber</a></th>
+            <th scope="col">
+            <a style="color:black" href="#" @click.stop.prevent="sortBy('id')">User ID<div class="d-md-inline d-none"><i class="ml-1 icon ion-md-arrow-dropdown"></i><i class="icon ion-md-arrow-dropup"></i></div></a></th>
+            <th scope="col"><a style="color:black" href="#" @click.stop.prevent="sortBy('email')">Email<div class="d-md-inline d-none"><i class="ml-1 icon ion-md-arrow-dropdown"></i><i class="icon ion-md-arrow-dropup"></i></div></a></th>
+            <th scope="col"><a style="color:black" href="#" @click.stop.prevent="sortBy('firstName')">FirstName<div class="d-md-inline d-none"><i class="ml-1 icon ion-md-arrow-dropdown"></i><i class="icon ion-md-arrow-dropup"></i></div></a></th>
+            <th scope="col"><a style="color:black" href="#" @click.stop.prevent="sortBy('lastName')">LastName<div class="d-md-inline d-none"><i class="ml-1 icon ion-md-arrow-dropdown"></i><i class="icon ion-md-arrow-dropup"></i></div></a></th>
+            <th scope="col"><a style="color:black" href="#" @click.stop.prevent="sortBy('city')">City<div class="d-md-inline d-none"><i class="ml-1 icon ion-md-arrow-dropdown"></i><i class="icon ion-md-arrow-dropup"></i></div></a></th>
+            <th scope="col"><a style="color:black" href="#" @click.stop.prevent="sortBy('address')">Address<div class="d-md-inline d-none"><i class="ml-1 icon ion-md-arrow-dropdown"></i><i class="icon ion-md-arrow-dropup"></i></div></a></th>
+            <th scope="col"><a style="color:black" href="#" @click.stop.prevent="sortBy('phoneNumber')">PhoneNumber<div class="d-md-inline d-none"><i class="ml-1 icon ion-md-arrow-dropdown"></i><i class="icon ion-md-arrow-dropup"></i></div></a></th>
           </tr>
         </thead>
         <tbody >  
@@ -92,6 +93,24 @@
       </div>
     </div>
 
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModal2Label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal2Label">Action {{ errMessage }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>{{ errors2 }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Modal END -->
 
 </div>
@@ -104,9 +123,13 @@
         el: '#app',
         data: {
             errors: "Password did not match, failed to update new staff into database",
+            errors2: "Password did not match, failed to update staff's password into database",
             confirmPassword: "",
             password: "",
+            updateStaffPassword: "",
+            confirmUpdate: "",
             errMessage: "Failed",
+            toggle: true,
             staffs: [
               <?php foreach ($staffs as $staff): ?>
             {id: "<?php echo $staff['UserID']; ?>",
@@ -132,20 +155,63 @@
             },
             sortBy: function(sortKey) {
               if(sortKey == 'id'){
-                this.staffs.sort(function(a,b){return a.id - b.id})
+                this.toggle = !this.toggle
+                if(this.toggle){
+                  this.staffs.sort(function(a,b){return a.id - b.id})
+                } else {
+                  this.staffs.sort(function(a,b){return b.id - a.id})
+                }
               } else if (sortKey == 'email'){
-                console.log("email")
-                this.staffs.sort(function(a,b){return a.email.localeCompare(b.name)})
+                this.toggle = !this.toggle
+                if(this.toggle){
+                this.staffs.sort(function(a,b){return a.email.localeCompare(b.email)})
+                }
+                else {
+                  this.staffs.sort(function(a,b){return b.email.localeCompare(a.email)})
+                }
               } else if(sortKey == 'firstName'){
+                this.toggle = !this.toggle
+                if(this.toggle){
                 this.staffs.sort(function(a,b){return a.firstName.localeCompare(b.firstName)})
+                } else {
+                  this.staffs.sort(function(a,b){return b.firstName.localeCompare(a.firstName)})
+                }
               } else if(sortKey == 'lastName') {
-                this.staffs.sort(function(a,b){return a.lastName.localeCompare(b.lastName)})
+                this.toggle = !this.toggle
+                if(this.toggle){
+                  this.staffs.sort(function(a,b){return a.lastName.localeCompare(b.lastName)})
+                } else {
+                  this.staffs.sort(function(a,b){return b.lastName.localeCompare(a.lastName)})
+                }
               } else if(sortKey == 'city'){
-                this.staffs.sort(function(a,b){return a.city.localeCompare(b.city)})
+                this.toggle = !this.toggle
+                if(this.toggle){
+                  this.staffs.sort(function(a,b){return a.city.localeCompare(b.city)})
+                } else {
+                  this.staffs.sort(function(a,b){return b.city.localeCompare(a.city)})
+                }
               } else if(sortKey == 'address'){
-                this.staffs.sort(function(a,b){return a.address.localeCompare(b.address)})
+                this.toggle = !this.toggle
+                if(this.toggle){
+                  this.staffs.sort(function(a,b){return a.address.localeCompare(b.address)})
+                } else {
+                  this.staffs.sort(function(a,b){return b.address.localeCompare(a.address)})
+                }
               } else if(sortKey == 'phoneNumber'){
-                this.staffs.sort(function(a,b){return a.localeCompare(b.phoneNumber)})
+                this.toggle = !this.toggle
+                if(this.toggle){
+                  this.staffs.sort(function(a,b){return a.localeCompare(b.phoneNumber)})
+                } else {
+                  this.staffs.sort(function(a,b){return b.localeCompare(a.phoneNumber)})
+                }
+              }
+            },
+            checkForm2: function(n){
+              if(this.updateStaffPassword == this.confirmUpdate){
+                return true
+              } else {
+                n.preventDefault();
+                $('#exampleModal2').modal('show')
               }
             }
         }
