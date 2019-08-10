@@ -133,7 +133,10 @@
             <div class="row mt-3">
              <div class="col-12 p-0">
                  <label for="clientContactID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Contact Number:</label>
-                 <input type="text" placeholder="Enter Contact Number" class="form-control" name="clientContact" id="clientContact" required/>
+                 <input type="text" v-model="contact" @change="checkContact" placeholder="Enter Contact Number" class="form-control" name="clientContact" id="clientContact" required/>
+            </div>
+            <div class="container mt-3" v-if="contactError.length">
+                <span class="text-danger" v-text="contactError"></span>
             </div>
             </div>
             <div class="row mt-3">
@@ -193,6 +196,8 @@
     var app = new Vue({
         el: '#app',
         data: {
+            contactError: "",
+            contact: "",
             emailError: "",
             email: "",
             isButton: false
@@ -211,6 +216,19 @@
             validEmail: function(email){
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email)
+            },
+            checkContact: function(){
+                if(!this.validContact(this.contact)){
+                    this.contactError = "Invalid Contact"
+                    this.isButton = true
+                } else {
+                    this.contactError = ""
+                    this.isButton = false
+                }
+            },
+            validContact: function(contact){
+                var regex = /^[\+]?\(?[\+]?[0-9]{2,4}\)?[- .]?[0-9]{2,4}[-. ]?[0-9]{2,4}[-. ]?[0-9]{0,6}?$/;
+                return regex.test(contact)
             }
         },
         
