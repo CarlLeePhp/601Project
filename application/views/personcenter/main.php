@@ -15,12 +15,14 @@
     
 <?php endif; ?>
 
-<?php if($userType == 'staff'): ?>
-    <p>Staff can see this part.</p>
+<?php if($userType == 'staff'): {
+    $this->load->view('personcenter/staffPanel');
+}?>
 <?php endif; ?>
 
-<?php if($userType == 'candidate'): ?>
-    <p>Candidate can see this part.</p>
+<?php if($userType == 'candidate'): {
+    $this->load->view('personcenter/personalPanel');
+}?>
 <?php endif; ?> 
 </div>
 

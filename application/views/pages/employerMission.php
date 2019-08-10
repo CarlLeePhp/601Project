@@ -113,11 +113,11 @@
                 </div>
                 <div class="col-5 px-1 px-md-4">
                 <label for="clientNameID" class="font-weight-bold">Contact Person:</label>
-                <input type="text" placeholder="Enter Name" class="form-control" name="clientName" id="clientNameID" >
+                <input type="text" placeholder="Enter Name" class="form-control" name="clientName" id="clientNameID" required>
                 </div>
                 <div class="col-5 p-0">
                 <label for="clientCompanyID" class="font-weight-bold">Company Name:</label>
-                <input type="text" placeholder="Company Name" class="form-control" name="clientCompany" id="clientCompanyID" />
+                <input type="text" placeholder="Company Name" class="form-control" name="clientCompany" id="clientCompanyID" required/>
                 </div>
                 
             </div>
@@ -130,13 +130,13 @@
             <div class="row mt-3">
              <div class="col-12 p-0">
                  <label for="clientContactID" class="font-weight-bold">Contact Number:</label>
-                 <input type="text" placeholder="Enter Contact Number" class="form-control" name="clientContact" id="clientContact" />
+                 <input type="text" placeholder="Enter Contact Number" class="form-control" name="clientContact" id="clientContact" required/>
             </div>
             </div>
             <div class="row mt-3">
              <div class="col-4 col-md-3 pl-0">
                  <label for="clientCityID" class="font-weight-bold">City:</label>
-                 <select class="form-control" type="text" name="clientCity" id="clientCityID" >
+                 <select class="form-control" type="text" name="clientCity" id="clientCityID" required>
                     <option selected>-</option>
                     <?php foreach($cities as $city): ?>
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
@@ -144,13 +144,13 @@
                 </select></div>
                 <div class="col-md-9 col-8 pr-0">
                  <label for="clientAddressID" class="font-weight-bold">Address Number:</label>
-                 <input type="text" placeholder="Enter Address Number" class="form-control" name="clientAddress" id="clientAddress" />
+                 <input type="text" placeholder="Enter Address Number" class="form-control" name="clientAddress" id="clientAddress" required/>
                 </div>
             </div>
             <div class="row mt-3">
              <div class="col-6 pl-0">
                  <label for="clientJobTitleID" class="font-weight-bold">Job Title:</label>
-                 <input type="text" placeholder="Enter Job Title" class="form-control" name="clientJobTitle" id="clientJobTitleID" />
+                 <input type="text" placeholder="Enter Job Title" class="form-control" name="clientJobTitle" id="clientJobTitleID" required/>
                 </div>
                 <div class="col-6 pr-0">
                 <label for="clientJobTypeID" class="font-weight-bold">Job Type:</label>

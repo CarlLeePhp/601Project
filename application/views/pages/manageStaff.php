@@ -35,7 +35,7 @@
         
         </div>
         </div>
-        <?php echo $message?>
+        
 
     </div>
     <div style="overflow:auto">
@@ -112,11 +112,14 @@
       </div>
     </div>
     <!-- Modal END -->
-
+    
 </div>
-
+    <?php if(strlen($message)>0):?>
+        <script type='text/javascript'>alert('Wrong administrator password, Failure in removing staff');</script>
+    <?php endif; ?>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
 
 <script>
     var app = new Vue({
