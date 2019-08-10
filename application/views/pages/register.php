@@ -21,7 +21,11 @@
                     <label for="passwordID" class="font-weight-bold">Password:</label>
                     <input type="password" placeholder="Enter Password" class="form-control" name="password"
                         id="passwordID" v-model="password">
+                        <div class="">
+                    <small class="text-muted">The length of the password should atleast be 6 characters</small>
                 </div>
+                </div>
+                
             </div>
             <div class="row mt-3">
                 <div class="col-md-4 px-1 p-0">
@@ -138,7 +142,12 @@
         methods: {
             checkForm: function(e){
                 if(this.confirmPasswd == this.password){
-                    return true
+                    if(this.password.length<6){
+                        this.passwdError = "Password is too short"
+                        e.preventDefault()
+                    } else {
+                        return true
+                    }
                 } else {
                     this.passwdError = "Password did not match"
                     e.preventDefault()
@@ -149,9 +158,18 @@
                     this.emailError = "this email already exists"
                     this.isButton = true
                 } else {
+                    if(!this.validEmail(this.email)){
+                        this.emailError = "Invalid Email Address"
+                        this.isButton = true
+                    } else {
                     this.emailError = ""
                     this.isButton = false
+                    }
                 }
+            },
+            validEmail: function(email){
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email)
             }
         }
         

@@ -92,7 +92,7 @@
 </div> <!--endOfPane-->
 
 <div class="tab-pane fade show <?php echo $active3?>" id="v-pills-submitVacancy" role="tabpanel" aria-labelledby="v-pills-submitVacancy-tab">
-    <div class="container m-md-5">
+    <div class="container m-md-5" id="app">
             <span class="display-4">SubmitVacancy</span>
             <hr>
             <div class="col-12">
@@ -112,11 +112,11 @@
                 </select>
                 </div>
                 <div class="col-5 px-1 px-md-4">
-                <label for="clientNameID" class="font-weight-bold">Contact Person:</label>
+                <label for="clientNameID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Contact Person:</label>
                 <input type="text" placeholder="Enter Name" class="form-control" name="clientName" id="clientNameID" required>
                 </div>
                 <div class="col-5 p-0">
-                <label for="clientCompanyID" class="font-weight-bold">Company Name:</label>
+                <label for="clientCompanyID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Company Name:</label>
                 <input type="text" placeholder="Company Name" class="form-control" name="clientCompany" id="clientCompanyID" required/>
                 </div>
                 
@@ -124,18 +124,21 @@
             <div class="row mt-3">
              <div class="col-12 p-0">
                  <label for="clientEmailID" class="font-weight-bold">Email:</label>
-                 <input type="text" placeholder="Enter Email" class="form-control" name="clientEmail" id="clientEmailID" />
+                 <input type="email" v-model="email" @change="checkEmail" placeholder="Enter Email" class="form-control" name="clientEmail" id="clientEmailID" />
+            </div>
+            <div class="row mt-3" v-if="emailError.length">
+                <p class="text-danger" v-text="emailError"></p>
             </div>
             </div>
             <div class="row mt-3">
              <div class="col-12 p-0">
-                 <label for="clientContactID" class="font-weight-bold">Contact Number:</label>
+                 <label for="clientContactID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Contact Number:</label>
                  <input type="text" placeholder="Enter Contact Number" class="form-control" name="clientContact" id="clientContact" required/>
             </div>
             </div>
             <div class="row mt-3">
              <div class="col-4 col-md-3 pl-0">
-                 <label for="clientCityID" class="font-weight-bold">City:</label>
+                 <label for="clientCityID" class="font-weight-bold"><small class="text-danger mr-1">*</small>City:</label>
                  <select class="form-control" type="text" name="clientCity" id="clientCityID" required>
                     <option selected>-</option>
                     <?php foreach($cities as $city): ?>
@@ -143,21 +146,21 @@
                     <?php endforeach; ?>
                 </select></div>
                 <div class="col-md-9 col-8 pr-0">
-                 <label for="clientAddressID" class="font-weight-bold">Address Number:</label>
+                 <label for="clientAddressID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Address Number:</label>
                  <input type="text" placeholder="Enter Address Number" class="form-control" name="clientAddress" id="clientAddress" required/>
                 </div>
             </div>
             <div class="row mt-3">
              <div class="col-6 pl-0">
-                 <label for="clientJobTitleID" class="font-weight-bold">Job Title:</label>
+                 <label for="clientJobTitleID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Job Title:</label>
                  <input type="text" placeholder="Enter Job Title" class="form-control" name="clientJobTitle" id="clientJobTitleID" required/>
                 </div>
                 <div class="col-6 pr-0">
-                <label for="clientJobTypeID" class="font-weight-bold">Job Type:</label>
-                 <select class="form-control " type="text" name="clientJobType" id="clientJobTypeID" >
+                <label for="clientJobTypeID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Job Type:</label>
+                 <select class="form-control " type="text" name="clientJobType" id="clientJobTypeID" required>
                     <option selected>-</option>
-                    <option value="1">Part Time</option>
-                    <option value="2">Full Time</option>
+                    <option value="PartTime">Part Time</option>
+                    <option value="FullTime">Full Time</option>
                 </select> </div>
                 
             </div>
@@ -170,9 +173,10 @@
                 </div>
              </div>
              <div class="row">
-            <input type="submit" value="Submit Vacancy" class="btn btn-primary m-0">
+            <input type="submit" value="Submit Vacancy" class="btn btn-primary m-0" :disabled="isButton">
             </div> 
             </form>
+
         </div>
     </div>
 
@@ -182,3 +186,33 @@
     
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            emailError: "",
+            email: "",
+            isButton: false
+        },
+        methods: {
+            checkEmail: function(){
+                    if(!this.validEmail(this.email)){
+                        this.emailError = "Invalid Email Address"
+                        this.isButton = true
+                    } else {
+                    this.emailError = ""
+                    this.isButton = false
+                    }
+                }
+            },
+            validEmail: function(email){
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email)
+            }
+        
+        
+    })
+</script>

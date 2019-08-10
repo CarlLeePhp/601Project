@@ -11,19 +11,20 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active text-dark font-weight-bold" id="addStaff-tab" data-toggle="tab" href="#addStaff" role="tab" aria-controls="addStaff" aria-selected="true"> Add Staff</a>
+                <a class="nav-link active text-dark font-weight-bold" id="addStaff-tab" data-toggle="tab" href="#addStaff" role="tab" aria-controls="addStaff" aria-selected="true"> Add Staff<i class="ml-1 icon ion-md-add-circle-outline text-success"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark font-weight-bold" id="changeStaffPassword-tab" data-toggle="tab" href="#changeStaffPassword" role="tab" aria-controls="changeStaffPassword" aria-selected="false">Change staff's password</a>
+                <a class="nav-link text-dark font-weight-bold" id="changeStaffPassword-tab" data-toggle="tab" href="#changeStaffPassword" role="tab" aria-controls="changeStaffPassword" aria-selected="false">Change staff's password<i class="ml-1 icon ion-md-refresh text-info"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark font-weight-bold" id="removeStaff-tab" data-toggle="tab" href="#removeStaff" role="tab" aria-controls="removeStaff" aria-selected="false">Remove Staff</a>
+                <a class="nav-link text-dark font-weight-bold" id="removeStaff-tab" data-toggle="tab" href="#removeStaff" role="tab" aria-controls="removeStaff" aria-selected="false">Remove Staff<i class="ml-1 icon ion-md-remove-circle-outline text-danger"></i></a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="addStaff" role="tabpanel" aria-labelledby="addStaff-tab">
         <?php 
         $this->load->view('staffManager/addStaff',$staffs) ;?>
+        
         </div>
         <div class="tab-pane fade" id="changeStaffPassword" role="tabpanel" aria-labelledby="changeStaffPassword-tab">
         <?php

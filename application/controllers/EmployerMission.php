@@ -20,6 +20,7 @@ class EmployerMission extends CI_Controller{
         $data['active1'] = '';
         $data['active2'] = '';
         $data['active3'] = '';
+        $data['message'] = '';
         if($param == 2) {
             $data['active2'] = 'active';
         } elseif ($param == 3) {
@@ -45,6 +46,11 @@ class EmployerMission extends CI_Controller{
         $clientName = $_POST['clientName'];
         $clientCompany = $_POST['clientCompany'];
         $clientEmail = $_POST['clientEmail'];
+        $data['active1'] = '';
+        $data['active2'] = '';
+        $data['active3'] = 'active';
+        $data['message'] = '';
+        
         $clientContact = $_POST['clientContact'];
         $clientCity = $_POST['clientCity'];
         $clientAddress = $_POST['clientAddress'];
@@ -61,7 +67,7 @@ class EmployerMission extends CI_Controller{
         $data['cities'] = $this->city_model->get_cities();
         $data['title'] = 'Job was added successfully.';
         $this->load->view('templates/header', $userdata);
-        $this->load->view('home/main', $data);
+        $this->load->view('pages/employerMission', $data);
         $this->load->view('templates/footer');
     }
 }
