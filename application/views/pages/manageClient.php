@@ -15,19 +15,20 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="company">Company</label>
-                    <input type="text" class="form-control" id="company" placeholder="Company Name">
+                    <input type="text" class="form-control" v-model="filterCompany" id="company" placeholder="Company Name">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" placeholder="City">
+                    <input type="text" class="form-control" v-model="filterCity" id="city" placeholder="City">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="jobTitle">Job Title</label>
-                    <input type="text" class="form-control" id="jobTitle" placeholder="Job Title">
+                    <input type="text" class="form-control" v-model="filterJobTitle" id="jobTitle" placeholder="Job Title">
                 </div>
                 
             </div>
-            <button class="btn btn-success">Apply</button>
+            <button class="btn btn-success" @click="applyFilters">Apply</button>
+            <button class="btn btn-warning" @click="clearFilters">Clear</button>
 
             <p>Shows:</p>
             <div class="form-check form-check-inline">
@@ -163,6 +164,8 @@
 var app = new Vue({
     el: '#app',
     data: {
+        errMessage: "",
+        errors: "",
         jobs: [
             <?php foreach ($jobs as $job): ?> {
                 id: "<?php echo $job['JobID']; ?>",
@@ -175,10 +178,12 @@ var app = new Vue({
                 jobType: "<?php echo $job['JobType']; ?>",
                 address: "<?php echo $job['Address']; ?>",
                 city: "<?php echo $job['City']; ?>",
-                description: "<?php echo $job['Description']; ?>"
+                description: "<?php echo $job['Description']; ?>",
+                
             },
             <?php endforeach; ?>
         ],
+        jobsCopy: [],
         showClientTitle: true,
         showClientName: true,
         showCompany: true,
@@ -188,11 +193,34 @@ var app = new Vue({
         showJobType: true,
         showAddress: true,
         showCity: true,
-        showDescription: true
+        showDescription: true,
+        // filters
+        filterCompany: "",
+        filterCity: "",
+        filterJobTitle: ""
         
     },
     methods: {
-
+        applyFilters: function(){
+            this.jobs = [];
+            for(var i=0; i<this.jobsCopy.length; i++){
+                let company = this.jobsCopy[i].company;
+                let city = this.jobsCopy[i].city;
+                let jobTitle = this.jobsCopy[i].jobTitle;
+                
+                if(company.search(this.filterCompany) >= 0
+                    && city.search(this.filterCity) >= 0
+                    && jobTitle.search(this.filterJobTitle) >= 0){
+                    this.jobs.push(this.jobsCopy[i]);
+                }
+            }
+        },
+        clearFilters: function(){
+            this.filterCompany = "";
+            this.filterCity = "";
+            this.filterJobTitle = "";
+            this.jobs = this.jobsCopy;
+        },
         sortBy: function(sortKey) {
             if (sortKey == 'clientTitle') {
                 this.jobs.sort(function(a, b) {
@@ -233,6 +261,9 @@ var app = new Vue({
                 })
             }
         }
+    },
+    mounted: function(){
+        this.jobsCopy = this.jobs;
     }
 
 })
