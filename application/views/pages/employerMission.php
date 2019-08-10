@@ -126,8 +126,8 @@
                  <label for="clientEmailID" class="font-weight-bold">Email:</label>
                  <input type="email" v-model="email" @change="checkEmail" placeholder="Enter Email" class="form-control" name="clientEmail" id="clientEmailID" />
             </div>
-            <div class="row mt-3" v-if="emailError.length">
-                <p class="text-danger" v-text="emailError"></p>
+            <div class="container mt-3" v-if="emailError.length">
+                <span class="text-danger" v-text="emailError"></span>
             </div>
             </div>
             <div class="row mt-3">
@@ -206,13 +206,13 @@
                     this.emailError = ""
                     this.isButton = false
                     }
-                }
-            },
+                },
+            
             validEmail: function(email){
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email)
             }
-        
+        },
         
     })
 </script>
