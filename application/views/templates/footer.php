@@ -3,7 +3,7 @@
         <!-- leftTabFooter ContactList -->
         <div class="card text-light bg-dark mb-3 col-md-4 col-12 p-md-0" style="max-width: 17rem; border:none">
           <div class="card-header bg-dark border-white">Contact</div>
-          <div class="card-body p-1">
+          <div class="card-body">
             <ul class="list-unstyled m-0">
               <li>Email: mark@leerecruitment.co.nz</li>
               <li style="color:white">Phone: (03) 928 5062</li>

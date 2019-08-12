@@ -52,7 +52,7 @@
         </div>
         <div class="card-body">
         <p class="card-text">See what jobs are currently available at Lee Recruitment.</p>
-        <div class="text-center " ><a href="<?php echo base_url()?>Jobs" class="btn btn-dark border border-dark">Jobs Available</a></div>
+        <div class="text-center " ><a href="<?php echo base_url()?>index.php/Jobs" class="btn btn-dark border border-dark">Jobs Available</a></div>
         </div>
     </div>
     </div>
@@ -65,7 +65,7 @@
         </div>
         <div class="card-body">
         <p class="card-text">Have any inquiries or assistance regarding our services? feel free to contact us.</p>
-        <div class="text-center" ><a href="<?php echo base_url()?>ContactUS" class="btn btn-dark border border-dark">Contact Us</a></div>
+        <div class="text-center" ><a href="<?php echo base_url()?>index.php/ContactUS" class="btn btn-dark border border-dark">Contact Us</a></div>
         </div>
     </div>
     </div>

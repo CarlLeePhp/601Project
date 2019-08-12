@@ -105,6 +105,12 @@
                     Description
                 </label>
             </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showDateSubmitted" id="showDateSubmitted">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showDateSubmitted">
+                    DateSubmitted
+                </label>
+            </div>
         </div>
         <!-- Collapse End -->
 
@@ -131,6 +137,8 @@
                         <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('address')">Address</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('city')">City</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDescription }">Description</th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDateSubmitted }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dateSubmitted')">DateSubmitted</a></th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -147,6 +155,7 @@
                         <td v-text="job.address" v-bind:class="{ 'd-none': ! showAddress }"></td>
                         <td v-text="job.city" v-bind:class="{ 'd-none': ! showCity }"></td>
                         <td v-text="job.description" v-bind:class="{ 'd-none': ! showDescription }"></td>
+                        <td v-text="job.dateSubmitted" v-bind:class="{ 'd-none': ! showDateSubmitted }"></td>
                     </tr>
                 </tbody>
                 
@@ -204,6 +213,7 @@ var app = new Vue({
                 address: "<?php echo $job['Address']; ?>",
                 city: "<?php echo $job['City']; ?>",
                 description: "<?php echo $job['Description']; ?>",
+                dateSubmitted: "<?php echo $job['JobSubmittedDate']?>",
                 ref: "<?php echo base_url()?>index.php/Jobs/jobDetails/<?php echo $job['JobID'];?>",
                 // BookmarkStat: "BookmarkID<?php echo $job['JobID']?>",
                 // BookmarkRef: "<?php echo base_url()?>index.php/TestControl/<?php echo $job['JobID'];?>",
@@ -225,6 +235,7 @@ var app = new Vue({
         showAddress: true,
         showCity: true,
         showDescription: true,
+        showDateSubmitted: true,
         // filters
         filterCompany: "",
         filterCity: "",
@@ -350,6 +361,18 @@ var app = new Vue({
                 } else {
                     this.jobs.sort(function(a, b) {
                         return b.address.localeCompare(a.address)
+                    })
+                }
+            }
+            else if (sortKey == 'dateSubmitted') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.jobs.sort(function(a, b) {
+                        return a.dateSubmitted.localeCompare(b.dateSubmitted)
+                    })
+                } else {
+                    this.jobs.sort(function(a, b) {
+                        return b.dateSubmitted.localeCompare(a.dateSubmitted)
                     })
                 }
             }

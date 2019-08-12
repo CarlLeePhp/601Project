@@ -31,7 +31,7 @@ class Jobs extends CI_Controller {
 		};
 		if(isset($_POST['jobType'])){
 			$jobType = $_POST['jobType'];
-		};
+			};
 		if(isset($_POST['location'])){
 			$location = $_POST['location'];
 		};

@@ -48,9 +48,10 @@
                 <div class="card" style="width: 18rem;">
                     <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
                     <div class="card-body">
-                        <p class="card-text" v-text="job.jobThumbnailText">
+                        <p class="font-weight-bold mb-1" v-text="job.publishTitle"></p>
+                        <span class="card-text mt-0" v-text="job.jobThumbnailText">
                         
-                        </p>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -80,6 +81,7 @@
             jobType: "",
             location: "",
             jobThumbnailText: "",
+            publishTitle: "",
             jobs: [
                 <?php foreach ($jobs as $job): ?> {
                 id: "<?php echo $job['JobID']; ?>",
@@ -87,6 +89,7 @@
                 jobType: "<?php echo $job['JobType']; ?>",
                 location: "<?php echo $job['City']; ?>",
                 jobThumbnailText: "<?php echo $job['ThumbnailText']; ?>",
+                publishTitle: "<?php echo $job['PublishTitle'];?>",
             },
             <?php endforeach; ?>
             ],

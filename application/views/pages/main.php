@@ -13,24 +13,25 @@
 <div class="container border-bottom">
   <div class="row p-4 justify-content-around">
 
-  <form action="#" method="POST">
+  <form action="<?php echo base_url();?>index.php/Jobs" method="POST">
             <div class="row">
                 <div class="col-md-4">
                 <label for="JobTitleID" class="font-weight-bold">Job Title:</label>
-                <input class="form-control " type="text" placeholder="Keywords" id="JobTitle" aria-label="JobTitle">
+                <input class="form-control" name="jobTitle" type="text" placeholder="Keywords" id="JobTitle" aria-label="JobTitle">
             </div>
                 <div class="col-md-3 ">
                 <label for="JobType" class="font-weight-bold">Job Type:</label>
-          <select class="form-control " type="text" id="JobType" aria-label="JobType">
-              <option selected>Job Type</option>
+          <select class="form-control" name="jobType" type="text" id="JobType" aria-label="JobType">
+              <option selected></option>
               <option value="PartTime">Part Time</option>
               <option value="FullTime">Full Time</option>
           </select>
                 </div>
-                <div class="col-md-4 ">
+                <div class="col-md-4">
             <label for="Location" class="font-weight-bold">Location:</label>
 
-          <select class="form-control " type="text" id="Location" aria-label="Location">
+          <select class="form-control" name="location" type="text" id="Location" aria-label="Location">
+          <option selected></option>
           <?php foreach($cities as $city): ?>
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                     <?php endforeach; ?>
@@ -46,7 +47,7 @@
 </div>
 
 <!-- BriefOfLeeRecruitment -->
-<div class="display-4 mt-5 ml-5" style="font-size:3rem">Company Profile</div>
+<div class="display-4 mt-5 ml-5 pl-3" style="font-size:3rem">Company Profile</div>
 <hr>
 <div class="container row col-md-12 align-items-center mb-5 mx-1">
 <div class="col-1"></div>
@@ -67,19 +68,21 @@
 </div>
 
 <!-- LatestJobsPHP -->
-  <span class="display-4 m-5" style="font-size:3rem">Latest Jobs</span>
+  <span class="display-4 ml-5 pl-3" style="font-size:3rem">Latest Jobs</span>
   <hr>
   <div class="container">
   <div class="row mt-5">
       <?php foreach($jobs as $job):?>
-            <div class="col m-3">
-                <div class="card" style="width: 18rem;">
-                    <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
-                    <div class="card-body">
-                        <?php echo $job['ThumbnailText'];?>
-                    </div>
+        <div class="col-4 mt-4">
+            <div class="card" style="width: 18rem;">
+                <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
+                 
+                <div class="card-body">
+                <p class="font-weight-bold p-0 "> <?php echo $job['PublishTitle'];?></p>
+                    <?php echo $job['ThumbnailText'];?>
                 </div>
             </div>
+        </div>
         <?php endforeach ?>
 </div>
         <!--end row-->
@@ -91,7 +94,7 @@
 
 <!-- Testimonial -->
 <hr>
-<span class="display-4 m-5" style="font-size:3rem">Testimonial</span>
+<span class="display-4 ml-5 pl-3" style="font-size:3rem">Testimonial</span>
   <hr>
   <div class="container mb-5 mt-4">
       <b class="text-warning">Testimonial from Findlater Sawmilling Ltd</b>

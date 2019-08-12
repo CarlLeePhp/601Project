@@ -9,6 +9,7 @@ class Job_model extends CI_Model {
     */
     // get all jobs
     public function get_jobs() {
+        $this->db->order_by('JobSubmittedDate', 'DESC');
         $query = $this->db->get('Job');
         return $query->result_array();
     }
