@@ -33,15 +33,18 @@ class CandidateMission extends CI_Controller{
 
     public function applyJob(){
         if(!isset($_SESSION['userEmail'])){
-            redirect('/personcenter/index');
+            //redirect('/personcenter/index');
+            echo "Please login";
+            exit;
         }
+
+        
         $userID = $_SESSION['userID'];
         $data = array(
         'jobInterest' => $this->input->post('jobInterest'),
         'jobType' => $this->input->post('jobType'),
-        'jobCV' => $this->input->post('jobCV'),
         'transportation' => $this->input->post('transportation'),
-        'LicenseNumber' => $this->input->post('LicenseNumber'),
+        'LicenseNumber' => $this->input->post('licenseNumber'),
         'classLicense' => $this->input->post('classLicense'),
         'endorsement' => $this->input->post('endorsement'),
         'citizenship' => $this->input->post('citizenship'),
@@ -75,22 +78,36 @@ class CandidateMission extends CI_Controller{
 
         $this->candidate_model->applyJob($data);
 
+        
+        echo "Update successfully";
+    }
+
+    public function uploadCV(){
+        if(!isset($_SESSION['userEmail'])){
+            echo "Please login";
+            exit;
+        }
+        $userID = $_SESSION['userID'];
+        // get max candidate ID
+        $candidate = $this->candidate_model->getMaxIDByUserID($userID);
+        $maxID=$candidate['MaxID'];
+        
         $config['upload_path'] = '/var/www/candidatesCV/';
-        $config['allowed_types'] = 'doc|jpg|png';
+        $config['allowed_types'] = 'pdf|png';
         $config['max_size'] = 10000;
         $config['max_width'] = 0;
         $config['max_height'] = 0;
+        $config['file_name'] = $maxID; // the uploaded file's extension will be applied
 
         $this->load->library('upload', $config);
-        $fileName = $_FILES['jobCV']['name'];
-        echo "File Name: ".$fileName;
+        
         if (!$this->upload->do_upload('jobCV')) {
-            echo "Apply Failed";
+            echo $maxID."Apply Failed";
         } else {
-            redirect('/Home/index/');
+            echo $maxID."Apply Successfully";
+            
         }
 
-        
     }
 
 }

@@ -15,7 +15,7 @@
         
         <div class="card border border-dark col-md-6 p-0 m-0">
 
-            <a href="<?php echo base_url()?>" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">
+            <a href="<?php echo base_url()?>index.php/CandidateMission/index/active/" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">
                 <div class="row justify-content-center card-body">
                 <img style="width:125px;height:150px;"  src="<?php echo base_url()?>lib/images/SubmitCV.png">
                 </div>
