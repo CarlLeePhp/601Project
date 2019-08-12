@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 ">
     <span class="display-4">About Lee Recruitment</span>
     <hr />
     <div class="row">
@@ -36,11 +36,13 @@
         <p><i >Mark Lee - Director of Lee Recruitment</i></p>
         </div>
     </div>
-    <span class="mt-4"><h3 class="text-warning">Mission Statement</h3> </span>
+    <span class="mt-6"><h3 class="text-warning">Mission Statement</h3> </span>
+    <p class="mt-4">
     <ul>
         <li>We endeavour to get people into the job that suits them for their skills, stage of life, ambitions and future plans.</li>
         <li>We aim to find the best suitable candidate for a client, who suit the work environment not only on a professional but also a personal level.</li>
         <li>Successfully employed people are people who enjoy coming to work every day. Our aim is to build a better, happier community for all of us to enjoy.</li>
+        
 </ul>
 <div class="row justify-content-center my-5">
     <div class="col-md-4">
@@ -56,7 +58,7 @@
         </div>
     </div>
     </div>
-    <div class="col-md-4 mt-md-0 mt-4">
+    <div class="col-md-4 mt-md-0 mt-4 mb-5">
     <div class="card">
         <div class="bg-primary border border-dark">
         <div class="row justify-content-center mr-5">
@@ -65,6 +67,7 @@
         </div>
         <div class="card-body">
         <p class="card-text">Have any inquiries or assistance regarding our services? feel free to contact us.</p>
+       
         <div class="text-center" ><a href="<?php echo base_url()?>ContactUS" class="btn btn-dark border border-dark">Contact Us</a></div>
         </div>
     </div>
