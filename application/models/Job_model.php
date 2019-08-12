@@ -13,6 +13,18 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_publishedjobs() {
+        $this->db->where('jobStatus', 'published');
+        $query = $this->db->get('Job');
+        return $query->result_array();
+    }
+
+    public function get_specificJob($jobID){
+        $this->db->where('JobID', $jobID);
+        $query = $this->db->get('job');
+        return $query->row_array();
+    }
+
     public function get_sale(){
         $query = $this->db->get('SALE');
         return $query->result_array();
@@ -39,7 +51,7 @@ class Job_model extends CI_Model {
      
 
     // Insert a new Boat
-    public function addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description) {
+    public function addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description,$suburb) {
         $data = array(
             'ClientTitle' => $clientTitle,
             'ClientName' => $clientName,
@@ -50,12 +62,32 @@ class Job_model extends CI_Model {
             'Address' => $clientAddress,
             'JobTitle' => $clientJobTitle,
             'JobType' => $clientJobType,
-            'Description' => $description
+            'Description' => $description,
+            'Suburb' => $suburb,
         );
         $this->db->insert('Job', $data);
     }
 
+    public function publishJob($jobID,$textEditor,$thumbnailText,$publishTitle,$publishDate){
+        $data = array(
+            'JobStatus' => 'published',
+            'Editor1' => $textEditor,
+            'ThumbnailText' => $thumbnailText,
+            'PublishTitle' => $publishTitle,
+            'PublishDate' => $publishDate,
+        );
+        $this->db->where('JobID',$jobID);
+        $this->db->update('job',$data);
+    }
     // Insert a new Sale
+
+    public function unpublishJob($jobID){
+        $data = array(
+            'JobStatus' => 'null',
+        );
+        $this->db->where('JobID',$jobID);
+        $this->db->update('job',$data);
+    }
 
     public function add_sale($name, $email) {
         $data = array(

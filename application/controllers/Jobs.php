@@ -23,7 +23,7 @@ class Jobs extends CI_Controller {
 		}
 
 		// get all jobs for the table status=NULL
-		$data['jobs'] = $this->job_model->get_jobs();
+		$data['jobs'] = $this->job_model->get_publishedjobs();
 		$data['cities'] = $this->city_model->get_cities();
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/jobs', $data);
@@ -46,6 +46,58 @@ class Jobs extends CI_Controller {
 		
 	}
 
+	public function jobDetails($paramJobID){
+		if(!(isset($_SESSION['userType']))&& ($_SESSION['userType']!='admin' || $_SESSION['userType']!='staff')){
+			redirect('/');
+			$paramJobID="";
+		}
+		$userdata['userType'] = $_SESSION['userType'];
+		$data['title'] = "Job Details";
+		$data['job'] = $this->job_model->get_specificJob($paramJobID);
+
+		
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/jobDetails',$data);
+		$this->load->view('templates/footer');
+	}
+
+	public function jobPublish($paramJobID){
+		if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType']=='staff')){
+			redirect('/');
+			$paramJobID = "";
+		}
+		$userdata['userType'] = $_SESSION['userType'];
+		$data['title'] = "Job Details";
+		$publishTitle = $_POST['publishTitle'];
+		$thumbnailText = $_POST['thumbnailText'];
+		$textEditor = $_POST['editor1'];
+		//4digitsYear-2digitsMonth-2digitsDay Format to match sql
+		$publishDate = date('Y-m-d');
+		//update the job
+		$this->job_model->publishJob($paramJobID,$textEditor,$thumbnailText,$publishTitle,$publishDate);
+		//select the job 
+		$data['job'] = $this->job_model->get_specificJob($paramJobID);
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/jobDetails',$data);
+		$this->load->view('templates/footer');
+	}
+
+	public function jobUnpublish($paramJobID){
+		if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType']=='staff')){
+			redirect('/');
+			$paramJobID = "";
+		}
+		$userdata['userType'] = $_SESSION['userType'];
+		$data['title'] = "Job Details";
+		
+		//update the jobstatus to null
+		$this->job_model->unpublishJob($paramJobID);
+		//select the job 
+		$data['job'] = $this->job_model->get_specificJob($paramJobID);
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/jobDetails',$data);
+		$this->load->view('templates/footer');
+	}
 	/**
 	 * AJAX Methods for staff and Admin
 	 */

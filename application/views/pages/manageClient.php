@@ -32,8 +32,20 @@
 
             <p class="mt-md-5 mt-3 text-dark font-weight-bold">Shows column:</p>
             <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showBookmark" id="showBookmark">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showBookmark">
+                    Bookmark
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showDetails" id="showDetails">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showDetails">
+                    Details
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showClientTitle" id="showClientTitle">
-                <label style="font-size: 1em;" class="form-check-label" for="showClientTitle">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showClientTitle">
                     Title
                 </label>
                 
@@ -41,55 +53,55 @@
             
             <div class="form-check form-check-inline col-md-2">
             <input class="form-check-input" type="checkbox" v-model="showClientName" id="showClientName">
-                <label style="font-size: 1em;" class="form-check-label" for="showClientName">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showClientName">
                     Name
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showCompany" id="showCompany">
-                <label style="font-size: 1em;" class="form-check-label" for="showCompany">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCompany">
                     Company
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showEmail" id="showEmail">
-                <label style="font-size: 1em;" class="form-check-label" for="showEmail">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showEmail">
                     Email
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showContactNumber" id="showContactNumber">
-                <label style="font-size: 1em;" class="form-check-label" for="showContactNumber">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showContactNumber">
                     Contact Number
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showJobTitle" id="showJobTitle">
-                <label style="font-size: 1em;" class="form-check-label" for="showJobTitle">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showJobTitle">
                     Job Title
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showJobType" id="showJobType">
-                <label style="font-size: 1em;" class="form-check-label" for="showJobType">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showJobType">
                     Job Type
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showAddress" id="showAddress">
-                <label style="font-size: 1em;" class="form-check-label" for="showAddress">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showAddress">
                     Address
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showCity" id="showCity">
-                <label style="font-size: 1em;" class="form-check-label" for="showCity">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCity">
                     City
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showDescription" id="showDescription">
-                <label style="font-size: 1em;" class="form-check-label" for="showDescription">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showDescription">
                     Description
                 </label>
             </div>
@@ -100,11 +112,15 @@
         
     </div>
     <!-- Table -->
-    <div class="container mb-5">
+    <div class=" mb-5 px-5">
     <div style="overflow:auto" >
+        
             <table class="table table-hover mt-5 mr-5">
+           
                 <thead>
                     <tr>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showBookmark }"><a href="#"  @click.stop.prevent="sortBy('bookmark')" class="text-dark "><img src="<?php echo base_url();?>lib/images/Bookmark1.png" style="height: 16px; width:16px;"></a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDetails }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('details')">Details</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('clientTitle')">Title</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('clientName')">Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompany }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('company')">Company</a></th>
@@ -119,6 +135,8 @@
                 </thead>
                 <tbody>
                     <tr v-for="job in jobs" :key="job.id">
+                        <td v-bind:class="{ 'd-none': ! showBookmark }"> <form action="#" name="#" method="post"><input type="checkbox" name="#" value="yes" ><input type="submit" hidden></form></td>
+                        <td v-bind:class="{ 'd-none': ! showDetails }"><a :href="job.ref" role="button"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
                         <td v-text="job.clientTitle" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
                         <td v-text="job.clientName" v-bind:class="{ 'd-none': ! showClientName }"></td>
                         <td v-text="job.company" v-bind:class="{ 'd-none': ! showCompany }"></td>
@@ -131,7 +149,9 @@
                         <td v-text="job.description" v-bind:class="{ 'd-none': ! showDescription }"></td>
                     </tr>
                 </tbody>
+                
             </table>
+           
         </div>
     </div>
     <!-- Table End -->  
@@ -173,6 +193,7 @@ var app = new Vue({
         jobs: [
             <?php foreach ($jobs as $job): ?> {
                 id: "<?php echo $job['JobID']; ?>",
+                
                 clientTitle: "<?php echo $job['ClientTitle']; ?>",
                 clientName: "<?php echo $job['ClientName']; ?>",
                 company: "<?php echo $job['Company']; ?>",
@@ -183,11 +204,17 @@ var app = new Vue({
                 address: "<?php echo $job['Address']; ?>",
                 city: "<?php echo $job['City']; ?>",
                 description: "<?php echo $job['Description']; ?>",
-                
+                ref: "<?php echo base_url()?>index.php/Jobs/jobDetails/<?php echo $job['JobID'];?>",
+                // BookmarkStat: "BookmarkID<?php echo $job['JobID']?>",
+                // BookmarkRef: "<?php echo base_url()?>index.php/TestControl/<?php echo $job['JobID'];?>",
+                // BookmarkName: "formBookmark<?php echo $job['JobID']?>",
+                // BookmarkMeth: "sendBookmark(<?php echo 'formBookmark' . $job['JobID']?>)",
             },
             <?php endforeach; ?>
         ],
         jobsCopy: [],
+        showBookmark: true,
+        showDetails: true,
         showClientTitle: true,
         showClientName: true,
         showCompany: true,
@@ -326,7 +353,10 @@ var app = new Vue({
                     })
                 }
             }
-        }
+        },
+        // sendBookmark: function(bookmarkNameForm){
+        //     document.bookmarkNameForm.submit();
+        // },
     },
     mounted: function(){
         this.jobsCopy = this.jobs;

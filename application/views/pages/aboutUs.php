@@ -1,4 +1,4 @@
-<div class="container m-md-5">
+<div class="container mt-5">
     <span class="display-4">About Lee Recruitment</span>
     <hr />
     <div class="row">
@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-4 mt-5 text-center">
         <img src="<?php echo base_url()?>lib/images/MarkLee.jpg">
-        <p class="">Mark Lee - Director of Lee Recruitment</p>
+        <p><i >Mark Lee - Director of Lee Recruitment</i></p>
         </div>
     </div>
     <span class="mt-4"><h3 class="text-warning">Mission Statement</h3> </span>

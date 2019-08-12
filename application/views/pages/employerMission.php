@@ -140,7 +140,7 @@
             </div>
             </div>
             <div class="row mt-3">
-             <div class="col-4 col-md-3 pl-0">
+             <div class="col-6 col-md-3 pl-0">
                  <label for="clientCityID" class="font-weight-bold"><small class="text-danger mr-1">*</small>City:</label>
                  <select class="form-control" type="text" name="clientCity" id="clientCityID" required>
                     <option selected>-</option>
@@ -148,7 +148,11 @@
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                     <?php endforeach; ?>
                 </select></div>
-                <div class="col-md-9 col-8 pr-0">
+                <div class="col-md-3 col-6 pr-md-3 pr-0 pl-0">
+                 <label for="SuburbID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Suburb:</label>
+                 <input type="text" placeholder="Enter Suburb Name" class="form-control" name="clientSuburb" id="Suburb" required/>
+                </div>
+                <div class="col-md-6 col-12 pr-0 pl-md-3 pl-0 mt-md-0 mt-3">
                  <label for="clientAddressID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Address Number:</label>
                  <input type="text" placeholder="Enter Address Number" class="form-control" name="clientAddress" id="clientAddress" required/>
                 </div>

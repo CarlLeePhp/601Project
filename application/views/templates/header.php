@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<?php echo base_url()?>lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo base_url()?>lib/main.css">
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
-
+    <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
     <title>Document</title>
 </head>
 

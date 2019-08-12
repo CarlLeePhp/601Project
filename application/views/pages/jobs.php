@@ -7,7 +7,6 @@
         suit your skills, experience and ambitions.
     </p>
     <div class="container border-bottom  mb-3">
-
         <div class="row p-4 justify-content-around">
             <!-- startForm -->
             <form action="#" method="POST">
