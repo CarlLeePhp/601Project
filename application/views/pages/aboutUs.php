@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-8">
         <h3 class="text-warning">Company Profile</h3>
-        <p>
+        <p class="mt-4">
         Lee Recruitment started in 2013. It is a locally owned and operated recruitment agency
          with an aim to help build a better community for all of us through meaningful employment. 
         </p>
