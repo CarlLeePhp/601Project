@@ -1,16 +1,15 @@
 <div class="container mt-5">
     <!-- CandidateMission/applyJob/ -->
-    <form action="<?php echo base_url() ?>index.php/TestControl/" method="post" enctype="multipart/form-data">
         <h3 class="text-warning mt-3"> Interest </h3>
         <hr />
         <div class="row">
             <div class="col-md-4">
                 <label for="jobInterestID" class="font-weight-bold">Job interested in:</label>
-                <input type="text" class="form-control" name="jobInterest" placeholder="interest" id="jobInterestID" />
+                <input type="text" class="form-control" v-model="jobInterest" name="jobInterest" placeholder="interest" id="jobInterestID" />
             </div>
             <div class="col-md-4">
                 <label for="jobTypeID" class="font-weight-bold">Job Type:</label>
-                <select class="form-control p-2" type="text" name="jobType" id="jobTypeID">
+                <select class="form-control p-2" type="text" v-model="jobType" name="jobType" id="jobTypeID">
                     <option selected>-</option>
                     <option value="Full Time">Full Time</option>
                     <option value="Part Time">Part Time</option>
@@ -26,24 +25,24 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="transportationID" class="font-weight-bold">Transportation to work:</label>
-                <input type="text" class="form-control" name="transportation" placeholder="Transportation to work"
+                <input type="text" class="form-control" v-model="transportation" name="transportation" placeholder="Transportation to work"
                     id="transportationID">
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
                 <label for="licenseNumberID" class="font-weight-bold mt-2">NZ License Number:</label>
-                <input type="text" class="form-control" name="LicenseNumber" placeholder="license Number"
+                <input type="text" class="form-control" v-model="licenseNumber" name="LicenseNumber" placeholder="license Number"
                     id="licenseNumberID">
             </div>
             <div class="col-md-4">
                 <label for="classLicenseID" class="font-weight-bold mt-2">Class of license:</label>
-                <input type="text" class="form-control" placeholder="Class License" name="classLicense"
+                <input type="text" class="form-control" v-model="classLicense" placeholder="Class License" name="classLicense"
                     id="classLicenseID">
             </div>
             <div class="col-md-4">
                 <label for="endorsementID" class="font-weight-bold mt-2">Endorsement:</label>
-                <input type="text" class="form-control" placeholder="Endorsement" name="endorsement" id="endorsementID">
+                <input type="text" class="form-control" v-model="endorsement" placeholder="Endorsement" name="endorsement" id="endorsementID">
             </div>
         </div>
         <h3 class="text-warning mt-3">Citizenship</h3>
@@ -52,7 +51,7 @@
 
             <div class="col-md-3">
                 <label for="citizenshipID" class="font-weight-bold"> Citizenship:</label>
-                <select class="form-control" id="citizenshipID" name="citizenship">
+                <select class="form-control" id="citizenshipID" v-model="citizenship" name="citizenship">
                     <option value="-" selected>-</option>
                     <?php foreach($citizenships as $citizenship): ?>
                     <option value="<?php echo $citizenship['Citizenship']; ?>"><?php echo $citizenship['Citizenship']; ?></option>
@@ -62,18 +61,18 @@
 
             <div class="col-md-3">
                 <label for="nationalityID" class="font-weight-bold"> Nationality:</label>
-                <input type="text" class="form-control" placeholder="Enter Nationality" name="nationality"
+                <input type="text" class="form-control" v-model="nationality" placeholder="Enter Nationality" name="nationality"
                     id="nationalityID" />
             </div>
             <div class="col-md-3">
                 <label for="passportCountryID" class="font-weight-bold">Passport issuing country:</label>
-                <input type="text" class="form-control" placeholder="Passport issuing country" name="passportCountry"
+                <input type="text" class="form-control" v-model="passportCountry" placeholder="Passport issuing country" name="passportCountry"
                     id="passportCountryID" />
 
             </div>
             <div class="col-md-3">
                 <label for="passportNumberID" class="font-weight-bold">Passport Number:</label>
-                <input type="text" class="form-control" placeholder="Passport Number" name="passportNumber"
+                <input type="text" class="form-control" v-model="passportNumber" placeholder="Passport Number" name="passportNumber"
                     id="passportNumberID" />
 
             </div>
@@ -86,62 +85,62 @@
                 <div class="col-md-9">
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="asthma">Asthma
+                            <input type="checkbox" class="form-check-inline" v-model="asthma" name="asthma">Asthma
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="blackOut">BlackOut / Seizures
+                            <input type="checkbox" class="form-check-inline" v-model="blackOut" name="blackOut">BlackOut / Seizures
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="diabetes">Diabetes
+                            <input type="checkbox" class="form-check-inline" v-model="diabetes" name="diabetes">Diabetes
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="bronchitis">Bronchitis
+                            <input type="checkbox" class="form-check-inline" v-model="bronchitis" name="bronchitis">Bronchitis
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="backInjury">Back Injury / strain
+                            <input type="checkbox" class="form-check-inline" v-model="backInjury" name="backInjury">Back Injury / strain
 
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="deafness">Deafness
+                            <input type="checkbox" class="form-check-inline" v-model="deafness" name="deafness">Deafness
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="dermatitis">Dermatitis/Eczema
+                            <input type="checkbox" class="form-check-inline" v-model="dermatitis" name="dermatitis">Dermatitis/Eczema
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="skinInfection">Skin infection
+                            <input type="checkbox" class="form-check-inline" v-model="skinInfection" name="skinInfection">Skin infection
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="allergies">Allergies
+                            <input type="checkbox" class="form-check-inline" v-model="allergies" name="allergies">Allergies
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="hernia">Hernia
+                            <input type="checkbox" class="form-check-inline" v-model="hernia" name="hernia">Hernia
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="highBloodPressure">High blood
+                            <input type="checkbox" class="form-check-inline" v-model="highBloodPressure" name="highBloodPressure">High blood
                             pressure
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="heartProblems">Heart Problems
+                            <input type="checkbox" class="form-check-inline" v-model="heartProblems" name="heartProblems">Heart Problems
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="usingDrugs">taking Drugs / Medicine
+                            <input type="checkbox" class="form-check-inline" v-model="usingDrugs" name="usingDrugs">taking Drugs / Medicine
 
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="usingContactLenses">Wearing contact
+                            <input type="checkbox" class="form-check-inline" v-model="usingContactLenses" name="usingContactLenses">Wearing contact
                             lenses/ glasses
 
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" name="RSI">Occupational Overuse Syndrome /
+                            <input type="checkbox" class="form-check-inline" v-model="RSI" name="RSI">Occupational Overuse Syndrome /
                             R.S.I
 
                         </div>
@@ -151,7 +150,7 @@
                     <div class="row">
                         <label for="compensationInjuryID" class="font-weight-bold">Compensation of any injury by
                             ACC</label>
-                        <select class="form-control p-2" type="text" name="compensationInjury"
+                        <select class="form-control p-2" type="text" v-model="compensationInjury" name="compensationInjury"
                             id="compensationInjuryID">
                             <option selected>-</option>
                             <option value="No">No</option>
@@ -160,11 +159,11 @@
                     </div>
                     <div class="row mt-2">
                         <label for="compensationDateFromID" class="font-weight-bold">Dates From</label>
-                        <input type="date" name="compensationDateFrom" id="compensationDateFromID" class="form-control">
+                        <input type="date" v-model="compensationDateFrom" name="compensationDateFrom" id="compensationDateFromID" class="form-control">
 
 
                         <label for="compensationDateToID" class="font-weight-bold mt-2">Dates To</label>
-                        <input type="date" name="compensationDateTo" id="compensationDateToID" class="form-control">
+                        <input type="date" v-model="compensationDateTo" name="compensationDateTo" id="compensationDateToID" class="form-control">
 
                     </div>
                 </div>
@@ -173,14 +172,14 @@
         <h3 class="text-warning mt-3">Other Details</h3>
         <hr />
         <div class="container">
-            <input type="checkbox" class="form-check-inline" name="dependants"> Having dependants <br>
+            <input type="checkbox" class="form-check-inline" v-model="dependants" name="dependants"> Having dependants <br>
 
-            <input type="checkbox" class="form-check-inline" name="smoke"> Do you smoke?<br>
+            <input type="checkbox" class="form-check-inline" v-model="smoke" name="smoke"> Do you smoke?<br>
 
-            <input type="checkbox" class="form-check-inline" name="conviction"> Having conviction against the law?<br>
+            <input type="checkbox" class="form-check-inline" v-model="conviction" name="conviction"> Having conviction against the law?<br>
             <label for="convictionDetailsID">Details if "yes" </label>
             <textarea class="form-control rounded-0" id="convictionDetailsID" rows="5"
-                name="convictionDetails"></textarea>
+            v-model="convictionDetails"  name="convictionDetails"></textarea>
 
         </div>
         <h3 class="text-warning mt-3">Declaration and Authorisation To Lee Recruitment</h3>
@@ -205,9 +204,10 @@
                 on your system. </p>
 
         </div>
-        <input type="checkbox" class="form-check-inline ml-md-1 mt-3" required> Please tick this box to confirm the
+        <input type="checkbox" v-model="confirm" class="form-check-inline ml-md-1 mt-3" required> Please tick this box to confirm the
         above statements.<br>
         <div class="mt-3">
-            <input type="submit" value="Register" class="btn btn-warning">
+            <button class="btn btn-warning" :disabled="! confirm" @click="submitJob">Register</button>
+            <button class="btn btn-danger"  @click="testCV">Test CV</button>
         </div>
 </div>

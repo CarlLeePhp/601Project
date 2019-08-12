@@ -26,13 +26,11 @@ class Candidate_model extends CI_Model {
         return $query->result_array();
     }
 
-    public function get_sale_id($sale_id){
-        $this->db->where('SALE_ID', $sale_id);
-        $query = $this->db->get('SALE');
-        
+    public function getMaxIDByUserID($userID){
+        $mySql = "SELECT MAX(CandidateID) AS MaxID FROM Candidate WHERE UserID='".$userID."'";
+        $query = $this->db->query($mySql);
         return $query->row_array();
     }
-
     /**
      * Insert functions
      */
