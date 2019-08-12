@@ -17,13 +17,28 @@ class Jobs extends CI_Controller {
 	public function index()
 	{	
 		$userdata['userType'] = 'anyone';
+		$jobTitle ="";
+		$jobType="";
+		$location="";
+		$page="jobs";
         if(isset($_SESSION['userEmail'])){
             $userdata['userEmail'] = $_SESSION['userEmail'];
 			$userdata['userType'] = $_SESSION['userType'];
-		}
+		};
+		if(isset($_POST['jobTitle'])){
+			$jobTitle = $_POST['jobTitle'];
+			
+		};
+		if(isset($_POST['jobType'])){
+			$jobType = $_POST['jobType'];
+		};
+		if(isset($_POST['location'])){
+			$location = $_POST['location'];
+		};
 
-		// get all jobs for the table status=NULL
-		$data['jobs'] = $this->job_model->get_publishedjobs();
+		// get all jobs for the table status=published
+		$data['jobs'] = $this->job_model->get_publishedjobs($page,$jobTitle,$jobType,$location);
+		
 		$data['cities'] = $this->city_model->get_cities();
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/jobs', $data);

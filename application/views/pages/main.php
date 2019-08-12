@@ -70,61 +70,19 @@
   <span class="display-4 m-5" style="font-size:3rem">Latest Jobs</span>
   <hr>
   <div class="container">
-      
-      <div class="row">
-        <div class="col m-3">
-            <div class="card" style="width: 18rem;">
-                <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
-                <div class="card-body">
-                  <p class="card-text">
-                      Opportunity to start a new career in the electrical installation field with on-going training provided within this busy local company.</p>
+  <div class="row mt-5">
+      <?php foreach($jobs as $job):?>
+            <div class="col m-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
+                    <div class="card-body">
+                        <?php echo $job['ThumbnailText'];?>
+                    </div>
                 </div>
-              </div>
-        </div>
-        <div class="col m-3">
-            <div class="card" style="width: 18rem;">
-                <img src="<?php echo base_url()?>lib/images/Class4&5Driver.jpg" class="card-img-top" alt="class4&5Driver">
-                <div class="card-body">
-                  <p class="card-text">
-                      These are long term positions for skilled drivers.</p>
-                </div>
-              </div>
-        </div>
-        <div class="col m-3">
-            <div class="card" style="width: 18rem;">
-                <img src="<?php echo base_url()?>lib/images/ContractRecruiter.jpg" class="card-img-top" alt="contractRecruiter">
-                <div class="card-body">
-                  <p class="card-text">The freedom of self-employment with the support of being part of an organisation.</p>
-                </div>
-              </div>
-        </div>
-      </div>  <!--end row-->
-      <div class="row">
-          <div class="col m-3">
-              <div class="card" style="width: 18rem;">
-                  <img src="<?php echo base_url()?>lib/images/DieselMechanic.jpg" class="card-img-top" alt="dieselMechanic">
-                  <div class="card-body">
-                    <p class="card-text">This position is available for a qualified & skilled Diesel Mechanic to work on a wide variety of in-house machinery and equipment.</p>
-                  </div>
-                </div>
-          </div>
-          <div class="col m-3">
-              <div class="card" style="width: 18rem;">
-                  <img src="<?php echo base_url()?>lib/images/NetMaker_Timaru.jpg" class="card-img-top" alt="netMaker_Timaru">
-                  <div class="card-body">
-                    <p class="card-text">Long term position available for a skilled and experienced Net Maker based in Timaru.</p>
-                  </div>
-                </div>
-          </div>
-          <div class="col m-3">
-              <div class="card" style="width: 18rem;">
-                  <img src="<?php echo base_url()?>lib/images/RiggerNelson.jpg" class="card-img-top" alt="riggerNelson">
-                  <div class="card-body">
-                    <p class="card-text">This position is available for a qualified Rigger based in sunny Nelson.</p>
-                  </div>
-                </div>
-          </div>
-        </div>  <!--end row-->
+            </div>
+        <?php endforeach ?>
+</div>
+        <!--end row-->
         <div class="row justify-content-end m-5">
         <a href="<?php echo base_url()?>index.php/Jobs" class="btn btn-outline-dark "> More Jobs</a>
       </div> <!--end row-->

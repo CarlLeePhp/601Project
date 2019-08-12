@@ -13,8 +13,23 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
-    public function get_publishedjobs() {
-        $this->db->where('jobStatus', 'published');
+    public function get_publishedjobs($page,$jobTitle,$jobType,$location) {
+        $this->db->select('JobID,ThumbnailText,PublishTitle,JobTitle,JobType,City');
+         
+        $this->db->where('JobStatus', 'published');
+        if($page=="home"){
+            $this->db->limit(9); 
+        }
+        if($jobTitle != ""){
+            $this->db->where('JobTitle', $jobTitle);
+        }
+        if($jobType != ""){
+            $this->db->where('JobType', $jobType);
+        }
+        if($location != ""){
+            $this->db->where('City', $location);
+        }
+     
         $query = $this->db->get('Job');
         return $query->result_array();
     }
@@ -51,7 +66,7 @@ class Job_model extends CI_Model {
      
 
     // Insert a new Boat
-    public function addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description,$suburb) {
+    public function addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description,$suburb,$dateJobSubmitted) {
         $data = array(
             'ClientTitle' => $clientTitle,
             'ClientName' => $clientName,
@@ -64,6 +79,7 @@ class Job_model extends CI_Model {
             'JobType' => $clientJobType,
             'Description' => $description,
             'Suburb' => $suburb,
+            'JobSubmittedDate' => $dateJobSubmitted,
         );
         $this->db->insert('Job', $data);
     }

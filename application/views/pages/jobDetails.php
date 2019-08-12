@@ -16,7 +16,7 @@
     <tbody>
     <legend class="text-md-left text-center">Client's Brief: <b><?php echo strtoupper($job['JobStatus']);?></b></legend>
         <?php foreach($job as $key => $value):?>
-        <?php if($key == 'JobID' || $key == 'Description' || $key == 'Editor1' || $key == 'ThumbnailText' || $key == 'JobStatus' || $key == 'PublishTitle')  :?>
+        <?php if($key == 'JobID' || $key == 'Description' || $key == 'Editor1' || $key == 'ThumbnailText' || $key == 'JobStatus' || $key == 'PublishTitle' || $key == "PublishDate")  :?>
         <?php else :?>
         <tr>
         <th><?php echo $key ?></th>
@@ -155,7 +155,7 @@
     </table>
     </div>
     <div class="row justify-content-center">
-    <a href="<?php echo base_url()?>.index.php/personcenter/#/PARAM" class="btn btn-outline-primary my-3 col-md-3 col-6 text-center">Assign Candidate</a>
+    <a href="<?php echo base_url()?>.index.php/personcenter/#/PARAM" class="btn btn-info my-3 col-md-3 col-6 text-center">Assign Candidate</a>
     </div>
 </div>
 <?php else: redirect('/');?>

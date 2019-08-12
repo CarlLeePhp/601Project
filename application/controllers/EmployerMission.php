@@ -58,14 +58,14 @@ class EmployerMission extends CI_Controller{
         $clientJobTitle = $_POST['clientJobTitle'];
         $clientJobType = $_POST['clientJobType'];
         $description = $_POST['description'];
-        
+        $dateJobSubmitted = date('Y-m-d'); 
         
         $userdata['userType'] = 'anyone';
         if(isset($_SESSION['userEmail'])){
             $userdata['userEmail'] = $_SESSION['userEmail'];
 			$userdata['userType'] = $_SESSION['userType'];
         }
-        $this->job_model->addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description,$clientSuburb);
+        $this->job_model->addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description,$clientSuburb,$dateJobSubmitted);
         $data['cities'] = $this->city_model->get_cities();
         $data['title'] = 'Job was added successfully.';
         $this->load->view('templates/header', $userdata);
