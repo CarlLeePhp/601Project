@@ -20,7 +20,7 @@
                 <img style="width:150px;height:150px;"  src="<?php echo base_url()?>lib/images/NewApplicants.png">
                 </div>
                 <div class="card-title font-weight-bold">Look for new Applicants</div>
-                <p class="card-text text-justify m-4 text-center">See what's new since the your last login.</p>
+                <p class="card-text text-justify m-4 text-center">See what's new since your last login.</p>
     
             </div> </a>
         </div> 
