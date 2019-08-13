@@ -19,8 +19,8 @@ class Job_model extends CI_Model {
          
         $this->db->where('JobStatus', 'published');
         if($page=="home"){
-            $this->db->limit(9);
             $this->db->order_by('JobSubmittedDate', 'DESC');
+            $this->db->limit(9);
         }
         if($jobTitle != ""){
             $this->db->where('JobTitle', $jobTitle);
