@@ -31,6 +31,24 @@ class CandidateMission extends CI_Controller{
         $this->load->view('templates/footer');
     }
 
+    // show candidate table
+	public function manageCandidate(){
+		if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
+			redirect('/');
+		}
+		$userdata['userType'] = $_SESSION['userType'];
+		$data['title'] = "Manage Candidate";
+		$data['message'] ="";
+		$data['candidates'] = $this->candidate_model->getCandidates();
+		$this->load->view('templates/header',$userdata);
+		$this->load->view('pages/manageCandidate',$data);
+		$this->load->view('templates/footer');
+		
+    }
+    
+    /**
+     * AJAX Methods
+     */
     public function applyJob(){
         if(!isset($_SESSION['userEmail'])){
             //redirect('/personcenter/index');
@@ -93,7 +111,7 @@ class CandidateMission extends CI_Controller{
         $maxID=$candidate['MaxID'];
         
         $config['upload_path'] = '/var/www/candidatesCV/';
-        $config['allowed_types'] = 'pdf|png';
+        $config['allowed_types'] = 'pdf|png|doc|docx';
         $config['max_size'] = 10000;
         $config['max_width'] = 0;
         $config['max_height'] = 0;
