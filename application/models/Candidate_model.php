@@ -7,6 +7,11 @@ class Candidate_model extends CI_Model {
     /**
      * Select Functions
     */
+    // get all candidates
+    public function getCandidates(){
+        $query = $this->db->get('Candidate');
+        return $query->result_array();
+    }
     // get an user by user name
     public function getUserByEmail($userEmail){
         $this->db->where('Email', $userEmail);

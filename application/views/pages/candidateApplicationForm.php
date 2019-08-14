@@ -208,6 +208,5 @@
         above statements.<br>
         <div class="mt-3">
             <button class="btn btn-warning" :disabled="! confirm" @click="submitJob">Register</button>
-            <button class="btn btn-danger"  @click="testCV">Test CV</button>
         </div>
 </div>
