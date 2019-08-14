@@ -39,7 +39,8 @@ class CandidateMission extends CI_Controller{
 		$userdata['userType'] = $_SESSION['userType'];
 		$data['title'] = "Manage Candidate";
 		$data['message'] ="";
-		$data['candidates'] = $this->candidate_model->getCandidates();
+        //$data['candidates'] = $this->candidate_model->getCandidates();
+        $data['candidates'] = $this->candidate_model->getCandidatesWithName();
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/manageCandidate',$data);
 		$this->load->view('templates/footer');

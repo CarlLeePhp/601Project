@@ -12,6 +12,12 @@ class Candidate_model extends CI_Model {
         $query = $this->db->get('Candidate');
         return $query->result_array();
     }
+    // get all candidate with the firstname and lastname of the user
+    public function getCandidatesWithName(){
+        $mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
+        $query = $this->db->query($mySql);
+        return $query->result_array();
+    }
     // get an user by user name
     public function getUserByEmail($userEmail){
         $this->db->where('Email', $userEmail);

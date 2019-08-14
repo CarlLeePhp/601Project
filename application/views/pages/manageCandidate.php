@@ -32,53 +32,9 @@
 
             <p class="mt-md-5 mt-3 text-dark font-weight-bold">Shows column:</p>
             <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showBookmark" id="showBookmark">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showBookmark">
-                    Bookmark
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showDetails" id="showDetails">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showDetails">
-                    Details
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showClientTitle" id="showClientTitle">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showClientTitle">
-                    Title
-                </label>
-                
-            </div>
-            
-            <div class="form-check form-check-inline col-md-2">
-            <input class="form-check-input" type="checkbox" v-model="showClientName" id="showClientName">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showClientName">
-                    Name
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showCompany" id="showCompany">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showCompany">
-                    Company
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showEmail" id="showEmail">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showEmail">
-                    Email
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showContactNumber" id="showContactNumber">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showContactNumber">
-                    Contact Number
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showJobTitle" id="showJobTitle">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showJobTitle">
-                    Job Title
+                <input class="form-check-input" type="checkbox" v-model="showJobInterest" id="showJobInterest">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showJobInterest">
+                    Job Interest
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
@@ -88,27 +44,101 @@
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showAddress" id="showAddress">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showAddress">
-                    Address
+                <input class="form-check-input" type="checkbox" v-model="showTransportation" id="showTransportation">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showTransportation">
+                    Transportation
+                </label>
+                
+            </div>
+            
+            <div class="form-check form-check-inline col-md-2">
+            <input class="form-check-input" type="checkbox" v-model="showLicenseNumber" id="showLicenseNumber">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showLicenseNumber">
+                    License Number
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showCity" id="showCity">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showCity">
-                    City
+            <input class="form-check-input" type="checkbox" v-model="showClassLicense" id="showClassLicense">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showClassLicense">
+                    License Class
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showDescription" id="showDescription">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showDescription">
-                    Description
+                <input class="form-check-input" type="checkbox" v-model="showEndorsement" id="showEndorsement">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showEndorsement">
+                    Endorsement
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showDateSubmitted" id="showDateSubmitted">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showDateSubmitted">
-                    DateSubmitted
+                <input class="form-check-input" type="checkbox" v-model="showCitizenship" id="showCitizenship">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCitizenship">
+                    Citizenship
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showNationality" id="showNationality">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showNationality">
+                    Nationality
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showPassportCountry" id="showPassportCountry">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showPassportCountry">
+                    Passport Country
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showpassportNumber" id="showpassportNumber">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showpassportNumber">
+                    Passport Number
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showCompensationInjury" id="showCompensationInjury">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCompensationInjury">
+                    Compensation Injury
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showCompensationDateFrom" id="showCompensationDateFrom">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCompensationDateFrom">
+                    Compensation Date From
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showCompensationDateTo" id="showCompensationDateTo">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCompensationDateTo">
+                Compensation Date To
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showHealthConditions" id="showHealthConditions">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showHealthConditions">
+                    Health Conditions
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showDependants" id="showDependants">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showDependants">
+                    Dependants
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showSmoke" id="showSmoke">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showSmoke">
+                    Smoke
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showConviction" id="showConviction">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showConviction">
+                    Conviction
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showConvictionDetails" id="showConvictionDetails">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showConvictionDetails">
+                    Conviction Detail
                 </label>
             </div>
         </div>
@@ -125,12 +155,13 @@
            
                 <thead>
                     <tr>
-                        
+                        <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('FirstName')">First Name</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LastName')">Last Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LicenseNumber')">Driver License</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showLicenseNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('classLicense')">License Class</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showLicenseNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LicenseNumber')">Driver License</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showClassLicense }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('classLicense')">License Class</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showEndorsement }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('endorsement')">Endorsement</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCitizenship }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('citizenship')">Citizenship</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showNationality }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('nationality')">Nationality</a></th>
@@ -139,21 +170,21 @@
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationInjury }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationInjury')">Compensation Injury</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateFrom')">Date From</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateTo }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateTo')">Date To</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showAsthma }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('asthma')">Asthma</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showBlackOut }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('blackOut')">BlackOut</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDiabetes }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('diabetes')">Diabetes</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showBronchitis }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('bronchitis')">Bronchitis</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showBackInjury }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('backInjury')">Back Injury</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDeafness }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('deafness')">Deafness</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDermatitis }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dermatitis')">Dermatitis</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showSkinInfection }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('skinInfection')">Skin Infection</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showAllergies }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('allergies')">Allergies</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHernia }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('hernia')">Hernia</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHighBloodPressure }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('highBloodPressure')">High Blood Pressure</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHeartProblems }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('heartProblems')">Heart Problems</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showUsingDrugs }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('usingDrugs')">Drugs</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showUsingContactLenses }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('usingContactLenses')">Lenses</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showRSI }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('RSI')">RSI</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('asthma')">Asthma</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('blackOut')">BlackOut</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('diabetes')">Diabetes</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('bronchitis')">Bronchitis</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('backInjury')">Back Injury</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('deafness')">Deafness</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dermatitis')">Dermatitis</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('skinInfection')">Skin Infection</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('allergies')">Allergies</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('hernia')">Hernia</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('highBloodPressure')">High Blood Pressure</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('heartProblems')">Heart Problems</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('usingDrugs')">Drugs</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('usingContactLenses')">Lenses</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showshowHealthConditionsRSI }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('RSI')">RSI</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDependants }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dependants')">Dependants</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showSmoke }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('smoke')">Smoke</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showConviction }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('conviction')">Conviction</a></th>
@@ -162,13 +193,41 @@
                 </thead>
                 <tbody>
                     <tr v-for="candidate in candidates" :key="candidate.CandidateID">
-                        
-                        <td v-text="candidate.jobInterest" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
-                        <td v-text="candidate.jobType" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
-                        <td v-text="candidate.transportation" v-bind:class="{ 'd-none': ! showClientName }"></td>
-                        <td v-text="candidate.LicenseNumber" v-bind:class="{ 'd-none': ! showCompany }"></td>
-                        <td v-text="candidate.classLicense" v-bind:class="{ 'd-none': ! showEmail }"></td>
-                        <td v-text="candidate.endorsement" v-bind:class="{ 'd-none': ! showContactNumber }"></td>
+                        <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
+                        <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
+                        <th v-text="candidate.jobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></th>
+                        <th v-text="candidate.jobType" v-bind:class="{ 'd-none': ! showJobType }"></th>
+                        <th v-text="candidate.transportation" v-bind:class="{ 'd-none': ! showTransportation }"></th>
+                        <th v-text="candidate.LicenseNumber" v-bind:class="{ 'd-none': ! showLicenseNumber }"></th>
+                        <th v-text="candidate.classLicense" v-bind:class="{ 'd-none': ! showClassLicense }"></th>
+                        <th v-text="candidate.endorsement" v-bind:class="{ 'd-none': ! showEndorsement }"></th>
+                        <th v-text="candidate.citizenship" v-bind:class="{ 'd-none': ! showCitizenship }"></th>
+                        <th v-text="candidate.nationality" v-bind:class="{ 'd-none': ! showNationality }"></th>
+                        <th v-text="candidate.passportCountry" v-bind:class="{ 'd-none': ! showPassportCountry }"></th>
+                        <th v-text="candidate.passportNumber" v-bind:class="{ 'd-none': ! showpassportNumber }"></th>
+                        <th v-text="candidate.compensationInjury" v-bind:class="{ 'd-none': ! showCompensationInjury }"></th>
+                        <th v-text="candidate.compensationDateFrom" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"></th>
+                        <th v-text="candidate.compensationDateTo" v-bind:class="{ 'd-none': ! showCompensationDateTo }"></th>
+                        <th v-text="candidate.asthma" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.blackOut" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.diabetes" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.bronchitis" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.backInjury" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.deafness" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.dermatitis" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.skinInfection" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.allergies" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.hernia" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.highBloodPressure" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.heartProblems" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.usingDrugs" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.usingContactLenses" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.RSI" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.dependants" v-bind:class="{ 'd-none': ! showDependants }"></th>
+                        <th v-text="candidate.smoke" v-bind:class="{ 'd-none': ! showSmoke }"></th>
+                        <th v-text="candidate.conviction" v-bind:class="{ 'd-none': ! showConviction }"></th>
+                        <th v-text="candidate.convictionDetails" v-bind:class="{ 'd-none': ! showConvictionDetails }"></th>
+                    
                         
                     </tr>
                 </tbody>
@@ -217,12 +276,14 @@ var app = new Vue({
         candidates: <?php echo json_encode($candidates); ?>,
         candidatesCopy: [],
         showBookmark: true,
-        
+        showHealthConditions: true,
+        showFirstName: true,
+        showLastName: true,
         showJobInterest: true,
         showJobType: true,
-        showClientName: true,
         showTransportation: true,
         showLicenseNumber: true,
+        showClassLicense: true,
         showEndorsement: true,
         showCitizenship: true,
         showNationality: true,
