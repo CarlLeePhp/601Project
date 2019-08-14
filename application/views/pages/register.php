@@ -1,4 +1,5 @@
-<div class="container m-md-5" id="app">
+<div id="app" class="m-md-5">
+<div class="container">
     <span class="display-4">Register a new account</span>
     <hr>
 
@@ -115,6 +116,7 @@
 
     </form>
     
+</div>
 </div>
 
 

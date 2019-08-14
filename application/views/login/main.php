@@ -1,7 +1,7 @@
 
-<div id="app" class="container m-md-5">    
+<div id="app" class="mb-5">    
    
-
+<div class="container">
 <div class="row justify-content-center">    
 <div class="col-md-5 mt-5">
 <h3 class="mt-5">Log In</h3 ><br>
@@ -25,7 +25,7 @@
     </form>
 </div> 
 </div> 
-
+</div>
 </div> <!-- App -->
 
 

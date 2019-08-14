@@ -59,9 +59,11 @@
     </div>
 </div>
 <hr />
+    <?php if( $job['JobStatus'] != NULL) :?>
     <div class="row justify-content-center">
         <a class="btn btn-outline-dark col-md-3 col-6" href="<?php echo base_url()?>index.php/Jobs/jobUnpublish/<?php echo $job['JobID'];?>">Unpublish from job page</a>
     </div>
+    <?php endif;?>
 </div>
     
 <h2 class="text-center">WebContent</h2>

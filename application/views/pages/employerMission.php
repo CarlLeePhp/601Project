@@ -165,7 +165,7 @@
                 <div class="col-6 pr-0">
                 <label for="clientJobTypeID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Job Type:</label>
                  <select class="form-control " type="text" name="clientJobType" id="clientJobTypeID" required>
-                    <option selected>-</option>
+                    <option selected></option>
                     <option value="PartTime">Part Time</option>
                     <option value="FullTime">Full Time</option>
                 </select> </div>
