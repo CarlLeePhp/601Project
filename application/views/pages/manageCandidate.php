@@ -128,9 +128,9 @@
                         
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LicenseNumber')">Driver License</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showLicenseNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('classLicense')">License Class</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCandidateName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('candidateName')">Transportation</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Driver License</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showLicenseNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('licenseNumber')">License Class</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showEndorsement }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('endorsement')">Endorsement</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCitizenship }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('citizenship')">Citizenship</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showNationality }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('nationality')">Nationality</a></th>
@@ -250,8 +250,10 @@ var app = new Vue({
         showSmoke: true,
         showConviction: true,
         showConvictionDetails: true,
-                    
 
+        //startHere
+        showDetails: true, 
+        showCV: true,
         // filters
         filterCompany: "",
         filterCity: "",

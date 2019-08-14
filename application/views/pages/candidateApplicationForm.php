@@ -11,8 +11,8 @@
                 <label for="jobTypeID" class="font-weight-bold">Job Type:</label>
                 <select class="form-control p-2" type="text" v-model="jobType" name="jobType" id="jobTypeID">
                     <option selected>-</option>
-                    <option value="Full Time">Full Time</option>
-                    <option value="Part Time">Part Time</option>
+                    <option value="FullTime">Full Time</option>
+                    <option value="PartTime">Part Time</option>
                 </select>
             </div>
             <div class="col-md-4">
