@@ -14,16 +14,16 @@
         <div class="collapse border border-dark p-5 bg-white" style="border-radius: 0px 0px 15px 15px;" id="collapseExample">
             <div class="form-row mt-1">
                 <div class="form-group col-md-3">
-                    <label class="text-dark font-weight-bold" for="company">Company:</label>
-                    <input type="text" class="form-control" v-model="filterCompany" id="company" placeholder="Company Name">
+                    <label class="text-dark font-weight-bold" for="JobInterest">Job Interest:</label>
+                    <input type="text" class="form-control" v-model="filterJobInterest" id="JobInterest" placeholder="Job Interest">
                 </div>
                 <div class="form-group col-md-3">
-                    <label class="text-dark font-weight-bold" for="city">City:</label>
-                    <input type="text" class="form-control" v-model="filterCity" id="city" placeholder="City">
+                    <label class="text-dark font-weight-bold" for="JobType">Job Type:</label>
+                    <input type="text" class="form-control" v-model="filterJobType" id="JobType" placeholder="Job Type">
                 </div>
                 <div class="form-group col-md-3">
-                    <label class="text-dark font-weight-bold" for="jobTitle">Job Title:</label>
-                    <input type="text" class="form-control" v-model="filterJobTitle" id="jobTitle" placeholder="Job Title">
+                    <label class="text-dark font-weight-bold" for="Transportation">Transportation:</label>
+                    <input type="text" class="form-control" v-model="filterTransportation" id="Transportation" placeholder="Transportation">
                 </div>
                 
             </div>
@@ -52,47 +52,12 @@
             </div>
             
             <div class="form-check form-check-inline col-md-2">
-            <input class="form-check-input" type="checkbox" v-model="showLicenseNumber" id="showLicenseNumber">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showLicenseNumber">
-                    License Number
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-            <input class="form-check-input" type="checkbox" v-model="showClassLicense" id="showClassLicense">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showClassLicense">
-                    License Class
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showEndorsement" id="showEndorsement">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showEndorsement">
-                    Endorsement
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showCitizenship" id="showCitizenship">
                 <label style="font-size: 1em;" class="form-check-label my-1" for="showCitizenship">
                     Citizenship
                 </label>
             </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showNationality" id="showNationality">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showNationality">
-                    Nationality
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showPassportCountry" id="showPassportCountry">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showPassportCountry">
-                    Passport Country
-                </label>
-            </div>
-            <div class="form-check form-check-inline col-md-2">
-                <input class="form-check-input" type="checkbox" v-model="showpassportNumber" id="showpassportNumber">
-                <label style="font-size: 1em;" class="form-check-label my-1" for="showpassportNumber">
-                    Passport Number
-                </label>
-            </div>
+            
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showCompensationInjury" id="showCompensationInjury">
                 <label style="font-size: 1em;" class="form-check-label my-1" for="showCompensationInjury">
@@ -160,31 +125,11 @@
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showLicenseNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LicenseNumber')">Driver License</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClassLicense }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('classLicense')">License Class</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showEndorsement }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('endorsement')">Endorsement</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCitizenship }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('citizenship')">Citizenship</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showNationality }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('nationality')">Nationality</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showPassportCountry }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('passportCountry')">Passport Country</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showpassportNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('passportNumber')">Passport Number</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationInjury }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationInjury')">Compensation Injury</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateFrom')">Date From</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateTo }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateTo')">Date To</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('asthma')">Asthma</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('blackOut')">BlackOut</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('diabetes')">Diabetes</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('bronchitis')">Bronchitis</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('backInjury')">Back Injury</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('deafness')">Deafness</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dermatitis')">Dermatitis</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('skinInfection')">Skin Infection</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('allergies')">Allergies</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('hernia')">Hernia</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('highBloodPressure')">High Blood Pressure</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('heartProblems')">Heart Problems</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('usingDrugs')">Drugs</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('usingContactLenses')">Lenses</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showshowHealthConditionsRSI }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('RSI')">RSI</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('healthProblem')">Health Problem</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDependants }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dependants')">Dependants</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showSmoke }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('smoke')">Smoke</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showConviction }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('conviction')">Conviction</a></th>
@@ -192,37 +137,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="candidate in candidates" :key="candidate.CandidateID">
+                    <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
                         <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
                         <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
                         <th v-text="candidate.jobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></th>
                         <th v-text="candidate.jobType" v-bind:class="{ 'd-none': ! showJobType }"></th>
                         <th v-text="candidate.transportation" v-bind:class="{ 'd-none': ! showTransportation }"></th>
-                        <th v-text="candidate.LicenseNumber" v-bind:class="{ 'd-none': ! showLicenseNumber }"></th>
-                        <th v-text="candidate.classLicense" v-bind:class="{ 'd-none': ! showClassLicense }"></th>
-                        <th v-text="candidate.endorsement" v-bind:class="{ 'd-none': ! showEndorsement }"></th>
                         <th v-text="candidate.citizenship" v-bind:class="{ 'd-none': ! showCitizenship }"></th>
-                        <th v-text="candidate.nationality" v-bind:class="{ 'd-none': ! showNationality }"></th>
-                        <th v-text="candidate.passportCountry" v-bind:class="{ 'd-none': ! showPassportCountry }"></th>
-                        <th v-text="candidate.passportNumber" v-bind:class="{ 'd-none': ! showpassportNumber }"></th>
                         <th v-text="candidate.compensationInjury" v-bind:class="{ 'd-none': ! showCompensationInjury }"></th>
                         <th v-text="candidate.compensationDateFrom" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"></th>
                         <th v-text="candidate.compensationDateTo" v-bind:class="{ 'd-none': ! showCompensationDateTo }"></th>
-                        <th v-text="candidate.asthma" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.blackOut" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.diabetes" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.bronchitis" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.backInjury" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.deafness" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.dermatitis" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.skinInfection" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.allergies" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.hernia" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.highBloodPressure" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.heartProblems" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.usingDrugs" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.usingContactLenses" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.RSI" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
+                        <th v-text="candidate.healthProblem" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
                         <th v-text="candidate.dependants" v-bind:class="{ 'd-none': ! showDependants }"></th>
                         <th v-text="candidate.smoke" v-bind:class="{ 'd-none': ! showSmoke }"></th>
                         <th v-text="candidate.conviction" v-bind:class="{ 'd-none': ! showConviction }"></th>
@@ -236,7 +161,21 @@
            
         </div>
     </div>
-    <!-- Table End -->  
+    <!-- Table End -->
+
+    <!-- Pagination -->
+    <nav aria-label="Candidate Page">
+        <ul class="pagination justify-content-center">
+            
+            <li class="page-item" v-for="pageNum in pageNums" :key="pageNum.id" :class="{ active: pageNum.isActive }">
+                <a class="page-link"  href="#" @click.stop.prevent="getCandidates(pageNum.id)">{{ pageNum.id / 10 + 1 }}</a>
+            </li>
+            
+            
+        </ul>
+    </nav>
+    <!-- Pagination End -->
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -276,190 +215,282 @@ var app = new Vue({
         candidates: <?php echo json_encode($candidates); ?>,
         candidatesCopy: [],
         showBookmark: true,
-        showHealthConditions: true,
+        
         showFirstName: true,
         showLastName: true,
         showJobInterest: true,
         showJobType: true,
         showTransportation: true,
-        showLicenseNumber: true,
-        showClassLicense: true,
-        showEndorsement: true,
         showCitizenship: true,
-        showNationality: true,
-        showPassportCountry: true,
-        showpassportNumber: true,
         showCompensationInjury: true,
         showCompensationDateFrom: true,
         showCompensationDateTo: true,
-        showAsthma: true,
-        showBlackOut: true,
-        showDiabetes: true,
-        showBronchitis: true,
-        showBackInjury: true,
-        showDeafness: true,
-        showDermatitis: true,
-        showSkinInfection: true,
-        showAllergies: true,
-        showHernia: true,
-        showHighBloodPressure: true,
-        showHeartProblems: true,
-        showUsingDrugs: true,
-        showUsingContactLenses: true,
-        showRSI: true,
+        showHealthConditions: true,
         showDependants: true,
         showSmoke: true,
         showConviction: true,
         showConvictionDetails: true,
-                    
-
+        
+        candidateNum: <?php echo $candidateNum; ?>,
         // filters
-        filterCompany: "",
-        filterCity: "",
-        filterJobTitle: ""
+        filterJobInterest: "",
+        filterJobType: "",
+        filterTransportation: "",
+        // pages
+        pageNums:[
+            {id: 1, isActive: true}
+        ]
         
     },
     methods: {
         applyFilters: function(){
-            this.jobs = [];
-            for(var i=0; i<this.jobsCopy.length; i++){
-                let company = this.jobsCopy[i].company.toLowerCase();
-                let city = this.jobsCopy[i].city.toLowerCase();
-                let jobTitle = this.jobsCopy[i].jobTitle.toLowerCase();
+            this.candidatesCopy = [];
+            for(var i=0; i<this.candidates.length; i++){
+                let jobInterest = this.candidates[i].jobInterest.toLowerCase();
+                let jobType = this.candidates[i].jobType.toLowerCase();
+                let transportation = this.candidates[i].transportation.toLowerCase();
                 
-                if(company.search(this.filterCompany.toLowerCase()) >= 0
-                    && city.search(this.filterCity.toLowerCase()) >= 0
-                    && jobTitle.search(this.filterJobTitle.toLowerCase()) >= 0){
-                    this.jobs.push(this.jobsCopy[i]);
+                if(jobInterest.search(this.filterJobInterest.toLowerCase()) >= 0
+                    && jobType.search(this.filterJobType.toLowerCase()) >= 0
+                    && transportation.search(this.filterTransportation.toLowerCase()) >= 0){
+                    this.candidatesCopy.push(this.candidates[i]);
                 }
             }
         },
         clearFilters: function(){
-            this.filterCompany = "";
-            this.filterCity = "";
-            this.filterJobTitle = "";
-            this.jobs = this.jobsCopy;
+            this.filterJobInterest = "";
+            this.filterJobType = "";
+            this.filterTransportation = "";
+            this.candidatesCopy = this.candidates;
         },
         sortBy: function(sortKey) {
-            if (sortKey == 'clientTitle') {
+            if (sortKey == 'FirstName') {
                 this.toggle = !this.toggle
                 if(this.toggle) {
-                    this.jobs.sort(function(a, b) {
-                        return a.clientTitle.localeCompare(b.clientTitle)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.FirstName.localeCompare(b.FirstName)
                     })
                 } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.clientTitle.localeCompare(a.clientTitle)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.FirstName.localeCompare(a.FirstName)
                     })
                 }
-            } else if (sortKey == 'clientName') {
+            } else if (sortKey == 'LastName') {
                 this.toggle = !this.toggle
                 if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.clientName.localeCompare(b.clientName)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.LastName.localeCompare(b.LastName)
                     })
                 } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.clientName.localeCompare(a.clientName)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.LastName.localeCompare(a.LastName)
                     })
                 }
-            } else if (sortKey == 'company') {
+            } else if (sortKey == 'jobInterest') {
                 this.toggle = !this.toggle
                 if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.company.localeCompare(b.company)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.jobInterest.localeCompare(b.jobInterest)
                     })
                 } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.company.localeCompare(a.company)
-                    })
-                }
-            } else if (sortKey == 'email') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.email.localeCompare(b.email)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.email.localeCompare(a.email)
-                    })
-                }
-            } else if (sortKey == 'contactNumber') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.contactNumber.localeCompare(b.contactNumber)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.contactNumber.localeCompare(a.contactNumber)
-                    })
-                }
-            } else if (sortKey == 'jobTitle') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.jobTitle.localeCompare(b.jobTitle)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.jobTitle.localeCompare(a.jobTitle)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.jobInterest.localeCompare(a.jobInterest)
                     })
                 }
             } else if (sortKey == 'jobType') {
                 this.toggle = !this.toggle
                 if(this.toggle){
-                    this.jobs.sort(function(a, b) {
+                    this.candidatesCopy.sort(function(a, b) {
                         return a.jobType.localeCompare(b.jobType)
                     })
                 } else {
-                    this.jobs.sort(function(a, b) {
+                    this.candidatesCopy.sort(function(a, b) {
                         return b.jobType.localeCompare(a.jobType)
                     })
                 }
-            } else if (sortKey == 'city') {
-                this.toggle = !this.toggle
-                if(this.toggle){ 
-                    this.jobs.sort(function(a, b) {
-                        return a.city.localeCompare(b.city)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.city.localeCompare(a.city)
-                    })
-                }
-            } else if (sortKey == 'address') {
+            } else if (sortKey == 'transportation') {
                 this.toggle = !this.toggle
                 if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.address.localeCompare(b.address)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.transportation.localeCompare(b.transportation)
                     })
                 } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.address.localeCompare(a.address)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.transportation.localeCompare(a.transportation)
+                    })
+                }
+            } else if (sortKey == 'citizenship') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.citizenship.localeCompare(b.citizenship)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.citizenship.localeCompare(a.citizenship)
+                    })
+                }
+            } else if (sortKey == 'compensationInjury') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.compensationInjury.localeCompare(b.compensationInjury)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.compensationInjury.localeCompare(a.compensationInjury)
+                    })
+                }
+            } else if (sortKey == 'compensationDateFrom') {
+                this.toggle = !this.toggle
+                if(this.toggle){ 
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.compensationDateFrom.localeCompare(b.compensationDateFrom)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.compensationDateFrom.localeCompare(a.compensationDateFrom)
+                    })
+                }
+            } else if (sortKey == 'compensationDateTo') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.compensationDateTo.localeCompare(b.compensationDateTo)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.compensationDateTo.localeCompare(a.compensationDateTo)
                     })
                 }
             }
-            else if (sortKey == 'dateSubmitted') {
+            else if (sortKey == 'healthProblem') {
                 this.toggle = !this.toggle
                 if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.dateSubmitted.localeCompare(b.dateSubmitted)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.healthProblem.localeCompare(b.healthProblem)
                     })
                 } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.dateSubmitted.localeCompare(a.dateSubmitted)
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.healthProblem.localeCompare(a.healthProblem)
+                    })
+                }
+            }
+            else if (sortKey == 'dependants') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.dependants.localeCompare(b.dependants)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.dependants.localeCompare(a.dependants)
+                    })
+                }
+            }
+            else if (sortKey == 'smoke') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.smoke.localeCompare(b.smoke)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.smoke.localeCompare(a.smoke)
+                    })
+                }
+            }
+            else if (sortKey == 'conviction') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.conviction.localeCompare(b.conviction)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.conviction.localeCompare(a.conviction)
+                    })
+                }
+            }
+            else if (sortKey == 'convictionDetails') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.convictionDetails.localeCompare(b.convictionDetails)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.convictionDetails.localeCompare(a.convictionDetails)
                     })
                 }
             }
         },
+        getCandidates: function(offset){
+            for(var i=0; i<this.pageNums.length; i++){
+                if(this.pageNums[i].id == offset){
+                    this.pageNums[i].isActive = true;
+                } else {
+                    this.pageNums[i].isActive = false;
+                }
+            }
+            var formData = new FormData()
+            formData.append('offset', offset);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/getCandidates/'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body
+                this.candidates = [];
+                this.candidates = result;
+                for(var i=0; i<this.candidates.length; i++){
+                    if(this.candidates[i].asthma == 'true' || this.candidates[i].blackOut == 'true' || 
+                        this.candidates[i].diabetes == 'true' || this.candidates[i].bronchitis == 'true' ||
+                        this.candidates[i].backInjury == 'true' || this.candidates[i].deafness == 'true' ||
+                        this.candidates[i].dermatitis == 'true' || this.candidates[i].skinInfection == 'true' ||
+                        this.candidates[i].allergies == 'true' || this.candidates[i].hernia == 'true' ||
+                        this.candidates[i].highBloodPressure == 'true' || this.candidates[i].heartProblems == 'true' ||
+                        this.candidates[i].usingDrugs == 'true' || this.candidates[i].usingContactLenses == 'true' ||
+                        this.candidates[i].RSI == 'true'){
+                        this.candidates[i].healthProblem = 'YES';
+                    } else {
+                        this.candidates[i].healthProblem = 'NO';
+                    }
+            
+                }
+                this.candidatesCopy = this.candidates;
+                
+            }, res => {
+                // error callback
+                
+            })
+        }
         
     },
     mounted: function(){
         
-        
+        for(var i=0; i<this.candidates.length; i++){
+            if(this.candidates[i].asthma == 'true' || this.candidates[i].blackOut == 'true' || 
+                this.candidates[i].diabetes == 'true' || this.candidates[i].bronchitis == 'true' ||
+                this.candidates[i].backInjury == 'true' || this.candidates[i].deafness == 'true' ||
+                this.candidates[i].dermatitis == 'true' || this.candidates[i].skinInfection == 'true' ||
+                this.candidates[i].allergies == 'true' || this.candidates[i].hernia == 'true' ||
+                this.candidates[i].highBloodPressure == 'true' || this.candidates[i].heartProblems == 'true' ||
+                this.candidates[i].usingDrugs == 'true' || this.candidates[i].usingContactLenses == 'true' ||
+                this.candidates[i].RSI == 'true'){
+                this.candidates[i].healthProblem = 'YES';
+            } else {
+                this.candidates[i].healthProblem = 'NO';
+            }
+            
+        }
         this.candidatesCopy = this.candidates;
+
+        // inite pageNums
+        this.pageNums = [];
+        for(var i=0; i<this.candidateNum; i=i+10){
+            
+            this.pageNums.push({id: i, isActive: false});
+        }
+        this.pageNums[0].isActive = true;
+
     }
 
 })

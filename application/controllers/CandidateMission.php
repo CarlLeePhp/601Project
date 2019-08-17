@@ -38,9 +38,10 @@ class CandidateMission extends CI_Controller{
 		}
 		$userdata['userType'] = $_SESSION['userType'];
 		$data['title'] = "Manage Candidate";
-		$data['message'] ="";
-        //$data['candidates'] = $this->candidate_model->getCandidates();
-        $data['candidates'] = $this->candidate_model->getCandidatesWithName();
+        $data['message'] ="";
+        $data['candidateNum'] = $this->candidate_model->countAll();
+        // $data['candidateNum'] = 30;
+        $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0);
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/manageCandidate',$data);
 		$this->load->view('templates/footer');
@@ -50,6 +51,16 @@ class CandidateMission extends CI_Controller{
     /**
      * AJAX Methods
      */
+    // get a offset value then return candidates
+    public function getCandidates(){
+        if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
+			redirect('/');
+		}
+        $offset=$_POST['offset'];
+        $candidates = $this->candidate_model->getCandidatesWithName(10, $offset);
+        echo json_encode($candidates);
+
+    }
     public function applyJob(){
         if(!isset($_SESSION['userEmail'])){
             //redirect('/personcenter/index');

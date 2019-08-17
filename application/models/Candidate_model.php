@@ -13,21 +13,14 @@ class Candidate_model extends CI_Model {
         return $query->result_array();
     }
     // get all candidate with the firstname and lastname of the user
-    public function getCandidatesWithName(){
-        $mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
-        $query = $this->db->query($mySql);
-        return $query->result_array();
-    }
-    // get an user by user name
-    public function getUserByEmail($userEmail){
-        $this->db->where('Email', $userEmail);
-        $query = $this->db->get('User');
-        return $query->row_array();
-    }
-
-    // get all users
-    public function getUsers(){
-        $query = $this->db->get('User');
+    public function getCandidatesWithName($limitNum, $offsetNum){
+        //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
+        //$query = $this->db->query($mySql);
+        $this->db->select('User.FirstName, User.LastName, Candidate.*');
+        $this->db->from('Candidate');
+        $this->db->join('User', 'Candidate.UserID = User.UserID');
+        $this->db->limit($limitNum, $offsetNum);
+        $query = $this->db->get();
         return $query->result_array();
     }
     
@@ -41,6 +34,12 @@ class Candidate_model extends CI_Model {
         $mySql = "SELECT MAX(CandidateID) AS MaxID FROM Candidate WHERE UserID='".$userID."'";
         $query = $this->db->query($mySql);
         return $query->row_array();
+    }
+
+    // return how many candidates
+    public function countAll(){
+        $result = $this->db->count_all('Candidate');
+        return $result;
     }
     /**
      * Insert functions
