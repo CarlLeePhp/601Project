@@ -69,7 +69,7 @@
                 <div class="col-md-3 px-md-3 col-9 p-0 mt-2 mt-md-0 pr-2">
                     <label for="CityID" class="font-weight-bold">City:</label>
                     <select class="form-control" type="text" name="City" id="CityID" required >
-                    <option selected></option>
+                    <option selected>Enter City</option>
                     <?php foreach($cities as $city): ?>
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                     <?php endforeach; ?>

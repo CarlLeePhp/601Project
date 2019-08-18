@@ -3,14 +3,15 @@
         <h3 class="text-warning mt-3"> Interest </h3>
         <hr />
         <div class="row">
+            
             <div class="col-md-4">
                 <label for="jobInterestID" class="font-weight-bold">Job interested in:</label>
                 <input type="text" class="form-control" v-model="jobInterest" name="jobInterest" placeholder="interest" id="jobInterestID" />
             </div>
             <div class="col-md-4">
                 <label for="jobTypeID" class="font-weight-bold">Job Type:</label>
-                <select class="form-control p-2" type="text" v-model="jobType" name="jobType" id="jobTypeID">
-                    <option selected>-</option>
+                <select class="form-control p-2" type="text"  v-model="jobType" name="jobType" id="jobTypeID">
+                    <option selected></option>
                     <option value="FullTime">Full Time</option>
                     <option value="PartTime">Part Time</option>
                 </select>

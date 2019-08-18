@@ -12,6 +12,71 @@ class Candidate_model extends CI_Model {
         $query = $this->db->get('Candidate');
         return $query->result_array();
     }
+
+    // get all candidate with the firstname and lastname of the user
+    public function getCandidatesWithName(){
+        $mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
+        $query = $this->db->query($mySql);
+        return $query->result_array();
+    }
+    // get all candidates data that matches jobid for jobDetails
+    public function getCandidatesJobDetails($jobID){
+        $mySql = "SELECT Candidate.CandidateID,User.FirstName, User.LastName, User.PhoneNumber, User.Email,User.Address, Candidate.jobType,Candidate.CandidateHoursWorked,Candidate.CandidateNotes,Candidate.CandidateEarnings,Candidate.JobRate,Candidate.CandidateNotes FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID WHERE Candidate.JobID=" . $jobID ;
+        $query = $this->db->query($mySql);
+        return $query->result_array(); 
+    }
+
+    //updateCandidateHoursWorking in jobDetails
+    public function updateCandidateHoursWorking($candidateID,$hoursWorked,$candidateEarnings){
+        $this->db->where('CandidateID',$candidateID);
+        $data = array (
+            'CandidateHoursWorked' =>$hoursWorked,
+            'CandidateEarnings' => $candidateEarnings
+        );
+        $this->db->update('Candidate',$data);
+    }
+
+    public function resetCandidateJobDetailsData($candidateID){
+        $this->db->where('CandidateID',$candidateID);
+        $data = array (
+            'CandidateHoursWorked' => 0,
+            'JobRate' => 0,
+            'CandidateEarnings' => 0
+        );
+        $this->db->update('Candidate',$data);
+    }
+    //updateCandidateJobRate in jobDetails
+    public function updateJobRate($candidateID,$jobRate){
+        $this->db->where('CandidateID',$candidateID);
+        $data = array(
+            'JobRate' => $jobRate,
+        );
+        $this->db->update('Candidate',$data);
+    }
+
+    public function updateCandidateNotes($candidateID,$candidateNotes){
+        $this->db->where('CandidateID',$candidateID);
+        $data = array (
+            'CandidateNotes' => $candidateNotes,
+        );
+        $this->db->update('Candidate',$data);
+    }
+
+    //get candidate based on ID return inner joined table between candidate and user, so far it has been only used on jobdetails table
+    public function getCandidateByID($candidateID){
+        $mySql = "SELECT Candidate.CandidateID,User.FirstName, User.LastName, User.PhoneNumber, User.Email,User.Address, Candidate.jobType,Candidate.CandidateHoursWorked,Candidate.CandidateNotes,Candidate.CandidateEarnings,Candidate.JobRate,Candidate.CandidateNotes FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID WHERE Candidate.CandidateID=" . $candidateID ;
+        $query = $this->db->query($mySql);
+        return $query->row_array();
+    }
+
+    //remove Candidate From table in job Details
+    public function removeAssignedCandidate($candidateID){
+        $this->db->where('CandidateID',$candidateID);
+        $data = array( 
+            'JobID' => '',
+        );
+        $this->db->update('Candidate',$data);
+    }
     // get an user by user name
     public function getUserByEmail($userEmail){
         $this->db->where('Email', $userEmail);

@@ -34,32 +34,12 @@
         <hr/>
         <textarea readonly class="form-control-plaintext ml-3" id="exampleFormControlTextarea1" rows="10">
             <?php echo $job['Description'] ;?>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-          
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis repudiandae modi dolor vel voluptas. Dolor nostrum blanditiis doloremque placeat, beatae odio, maxime corporis obcaecati omnis numquam nemo cumque facilis autem?
-
-    </textarea>
+        </textarea>
     </div>
     </div>
 </div>
 <hr />
-    <?php if( $job['JobStatus'] != NULL) :?>
+    <?php if( $job['JobStatus'] == 'published') :?>
     <div class="row justify-content-center">
         <a class="btn btn-outline-dark col-md-3 col-6" href="<?php echo base_url()?>index.php/Jobs/jobUnpublish/<?php echo $job['JobID'];?>">Unpublish from job page</a>
     </div>
@@ -117,61 +97,135 @@
         </div>
     </form>
 </div>
+<!-- EndHere -->
 <hr class="border border-dark"/>
-<div class="container">
+<div class="container-fluid">
 <div style="overflow:auto">
-    <table class="table border-bottom border-dark">
-    <thead>
+        <div  id="ajax-content">
+        <table class="table border-bottom border-dark"><thead>
         <tr>
-        <th scope="col">#</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <!-- <th scope="col">UndoSession</th> -->
         <th scope="col">Candidate Name</th>
         <th scope="col">Contact Number</th>
         <th scope="col">Email</th>
-        <th scope="col">Hours working</th>
-        <th scope="col">Job Type</th>
-        <th scope="col">Rate</th>
-        <th scope="col">EmployeeRating</th>
-        <th scope="col">Total Earned</th>
         <th scope="col">Address</th>
+        <th scope="col">Job Type</th>
+        <th scope="col">Hours working</th>
+        <th scope="col">Job Rates</th>
+        <th scope="col">Total Earned</th>
+        <th scope="col">Employee Notes</th>
         </tr>
-    </thead>
-    <form action ="#" method="post">
-    <tbody class="align-items-center">
-        <tr>
-        <th scope="row" class="p-1">
-            <input type="button" class="btn btn-danger align-items-center" name="removeCandidateFromJob" style="border-radius:5px;margin:4px 2px;height:36px; width=20px;text-align: center;" value="X">
-        </th>
-        <td>#CandidateName</td>
-        <td>#CandidateContact</td>
-        <td>#CandidateEmail</td>
-        <td><input type="text" class="form-control p-1" value="#CandidateHoursWorked"></td>
-        <td>#JobType</td>
-        <td><input type="text" class="form-control p-1" value="#JobRate"></td>
-        <td><input type="text" class="form-control p-1" value="#EmployeeRating"></td>
-        <td>#TOTALEarned rate * hoursworked readonly</td>
-        <td>#</td>
+    	</thead><tbody class="align-items-center">
+        <?php foreach ($candidatesData as $candidateData):?>
+        <?php $savedCandidateEarnings[$candidateData['CandidateID']] = $candidateData['CandidateEarnings'];?>
+        <?php $savedWorkRate[$candidateData['CandidateID']] = $candidateData['JobRate'];?>
+        
+        <form>
+        <tr id="targetRow<?php echo $candidateData['CandidateID'];?>"><th scope="row">
+        <?php $savedHoursWorked[$candidateData['CandidateID']] = $candidateData['CandidateHoursWorked'];?>
+        <a onclick="removeAssignedCandidate(<?php echo $candidateData['CandidateID']?>)" class="text-danger"><i style="font-size:25px" class="icon ion-md-close-circle"></i> </a></th>
+        <td><a onclick="resetCandidateData(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></td>
+        <td><?php echo $candidateData['FirstName'] . ' ' . $candidateData['LastName'];?></td>
+        <td><?php echo $candidateData['PhoneNumber'];?></td>
+        <td><?php echo $candidateData['Email'];?></td>
+		<td><?php echo $candidateData['Address'];?></td>
+        <td><?php echo $candidateData['jobType'];?></td>
+        
+		<td><input type="text" id="hoursWorked<?php echo $candidateData['CandidateID']?>" onchange="updateHoursWorked(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['CandidateHoursWorked'];?>"></td>
+		<td><input type="text" id="jobRate<?php echo $candidateData['CandidateID']?>" onchange="updateJobRate(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['JobRate'];?>"></td>
+        <td><input type="text" class="border-0" id="candidateEarnings<?php echo $candidateData['CandidateID']?>" value="<?php printf('%.2f',$candidateData['CandidateEarnings']);?>"> </td>
+        <td><input type="text" id="candidateNotes<?php echo $candidateData['CandidateID']?>" onchange="updateCandidateNotes(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['CandidateNotes'];?>"></td>
         </tr>
+        </form>
+        
+        <?php endforeach;?>    
     </tbody>
-    <input type="submit" name="applyChanges" hidden>
-    </form>
     </table>
-    </div>
-    <div class="row justify-content-center">
-    <a href="<?php echo base_url()?>.index.php/personcenter/#/PARAM" class="btn btn-info my-3 col-md-3 col-6 text-center">Assign Candidate</a>
-    </div>
+    
+    </div> <!--ajaxContentEnd-->
 </div>
+   
+</div>
+    <div class="row justify-content-center">
+        <a class="col-md-3 col-6 btn btn-info my-5">Assign Candidate </a>
+    </div>
 <?php else: redirect('/');?>
         
-    <?php endif; ?>
+<?php endif; ?>
 
-
-
-
-
-
-    
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
 <script>
     CKEDITOR.replace( 'editor1' );
 </script>
+<script>
+    
+var xRequest = new XMLHttpRequest();
+function updateHoursWorked($candidateID,$workingHoursSaved) {
+        var hoursWorked = document.getElementById('hoursWorked'+$candidateID).value;
+        if(hoursWorked){
+            if(isNaN(hoursWorked)){ alert('You cant enter a text for this field, please enter a number')} else {
+            var the_data = 'candidateID='+$candidateID+'&hoursWorked='+hoursWorked+'&workingHoursSaved='+$workingHoursSaved;
+            xRequest.open("POST",'<?php echo base_url()?>index.php/Jobs/updateHoursWorked/'+$candidateID,true)
+            xRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            
+                xRequest.send(the_data);
+                xRequest.onload = function(){
+                        document.getElementById('targetRow'+$candidateID).innerHTML = xRequest.responseText;
+                };
+            };
+        }
+    }
 
+function updateJobRate($candidateID,$workingHoursSaved) {
+    var jobRate = document.getElementById('jobRate'+$candidateID).value;
+    if(jobRate){
+        if(isNaN(jobRate)){ alert('You cant enter a text for this field, please enter a number')} else {
+        var the_data = 'jobRate='+jobRate+'&workingHoursSaved='+$workingHoursSaved;
+        
+        xRequest.open("POST",'<?php echo base_url()?>index.php/Jobs/updateJobRate/'+$candidateID,true)
+        xRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
+            xRequest.send(the_data);
+            xRequest.onload = function(){
+                document.getElementById('targetRow'+$candidateID).innerHTML = xRequest.responseText;
+            };
+        };
+    }
+}
+
+function updateCandidateNotes($candidateID,$workingHoursSaved){
+    var the_data = 'candidateNotes='+document.getElementById('candidateNotes'+$candidateID).value+'&workingHoursSaved='+$workingHoursSaved;
+
+    xRequest.open("POST",'<?php echo base_url()?>index.php/Jobs/updateCandidateNotes/'+$candidateID,true)
+    xRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    
+    xRequest.send(the_data);
+    xRequest.onload = function(){
+        document.getElementById('targetRow'+$candidateID).innerHTML = xRequest.responseText;
+    };
+}
+
+function removeAssignedCandidate($candidateID){
+    var the_data = 'candidateID='+$candidateID;
+    xRequest.open("POST","<?php echo base_url()?>index.php/Jobs/removeAssignedCandidate/"+$candidateID+"/<?php echo $job['JobID'];?>",true)
+    
+    xRequest.send(the_data);
+    xRequest.onload = function(){
+        document.getElementById('ajax-content').innerHTML = xRequest.responseText;
+    };
+}
+
+function resetCandidateData($candidateID,$workingHoursSaved){
+    var the_data = 'workingHoursSaved='+$workingHoursSaved;
+    xRequest.open("POST","<?php echo base_url()?>index.php/Jobs/resetCandidateData/"+$candidateID,true)
+    xRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xRequest.send(the_data);
+    xRequest.onload = function(){
+        document.getElementById('targetRow'+$candidateID).innerHTML = xRequest.responseText;
+    };
+}
+</script>

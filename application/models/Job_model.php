@@ -23,12 +23,12 @@ class Job_model extends CI_Model {
             $this->db->limit(9);
         }
         if($jobTitle != ""){
-            $this->db->where('JobTitle', $jobTitle);
+            $this->db->like('JobTitle', $jobTitle);
         }
-        if($jobType != ""){
+        if($jobType != "Enter Job Type" && $jobType != ""){
             $this->db->where('JobType', $jobType);
         }
-        if($location != ""){
+        if($location != "Enter Location" && $location != "" && $location != "Enter City"){
             $this->db->where('City', $location);
         }
      
@@ -36,20 +36,18 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
-    public function get_specificJob($jobID){
-        $this->db->where('JobID', $jobID);
-        $query = $this->db->get('job');
+    public function get_specificJobInfo($jobID){
+        $this->db->where('JobStatus', 'published');
+        $this->db->where('JobID',$jobID);
+        $this->db->select('JobID,ThumbnailText,JobTitle,JobType,City,Suburb,PublishDate,PublishTitle,Editor1');
+        $query = $this->db->get('Job');
         return $query->row_array();
     }
 
-    public function get_sale(){
-        $query = $this->db->get('SALE');
-        return $query->result_array();
-    }
-
-    public function get_model(){
-        $query = $this->db->get('BM');
-        return $query->result_array();
+    public function get_specificJob($jobID){
+        $this->db->where('JobID', $jobID);
+        $query = $this->db->get('Job');
+        return $query->row_array();
     }
 
     public function get_boat($dealerID) {
@@ -95,7 +93,7 @@ class Job_model extends CI_Model {
             'PublishDate' => $publishDate,
         );
         $this->db->where('JobID',$jobID);
-        $this->db->update('job',$data);
+        $this->db->update('Job',$data);
     }
     // Insert a new Sale
 
@@ -104,36 +102,16 @@ class Job_model extends CI_Model {
             'JobStatus' => 'null',
         );
         $this->db->where('JobID',$jobID);
-        $this->db->update('job',$data);
+        $this->db->update('Job',$data);
     }
 
-    public function add_sale($name, $email) {
+
+    public function updateJobDetailsStatusNull($jobID){
+        $this->db->where('JobID',$jobID);
         $data = array(
-            'SALE_NAME' => $name,
-            'SALE_EMAIL' => $email
+            'JobStatus' => '',
         );
-        $this->db->insert('SALE', $data);
-
-        
+        $this->db->update('Job',$data);
     }
-
-    // Insert a new boat model
-    public function add_model($model) {
-        $data = array(
-            'MODEL' => $model
-        );
-        $this->db->insert('BM', $data);
-    }
-
-    /**
-     * Update Functions
-     */
-
-    public function update_serial($boat_id, $serial) {
-        $data = array(
-            'BOAT_SERIAL' => $serial
-        );
-        $this->db->where('BOAT_ID', $boat_id);
-        $this->db->update('BOAT', $data);
-    }
+    
 }

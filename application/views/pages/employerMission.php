@@ -143,7 +143,7 @@
              <div class="col-6 col-md-3 pl-0">
                  <label for="clientCityID" class="font-weight-bold"><small class="text-danger mr-1">*</small>City:</label>
                  <select class="form-control" type="text" name="clientCity" id="clientCityID" required>
-                    <option selected>-</option>
+                    <option selected>Enter City</option>
                     <?php foreach($cities as $city): ?>
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                     <?php endforeach; ?>
@@ -165,7 +165,7 @@
                 <div class="col-6 pr-0">
                 <label for="clientJobTypeID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Job Type:</label>
                  <select class="form-control " type="text" name="clientJobType" id="clientJobTypeID" required>
-                    <option selected></option>
+                    <option selected>Enter Job Type</option>
                     <option value="PartTime">Part Time</option>
                     <option value="FullTime">Full Time</option>
                 </select> </div>
