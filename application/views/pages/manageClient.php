@@ -25,7 +25,14 @@
                     <label class="text-dark font-weight-bold" for="jobTitle">Job Title:</label>
                     <input type="text" class="form-control" v-model="filterJobTitle" id="jobTitle" placeholder="Job Title">
                 </div>
-                
+                <div class="form-group col-md-3">
+                    <label class="text-dark font-weight-bold" for="ContactNumber">Contact Number:</label>
+                    <input type="text" class="form-control" v-model="filterContactNumber" id="ContactNumber" placeholder="Contact Number">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-dark font-weight-bold" for="ContactPerson">Contact person name:</label>
+                    <input type="text" class="form-control" v-model="filterContactPerson" id="ContactPerson" placeholder="Contact person name">
+                </div>
             </div>
             <button class="btn btn-outline-info " @click="applyFilters">Apply</button>
             <button class="btn btn-outline-dark mx-2" @click="clearFilters">Clear</button>
@@ -143,7 +150,8 @@
                 </thead>
                 <tbody>
                     <tr v-for="job in jobs" :key="job.id">
-                        <td v-bind:class="{ 'd-none': ! showBookmark }"> <form action="#" name="#" method="post"><input type="checkbox" name="#" value="yes" ><input type="submit" hidden></form></td>
+                        
+                        <td v-bind:class="{ 'd-none': ! showBookmark }"> <input type="checkbox" :id="job.bookmarkUrl" v-on:click="updateBookmark(job.id)" :checked="job.bookmarkStat"></td>
                         <td v-bind:class="{ 'd-none': ! showDetails }"><a :href="job.ref" role="button"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
                         <td v-text="job.clientTitle" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
                         <td v-text="job.clientName" v-bind:class="{ 'd-none': ! showClientName }"></td>
@@ -158,9 +166,7 @@
                         <td v-text="job.dateSubmitted" v-bind:class="{ 'd-none': ! showDateSubmitted }"></td>
                     </tr>
                 </tbody>
-                
             </table>
-           
         </div>
     </div>
     <!-- Table End -->  
@@ -198,6 +204,7 @@ var app = new Vue({
     data: {
         errMessage: "",
         errors: "",
+        bookmarkID: "",
         toggle: false,
         jobs: [
             <?php foreach ($jobs as $job): ?> {
@@ -215,10 +222,8 @@ var app = new Vue({
                 description: "<?php echo $job['Description']; ?>",
                 dateSubmitted: "<?php echo $job['JobSubmittedDate']?>",
                 ref: "<?php echo base_url()?>index.php/Jobs/jobDetails/<?php echo $job['JobID'];?>",
-                // BookmarkStat: "BookmarkID<?php echo $job['JobID']?>",
-                // BookmarkRef: "<?php echo base_url()?>index.php/TestControl/<?php echo $job['JobID'];?>",
-                // BookmarkName: "formBookmark<?php echo $job['JobID']?>",
-                // BookmarkMeth: "sendBookmark(<?php echo 'formBookmark' . $job['JobID']?>)",
+                bookmarkStat: "<?php if($job['Bookmark']=="true"){ echo true; } else { echo false;};?>",
+                bookmarkUrl: "Bookmark<?php echo $job['JobID'];?>",
             },
             <?php endforeach; ?>
         ],
@@ -236,10 +241,13 @@ var app = new Vue({
         showCity: true,
         showDescription: true,
         showDateSubmitted: true,
+        
         // filters
         filterCompany: "",
         filterCity: "",
-        filterJobTitle: ""
+        filterJobTitle: "",
+        filterContactNumber: "",
+        filterContactPerson: "",
         
     },
     methods: {
@@ -249,10 +257,13 @@ var app = new Vue({
                 let company = this.jobsCopy[i].company.toLowerCase();
                 let city = this.jobsCopy[i].city.toLowerCase();
                 let jobTitle = this.jobsCopy[i].jobTitle.toLowerCase();
-                
+                let contactNumber = this.jobsCopy[i].contactNumber.toLowerCase();
+                let contactPerson = this.jobsCopy[i].clientName.toLowerCase();
                 if(company.search(this.filterCompany.toLowerCase()) >= 0
                     && city.search(this.filterCity.toLowerCase()) >= 0
-                    && jobTitle.search(this.filterJobTitle.toLowerCase()) >= 0){
+                    && jobTitle.search(this.filterJobTitle.toLowerCase()) >= 0
+                    && contactNumber.search(this.filterContactNumber.toLowerCase()) >= 0
+                    && contactPerson.search(this.filterContactPerson.toLowerCase()) >= 0){
                     this.jobs.push(this.jobsCopy[i]);
                 }
             }
@@ -261,21 +272,12 @@ var app = new Vue({
             this.filterCompany = "";
             this.filterCity = "";
             this.filterJobTitle = "";
+            this.filterContactNumber = "";
+            this.filterContactPerson = "";
             this.jobs = this.jobsCopy;
         },
         sortBy: function(sortKey) {
-            if (sortKey == 'clientTitle') {
-                this.toggle = !this.toggle
-                if(this.toggle) {
-                    this.jobs.sort(function(a, b) {
-                        return a.clientTitle.localeCompare(b.clientTitle)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.clientTitle.localeCompare(a.clientTitle)
-                    })
-                }
-            } else if (sortKey == 'clientName') {
+            if (sortKey == 'clientName') {
                 this.toggle = !this.toggle
                 if(this.toggle){
                     this.jobs.sort(function(a, b) {
@@ -284,6 +286,29 @@ var app = new Vue({
                 } else {
                     this.jobs.sort(function(a, b) {
                         return b.clientName.localeCompare(a.clientName)
+                    })
+                }
+            }
+            else if (sortKey == 'dateSubmitted') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.jobs.sort(function(a, b) {
+                        return a.dateSubmitted.localeCompare(b.dateSubmitted)
+                    })
+                } else {
+                    this.jobs.sort(function(a, b) {
+                        return b.dateSubmitted.localeCompare(a.dateSubmitted)
+                    })
+                }
+            } else if (sortKey == 'bookmark') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.jobs.sort(function(a, b) {
+                        return a.bookmarkStat.localeCompare(b.bookmarkStat)
+                    })
+                } else {
+                    this.jobs.sort(function(a, b) {
+                        return b.bookmarkStat.localeCompare(a.bookmarkStat)
                     })
                 }
             } else if (sortKey == 'company') {
@@ -297,17 +322,6 @@ var app = new Vue({
                         return b.company.localeCompare(a.company)
                     })
                 }
-            } else if (sortKey == 'email') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.email.localeCompare(b.email)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.email.localeCompare(a.email)
-                    })
-                }
             } else if (sortKey == 'contactNumber') {
                 this.toggle = !this.toggle
                 if(this.toggle){
@@ -319,7 +333,7 @@ var app = new Vue({
                         return b.contactNumber.localeCompare(a.contactNumber)
                     })
                 }
-            } else if (sortKey == 'jobTitle') {
+            }  else if (sortKey == 'jobTitle') {
                 this.toggle = !this.toggle
                 if(this.toggle){
                     this.jobs.sort(function(a, b) {
@@ -330,7 +344,18 @@ var app = new Vue({
                         return b.jobTitle.localeCompare(a.jobTitle)
                     })
                 }
-            } else if (sortKey == 'jobType') {
+            } else if (sortKey == 'email') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.jobs.sort(function(a, b) {
+                        return a.email.localeCompare(b.email)
+                    })
+                } else {
+                    this.jobs.sort(function(a, b) {
+                        return b.email.localeCompare(a.email)
+                    })
+                }
+            }   else if (sortKey == 'jobType') {
                 this.toggle = !this.toggle
                 if(this.toggle){
                     this.jobs.sort(function(a, b) {
@@ -363,23 +388,36 @@ var app = new Vue({
                         return b.address.localeCompare(a.address)
                     })
                 }
-            }
-            else if (sortKey == 'dateSubmitted') {
+            } else if (sortKey == 'clientTitle') {
                 this.toggle = !this.toggle
-                if(this.toggle){
+                if(this.toggle) {
                     this.jobs.sort(function(a, b) {
-                        return a.dateSubmitted.localeCompare(b.dateSubmitted)
+                        return a.clientTitle.localeCompare(b.clientTitle)
                     })
                 } else {
                     this.jobs.sort(function(a, b) {
-                        return b.dateSubmitted.localeCompare(a.dateSubmitted)
+                        return b.clientTitle.localeCompare(a.clientTitle)
                     })
                 }
             }
+            
         },
-        // sendBookmark: function(bookmarkNameForm){
-        //     document.bookmarkNameForm.submit();
-        // },
+        updateBookmark: function(jobID){
+            var xRequest = new XMLHttpRequest;
+            var bookmarkVal = "";
+            if(document.getElementById("Bookmark"+jobID).checked){
+                bookmarkVal = "true";
+            } else {
+                bookmarkVal = "false";
+            }
+           var the_data = 'bookmarkValue='+bookmarkVal
+
+        xRequest.open("POST",'<?php echo base_url()?>index.php/Jobs/updateBookmark/'+jobID,true)
+        xRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    
+        xRequest.send(the_data);
+           
+        }
     },
     mounted: function(){
         this.jobsCopy = this.jobs;

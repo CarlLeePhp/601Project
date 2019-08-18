@@ -22,8 +22,28 @@
                     <input type="text" class="form-control" v-model="filterJobType" id="JobType" placeholder="Job Type">
                 </div>
                 <div class="form-group col-md-3">
-                    <label class="text-dark font-weight-bold" for="Transportation">Transportation:</label>
-                    <input type="text" class="form-control" v-model="filterTransportation" id="Transportation" placeholder="Transportation">
+                    <label class="text-dark font-weight-bold" for="FirstName">First Name:</label>
+                    <input type="text" class="form-control" v-model="filterFirstName" id="FirstName" placeholder="FirstName">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-dark font-weight-bold" for="LastName">Last Name:</label>
+                    <input type="text" class="form-control" v-model="filterLastName" id="LastName" placeholder="LastName">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-dark font-weight-bold" for="City">City:</label>
+                    <input type="text" class="form-control" v-model="filterCity" id="City" placeholder="City">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-dark font-weight-bold" for="Suburb">Suburb:</label>
+                    <input type="text" class="form-control" v-model="filterSuburb" id="Suburb" placeholder="Suburb">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-dark font-weight-bold" for="PhoneNumber">Phone Number:</label>
+                    <input type="text" class="form-control" v-model="filterPhoneNumber" id="PhoneNumber" placeholder="PhoneNumber">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="text-dark font-weight-bold" for="Email">Email:</label>
+                    <input type="text" class="form-control" v-model="filterEmail" id="Email" placeholder="Email">
                 </div>
                 
             </div>
@@ -31,6 +51,48 @@
             <button class="btn btn-outline-dark mx-2" @click="clearFilters">Clear</button>
 
             <p class="mt-md-5 mt-3 text-dark font-weight-bold">Shows column:</p>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showPhoneNumber" id="showPhoneNumber">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showPhoneNumber">
+                    Phone Number
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showDOB" id="showDOB">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showDOB">
+                    Date Of Birth
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showEmail" id="showEmail">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showEmail">
+                    Email
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showCity" id="showCity">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCity">
+                    City
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showAddress" id="showAddress">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showAddress">
+                   Address
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showSuburb" id="showSuburb">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showSuburb">
+                   Suburb
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showGender" id="showGender">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showGender">
+                   Gender
+                </label>
+            </div>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showJobInterest" id="showJobInterest">
                 <label style="font-size: 1em;" class="form-check-label my-1" for="showJobInterest">
@@ -48,7 +110,6 @@
                 <label style="font-size: 1em;" class="form-check-label my-1" for="showTransportation">
                     Transportation
                 </label>
-                
             </div>
             
             <div class="form-check form-check-inline col-md-2">
@@ -106,6 +167,12 @@
                     Conviction Detail
                 </label>
             </div>
+            <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showCandidateNotes" id="showCandidateNotes">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCandidateNotes">
+                    Notes
+                </label>
+            </div>
         </div>
         <!-- Collapse End -->
 
@@ -123,18 +190,26 @@
                         <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('FirstName')">First Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LastName')">Last Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showLastName }">CV</th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showPhoneNumber }"><a href="#" class="text-dark" @click.stop.prevent="">Phone Number</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDOB }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('DOB')">Date Of Birth</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="">Email</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('City')">City</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="">Address</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showSuburb }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Suburb')">Suburb</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showGender }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Gender')">Gender</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCitizenship }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('citizenship')">Citizenship</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationInjury }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationInjury')">Compensation Injury</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateFrom')">Date From</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateTo }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateTo')">Date To</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateFrom')">Compensation From</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateTo }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateTo')">Compensation To</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('healthProblem')">Health Problem</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDependants }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dependants')">Dependants</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showSmoke }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('smoke')">Smoke</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showConviction }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('conviction')">Conviction</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showConvictionDetails }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('convictionDetails')">Conviction Detail</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCandidateNotes }"><a href="#" class="text-dark" @click.stop.prevent="">Notes</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,6 +217,13 @@
                         <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
                         <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
                         <th><a class="text-dark" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV" target="_blank">CV</a></th>
+                        <th v-text="candidate.PhoneNumber" v-bind:class="{ 'd-none': ! showPhoneNumber }"></th>
+                        <th v-text="candidate.DOB" v-bind:class="{ 'd-none': ! showDOB }"></th>
+                        <th v-text="candidate.Email" v-bind:class="{ 'd-none': ! showEmail }"></th>
+                        <th v-text="candidate.City" v-bind:class="{ 'd-none': ! showCity }"></th>
+                        <th v-text="candidate.Address" v-bind:class="{ 'd-none': ! showAddress }"></th>
+                        <th v-text="candidate.Suburb" v-bind:class="{ 'd-none': ! showSuburb }"></th>
+                        <th v-text="candidate.Gender" v-bind:class="{ 'd-none': ! showGender }"></th>
                         <th v-text="candidate.jobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></th>
                         <th v-text="candidate.jobType" v-bind:class="{ 'd-none': ! showJobType }"></th>
                         <th v-text="candidate.transportation" v-bind:class="{ 'd-none': ! showTransportation }"></th>
@@ -154,6 +236,7 @@
                         <th v-text="candidate.smoke" v-bind:class="{ 'd-none': ! showSmoke }"></th>
                         <th v-text="candidate.conviction" v-bind:class="{ 'd-none': ! showConviction }"></th>
                         <th v-text="candidate.convictionDetails" v-bind:class="{ 'd-none': ! showConvictionDetails }"></th>
+                        <th v-bind:class="{ 'd-none': ! showCandidateNotes }"><input type="text" :id="candidate.CandidateID" v-on:change="updateNotes(candidate.CandidateID)" :value="candidate.CandidateNotes"></th>
                     
                         
                     </tr>
@@ -225,19 +308,31 @@ var app = new Vue({
         showTransportation: true,
         showCitizenship: true,
         showCompensationInjury: true,
-        showCompensationDateFrom: true,
-        showCompensationDateTo: true,
+        showCompensationDateFrom: false,
+        showCompensationDateTo: false,
         showHealthConditions: true,
-        showDependants: true,
-        showSmoke: true,
+        showDependants: false,
+        showSmoke: false,
         showConviction: true,
-        showConvictionDetails: true,
-        
+        showConvictionDetails: false,
+        showCandidateNotes: true,
+        showPhoneNumber: true,
+        showDOB: true,
+        showEmail: true,
+        showCity: true,
+        showAddress: false,
+        showSuburb: true,
+        showGender: false,
         candidateNum: <?php echo $candidateNum; ?>,
         // filters
         filterJobInterest: "",
         filterJobType: "",
-        filterTransportation: "",
+        filterFirstName: "",
+        filterCity: "",
+        filterLastName: "",
+        filterSuburb: "",
+        filterPhoneNumber: "",
+        filterEmail: "",
         // pages
         pageNums:[
             {id: 1, isActive: true}
@@ -250,11 +345,20 @@ var app = new Vue({
             for(var i=0; i<this.candidates.length; i++){
                 let jobInterest = this.candidates[i].jobInterest.toLowerCase();
                 let jobType = this.candidates[i].jobType.toLowerCase();
-                let transportation = this.candidates[i].transportation.toLowerCase();
-                
+                let firstName = this.candidates[i].FirstName.toLowerCase();
+                let city = this.candidates[i].City.toLowerCase();
+                let lastName = this.candidates[i].LastName.toLowerCase();
+                let suburb = this.candidates[i].Suburb.toLowerCase();
+                let phoneNumber = this.candidates[i].PhoneNumber.toLowerCase();
+                let email = this.candidates[i].Email.toLowerCase();
                 if(jobInterest.search(this.filterJobInterest.toLowerCase()) >= 0
                     && jobType.search(this.filterJobType.toLowerCase()) >= 0
-                    && transportation.search(this.filterTransportation.toLowerCase()) >= 0){
+                    && firstName.search(this.filterFirstName.toLowerCase()) >= 0
+                    && city.search(this.filterCity.toLowerCase()) >= 0
+                    && lastName.search(this.filterLastName.toLowerCase()) >= 0
+                    && suburb.search(this.filterSuburb.toLowerCase()) >= 0
+                    && phoneNumber.search(this.filterPhoneNumber.toLowerCase()) >= 0
+                    && email.search(this.filterEmail.toLowerCase()) >= 0){
                     this.candidatesCopy.push(this.candidates[i]);
                 }
             }
@@ -262,7 +366,11 @@ var app = new Vue({
         clearFilters: function(){
             this.filterJobInterest = "";
             this.filterJobType = "";
-            this.filterTransportation = "";
+            this.filterFirstName = "";
+            this.filterCity = "";
+            this.filterLastName = "";
+            this.filterPhoneNumber = "";
+            this.filterEmail = "";
             this.candidatesCopy = this.candidates;
         },
         sortBy: function(sortKey) {
@@ -286,6 +394,50 @@ var app = new Vue({
                 } else {
                     this.candidatesCopy.sort(function(a, b) {
                         return b.LastName.localeCompare(a.LastName)
+                    })
+                }
+            } else if (sortKey == 'DOB') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.DOB.localeCompare(b.DOB)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.DOB.localeCompare(a.DOB)
+                    })
+                }
+            } else if (sortKey == 'Gender') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.Gender.localeCompare(b.Gender)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.Gender.localeCompare(a.Gender)
+                    })
+                }
+            }else if (sortKey == 'City') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.City.localeCompare(b.City)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.City.localeCompare(a.City)
+                    })
+                }
+            } else if (sortKey == 'Suburb') {
+                this.toggle = !this.toggle
+                if(this.toggle){
+                    this.candidatesCopy.sort(function(a, b) {
+                        return a.Suburb.localeCompare(b.Suburb)
+                    })
+                } else {
+                    this.candidatesCopy.sort(function(a, b) {
+                        return b.Suburb.localeCompare(a.Suburb)
                     })
                 }
             } else if (sortKey == 'jobInterest') {
@@ -464,8 +616,18 @@ var app = new Vue({
                 
             })
         },
-        downloadCV: function(candidateID){
-            console.log(candidateID);
+        updateNotes: function(candidateID){
+            
+            var formData = new FormData()
+            formData.append('candidateNotes', document.getElementById(candidateID).value);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/Jobs/updateCandidateNotes/'+candidateID+'/'+'manageCandidate'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body
+                $('#'+candidateID).html(result);
+            }, res => {
+                // error callback
+                
+            })
         }
         
     },

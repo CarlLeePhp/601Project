@@ -1,7 +1,7 @@
 <div class="container m-md-5 m-2">
 <span class="display-4 text-md-left text-center">Contact Lee Recruitment </span>
 <hr />
-    <div class="row mt-5">
+    <div class="row mt-5 ">
         
     <div class="offset-md-1 col-md-6"> 
     

@@ -22,7 +22,7 @@
                 <div class="col-md-3 ">
                 <label for="JobType" class="font-weight-bold">Job Type:</label>
           <select class="form-control" name="jobType" type="text" id="JobType" aria-label="JobType">
-              <option selected></option>
+              <option selected>Enter Job Type</option>
               <option value="PartTime">Part Time</option>
               <option value="FullTime">Full Time</option>
           </select>
@@ -31,7 +31,7 @@
             <label for="Location" class="font-weight-bold">Location:</label>
 
           <select class="form-control" name="location" type="text" id="Location" aria-label="Location">
-          <option selected></option>
+          <option selected>Enter Location</option>
           <?php foreach($cities as $city): ?>
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                     <?php endforeach; ?>
@@ -74,6 +74,7 @@
   <div class="row mt-5">
       <?php foreach($jobs as $job):?>
         <div class="col-4 mt-4">
+          <a class="text-dark" href="<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>">
             <div class="card" style="width: 18rem;">
                 <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
                  
@@ -82,6 +83,7 @@
                     <?php echo $job['ThumbnailText'];?>
                 </div>
             </div>
+          </a>
         </div>
         <?php endforeach ?>
 </div>

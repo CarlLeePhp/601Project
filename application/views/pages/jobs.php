@@ -18,7 +18,7 @@
                     <div class="col-md-3 ">
                         <label for="JobType" class="font-weight-bold">Job Type:</label>
                         <select class="form-control " type="text" id="JobType" aria-label="JobType" name="jobType">
-                            <option selected></option>
+                            <option selected>Enter Job Type</option>
                             <option value="PartTime">Part Time</option>
                             <option value="Full Time">Full Time</option>
                         </select>
@@ -26,7 +26,7 @@
                     <div class="col-md-4 ">
                         <label for="Location" class="font-weight-bold">Location:</label>
                         <select class="form-control" type="text" id="Location" aria-label="Location" name="location" >
-                        <option selected></option>
+                        <option selected>Enter City</option>
                         <?php foreach($cities as $city): ?>
                             <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                         <?php endforeach; ?>
@@ -45,15 +45,16 @@
       <div class="row mt-5">
          <div v-for="job in jobs">
             <div class="col m-3">
+                <a :href="job.ref" class="text-dark">
                 <div class="card" style="width: 18rem;">
                     <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
                     <div class="card-body">
                         <p class="font-weight-bold mb-1" v-text="job.publishTitle"></p>
                         <span class="card-text mt-0" v-text="job.jobThumbnailText">
-                        
                         </span>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
       </div>  <!--end row-->
@@ -76,7 +77,7 @@
     var app = new Vue({
         el: '#app',
         data: {
-            jobID: "",
+            id: "",
             jobTitle: "",
             jobType: "",
             location: "",
@@ -90,6 +91,7 @@
                 location: "<?php echo $job['City']; ?>",
                 jobThumbnailText: "<?php echo $job['ThumbnailText']; ?>",
                 publishTitle: "<?php echo $job['PublishTitle'];?>",
+                ref: "<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>",
             },
             <?php endforeach; ?>
             ],
