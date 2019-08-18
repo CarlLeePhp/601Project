@@ -13,12 +13,7 @@ class Candidate_model extends CI_Model {
         return $query->result_array();
     }
 
-    // get all candidate with the firstname and lastname of the user
-    public function getCandidatesWithName(){
-        $mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
-        $query = $this->db->query($mySql);
-        return $query->result_array();
-    }
+    
     // get all candidates data that matches jobid for jobDetails
     public function getCandidatesJobDetails($jobID){
         $mySql = "SELECT Candidate.CandidateID,User.FirstName, User.LastName, User.PhoneNumber, User.Email,User.Address, Candidate.jobType,Candidate.CandidateHoursWorked,Candidate.CandidateNotes,Candidate.CandidateEarnings,Candidate.JobRate,Candidate.CandidateNotes FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID WHERE Candidate.JobID=" . $jobID ;
@@ -89,6 +84,19 @@ class Candidate_model extends CI_Model {
         $query = $this->db->get('User');
         return $query->result_array();
     }
+
+    
+    // get all candidate with the firstname and lastname of the user
+    public function getCandidatesWithName($limitNum, $offsetNum){
+        //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
+        //$query = $this->db->query($mySql);
+        $this->db->select('User.FirstName, User.LastName, Candidate.*');
+        $this->db->from('Candidate');
+        $this->db->join('User', 'Candidate.UserID = User.UserID');
+        $this->db->limit($limitNum, $offsetNum);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     
     // get all citizenships
     public function get_citizenships(){
@@ -100,6 +108,12 @@ class Candidate_model extends CI_Model {
         $mySql = "SELECT MAX(CandidateID) AS MaxID FROM Candidate WHERE UserID='".$userID."'";
         $query = $this->db->query($mySql);
         return $query->row_array();
+    }
+
+    // return how many candidates
+    public function countAll(){
+        $result = $this->db->count_all('Candidate');
+        return $result;
     }
     /**
      * Insert functions
