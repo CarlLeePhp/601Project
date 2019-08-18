@@ -211,12 +211,17 @@ class Jobs extends CI_Controller {
 		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
 	}
 
-	public function updateCandidateNotes($candidateID){
+	public function updateCandidateNotes($candidateID,$page){
 		$candidateNotes = $_POST['candidateNotes'];
 		$this->candidate_model->updateCandidateNotes($candidateID,$candidateNotes);
+
+		if($page=="jobDetails"){
 		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
 		$workingHoursSaved = $_POST['workingHoursSaved'];
 		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+		} else {
+			echo 'test123';
+		}
 	}
 
 	public function resetCandidateData($candidateID){
@@ -234,5 +239,11 @@ class Jobs extends CI_Controller {
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/jobInfo',$data);
 		$this->load->view('templates/footer');
+	}
+
+	public function updateBookmark($jobID){
+		$bookmarkValue = $_POST['bookmarkValue'];
+		
+		$this->job_model->updateBookmarkStatus($jobID,$bookmarkValue);
 	}
 }

@@ -90,7 +90,7 @@ class Candidate_model extends CI_Model {
     public function getCandidatesWithName($limitNum, $offsetNum){
         //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
         //$query = $this->db->query($mySql);
-        $this->db->select('User.FirstName, User.LastName, Candidate.*');
+        $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
         $this->db->limit($limitNum, $offsetNum);

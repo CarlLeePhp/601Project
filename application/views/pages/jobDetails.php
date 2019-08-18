@@ -121,10 +121,9 @@
         <?php foreach ($candidatesData as $candidateData):?>
         <?php $savedCandidateEarnings[$candidateData['CandidateID']] = $candidateData['CandidateEarnings'];?>
         <?php $savedWorkRate[$candidateData['CandidateID']] = $candidateData['JobRate'];?>
-        
+        <?php $savedHoursWorked[$candidateData['CandidateID']] = $candidateData['CandidateHoursWorked'];?>
         <form>
         <tr id="targetRow<?php echo $candidateData['CandidateID'];?>"><th scope="row">
-        <?php $savedHoursWorked[$candidateData['CandidateID']] = $candidateData['CandidateHoursWorked'];?>
         <a onclick="removeAssignedCandidate(<?php echo $candidateData['CandidateID']?>)" class="text-danger"><i style="font-size:25px" class="icon ion-md-close-circle"></i> </a></th>
         <td><a onclick="resetCandidateData(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></td>
         <td><?php echo $candidateData['FirstName'] . ' ' . $candidateData['LastName'];?></td>
@@ -200,7 +199,7 @@ function updateJobRate($candidateID,$workingHoursSaved) {
 function updateCandidateNotes($candidateID,$workingHoursSaved){
     var the_data = 'candidateNotes='+document.getElementById('candidateNotes'+$candidateID).value+'&workingHoursSaved='+$workingHoursSaved;
 
-    xRequest.open("POST",'<?php echo base_url()?>index.php/Jobs/updateCandidateNotes/'+$candidateID,true)
+    xRequest.open("POST",'<?php echo base_url()?>index.php/Jobs/updateCandidateNotes/'+$candidateID+'/'+'jobDetails',true)
     xRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     
     xRequest.send(the_data);

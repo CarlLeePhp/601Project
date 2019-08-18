@@ -113,5 +113,13 @@ class Job_model extends CI_Model {
         );
         $this->db->update('Job',$data);
     }
-    
+
+    public function updateBookmarkStatus($jobID,$bookmarkValue){
+
+        $this->db->where('JobID',$jobID);
+        $data = array(
+            'Bookmark' => $bookmarkValue,
+        );
+        $this->db->update('Job',$data);
+    }
 }
