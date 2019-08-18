@@ -6,7 +6,8 @@ class CandidateMission extends CI_Controller{
 		
 		// Load url helper
 		$this->load->helper('url');
-		$this->load->helper('security');
+        $this->load->helper('security');
+        $this->load->helper('download');
 
         $this->load->library('session');
         // Load Modesl
@@ -47,6 +48,17 @@ class CandidateMission extends CI_Controller{
 		$this->load->view('templates/footer');
 		
     }
+
+    // download CV
+    public function downloadCV($fileName){
+        if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
+            echo 'Please login';
+            exit;
+		}
+        $path = '/var/www/candidatesCV/'.$fileName;
+        force_download($path, NULL);
+    }
+    
     
     /**
      * AJAX Methods
@@ -118,10 +130,11 @@ class CandidateMission extends CI_Controller{
             exit;
         }
         $userID = $_SESSION['userID'];
+        
         // get max candidate ID
         $candidate = $this->candidate_model->getMaxIDByUserID($userID);
         $maxID=$candidate['MaxID'];
-        
+
         $config['upload_path'] = '/var/www/candidatesCV/';
         $config['allowed_types'] = 'pdf|png|doc|docx';
         $config['max_size'] = 10000;
@@ -129,15 +142,22 @@ class CandidateMission extends CI_Controller{
         $config['max_height'] = 0;
         $config['file_name'] = $maxID; // the uploaded file's extension will be applied
 
+       
+        
         $this->load->library('upload', $config);
         
         if (!$this->upload->do_upload('jobCV')) {
             echo $maxID."Apply Failed";
         } else {
             echo $maxID."Apply Successfully";
-            
         }
 
+         // Update the download link
+        $uploadName = $_FILES['jobCV']['name'];
+        $items = explode(".", $uploadName);
+        $extent = $items[count($items) - 1];
+        $downloadName = $config['file_name'].'.'.$extent;
+        $this->candidate_model->updateLinkByID($maxID, $downloadName);
     }
 
 }

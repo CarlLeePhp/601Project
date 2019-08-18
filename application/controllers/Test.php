@@ -14,8 +14,13 @@ class Test extends CI_Controller {
 	}
 	public function index()
 	{	
-        $candidateNum = $this->candidate_model->countAll();
-        echo $candidateNum;
+        //$candidateNum = $this->candidate_model->countAll();
+        //echo $candidateNum;
+
+        // test array
+        $fileName = "carl_cv.doc";
+        $items = explode(".", $fileName);
+        echo $items[count($items) - 1];
     }
     
     public function downloadCV(){

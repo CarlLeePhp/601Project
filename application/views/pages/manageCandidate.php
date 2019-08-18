@@ -122,6 +122,7 @@
                     <tr>
                         <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('FirstName')">First Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LastName')">Last Name</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showLastName }">CV</th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
@@ -140,6 +141,7 @@
                     <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
                         <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
                         <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
+                        <th><a class="text-dark" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV" target="_blank">CV</a></th>
                         <th v-text="candidate.jobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></th>
                         <th v-text="candidate.jobType" v-bind:class="{ 'd-none': ! showJobType }"></th>
                         <th v-text="candidate.transportation" v-bind:class="{ 'd-none': ! showTransportation }"></th>
@@ -461,6 +463,9 @@ var app = new Vue({
                 // error callback
                 
             })
+        },
+        downloadCV: function(candidateID){
+            console.log(candidateID);
         }
         
     },
