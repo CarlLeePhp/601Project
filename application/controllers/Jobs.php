@@ -89,7 +89,7 @@ class Jobs extends CI_Controller {
 		//content
 		$publishTitle = $_POST['publishTitle'];
 		if($publishTitle == NULL) {
-			$publishTitle = $job['JobType'] . ' ' . $job['JobTitle'] . ' worker Needed in ' . $job['City'];
+			$publishTitle = $job['JobType'] . ' ' . $job['JobTitle'] . ' worker needed in ' . $job['City'];
 		}
 		$thumbnailText = $_POST['thumbnailText'];
 		if($thumbnailText == NULL || strcasecmp($thumbnailText,'Enter text for thumbnail')==0){
@@ -99,10 +99,38 @@ class Jobs extends CI_Controller {
 		if($textEditor == NULL || strrpos($textEditor,'Enter the text for job')){
 			$textEditor = 'For further information please contact us or email us at <a href="mailto:mark@leerecruitment.co.nz"><strong>mark@leerecruitment.co.nz</strong></a>';
 		}
+		
+		if(isset($_FILES['jobImage'])){
+			$file =  $_FILES['jobImage'];
+			$fileName = $_FILES['jobImage']['name'];
+			$fileTmpName = $_FILES['jobImage']['tmp_name'];
+			$fileSize = $_FILES['jobImage']['size'];
+			$fileError = $_FILES['jobImage']['error'];
+
+			$fileExt = explode(".",$fileName);
+			$fileRealExt = strtolower(end($fileExt));
+			$allowed = array('jpg','jpeg','png','gif');
+
+			if(in_array($fileRealExt,$allowed)){
+				if($fileError === 0){
+					if($fileSize < 1000000){
+						$fileNameNew = $paramJobID . $fileName;
+						$fileDestination = 'jobImages/' . $fileNameNew;
+						move_uploaded_file($fileTmpName,$fileDestination);
+					} else {
+						echo 'The file is too big';
+					}
+				} else {
+					echo 'There was an error uploading the file';
+				}
+			} else {
+				echo 'You cannot upload the file of this type';
+			}
+		}
 		//4digitsYear-2digitsMonth-2digitsDay Format to match sql
 		$publishDate = date('Y-m-d');
 		//update the job
-		$this->job_model->publishJob($paramJobID,$textEditor,$thumbnailText,$publishTitle,$publishDate);
+		$this->job_model->publishJob($paramJobID,$textEditor,$thumbnailText,$publishTitle,$publishDate,$fileNameNew);
 		//select the job 
 		$data['job'] = $this->job_model->get_specificJob($paramJobID);
 		$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
@@ -232,6 +260,8 @@ class Jobs extends CI_Controller {
 		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
 	}
 
+	
+
 	public function jobInfo($jobID){
 		$data['job'] = $this->job_model->get_specificJobInfo($jobID);
 		
@@ -246,4 +276,6 @@ class Jobs extends CI_Controller {
 		
 		$this->job_model->updateBookmarkStatus($jobID,$bookmarkValue);
 	}
+
+
 }

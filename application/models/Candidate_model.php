@@ -64,6 +64,12 @@ class Candidate_model extends CI_Model {
         return $query->row_array();
     }
 
+    public function getCandidateFullInfo($candidateID){
+        $mySql = "SELECT User.FirstName, User.LastName, User.PhoneNumber,User.City, User.Suburb, User.DOB, User.Gender,User.ZipCode, User.Email,User.Address, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID WHERE Candidate.CandidateID=" . $candidateID ;
+        $query = $this->db->query($mySql);
+        return $query->row_array();
+    }
+
     //remove Candidate From table in job Details
     public function removeAssignedCandidate($candidateID){
         $this->db->where('CandidateID',$candidateID);

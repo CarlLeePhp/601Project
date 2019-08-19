@@ -1,8 +1,9 @@
 <div class="container mb-5">
         <div class="row justify-content-start">
-            <div class="col-12 mt-4">
-                <span type="text" style="height:80px;font-size:48px;"><?php echo $job['PublishTitle'];?></span>
+            <div class="col-12 mt-4 pt-5">
+                <span type="text" class="text-center" style="height:80px;font-size:36px;"><?php echo $job['PublishTitle'];?></span>
             </div>
+            
         </div>
         <hr/>
         <div class="row mt-4">
@@ -22,9 +23,13 @@
             </table>
             </div>
             <div class="mt-4 col-md-4 ">
-                <div class="row justify-content-center">
-                    <img src="<?php echo base_url()?>lib/images/facebook.jpg">
-                </div>
+                <div class="row justify-content-md-start justify-content-center">
+                      <?php if($job['JobImage'] == 0 || $job['JobImage'] == NULL || $job['JobImage'] == ""):?>
+                        <img src="<?php echo base_url()?>lib/images/facebook.jpg">
+                    <?php else :?>
+                        <img src="<?php echo base_url() . 'jobImages/' . $job['JobImage']?>" class="mx-md-2" style="width:275px;height:165px;">
+                    <?php endif;?>
+                    </div>
             </div>
         </div>
         <p class="mt-5"><?php echo $job['ThumbnailText'];?></p>

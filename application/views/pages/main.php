@@ -73,11 +73,14 @@
   <div class="container">
   <div class="row mt-5">
       <?php foreach($jobs as $job):?>
-        <div class="col-4 mt-4">
+        <div class="col-md-4 mt-4">
           <a class="text-dark" href="<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>">
             <div class="card" style="width: 18rem;">
-                <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
-                 
+              <?php if(!empty($job['JobImage'])): ?>
+                <img src="<?php echo base_url() . 'jobImages/' . $job['JobImage']?>" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
+              <?php else : ?>
+                <img src="<?php echo base_url()?>lib/images/facebook.jpg" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
+                <?php endif;?>
                 <div class="card-body">
                 <p class="font-weight-bold p-0 "> <?php echo $job['PublishTitle'];?></p>
                     <?php echo $job['ThumbnailText'];?>
@@ -86,7 +89,7 @@
           </a>
         </div>
         <?php endforeach ?>
-</div>
+  </div>
         <!--end row-->
         <div class="row justify-content-end m-5">
         <a href="<?php echo base_url()?>index.php/Jobs" class="btn btn-outline-dark "> More Jobs</a>

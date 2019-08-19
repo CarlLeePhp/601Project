@@ -47,8 +47,8 @@
             <div class="col m-3">
                 <a :href="job.ref" class="text-dark">
                 <div class="card" style="width: 18rem;">
-                    <img src="<?php echo base_url()?>lib/images/Aerial_Electronics_Install.jpg" class="card-img-top" alt="aerialElectronicsInstall">
-                    <div class="card-body">
+                 <img :src="job.imgSrc" class="card-img-top image img-fluid" style="height:157px;" :alt="job.altSrc">
+                <div class="card-body">
                         <p class="font-weight-bold mb-1" v-text="job.publishTitle"></p>
                         <span class="card-text mt-0" v-text="job.jobThumbnailText">
                         </span>
@@ -83,6 +83,7 @@
             location: "",
             jobThumbnailText: "",
             publishTitle: "",
+            
             jobs: [
                 <?php foreach ($jobs as $job): ?> {
                 id: "<?php echo $job['JobID']; ?>",
@@ -92,6 +93,8 @@
                 jobThumbnailText: "<?php echo $job['ThumbnailText']; ?>",
                 publishTitle: "<?php echo $job['PublishTitle'];?>",
                 ref: "<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>",
+                imgSrc: "<?php if(!empty($job['JobImage'])){ echo base_url() . 'jobImages/' . $job['JobImage'];} else { echo base_url() . 'lib/images/facebook.jpg';} ?>",
+                altSrc: "<?php echo $job['JobTitle'] . ' ' . $job['City'] . $job['JobID'];?>",
             },
             <?php endforeach; ?>
             ],

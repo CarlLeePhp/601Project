@@ -19,7 +19,12 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-dark font-weight-bold" for="JobType">Job Type:</label>
-                    <input type="text" class="form-control" v-model="filterJobType" id="JobType" placeholder="Job Type">
+                    
+                    <select class="form-control p-2" type="text" v-model="filterJobType" id="jobTypeID">
+                        <option selected></option>
+                        <option value="Full Time">Full Time</option>
+                        <option value="Part Time">Part Time</option>
+                    </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-dark font-weight-bold" for="FirstName">First Name:</label>
@@ -187,6 +192,7 @@
            
                 <thead>
                     <tr>
+                        <th scope="col"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('FirstName')">First Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LastName')">Last Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showPhoneNumber }"><a href="#" class="text-dark" @click.stop.prevent="">Phone Number</a></th>
@@ -213,6 +219,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
+                        <th><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></th>
                         <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
                         <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
                         <th v-text="candidate.PhoneNumber" v-bind:class="{ 'd-none': ! showPhoneNumber }"></th>
@@ -288,6 +295,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
 
+
 <script>
 var app = new Vue({
     el: '#app',
@@ -297,7 +305,7 @@ var app = new Vue({
         toggle: false,
         candidates: <?php echo json_encode($candidates); ?>,
         candidatesCopy: [],
-        showBookmark: true,
+        showBookmark: false,
         
         showFirstName: true,
         showLastName: true,
@@ -599,7 +607,7 @@ var app = new Vue({
                         this.candidates[i].dermatitis == 'true' || this.candidates[i].skinInfection == 'true' ||
                         this.candidates[i].allergies == 'true' || this.candidates[i].hernia == 'true' ||
                         this.candidates[i].highBloodPressure == 'true' || this.candidates[i].heartProblems == 'true' ||
-                        this.candidates[i].usingDrugs == 'true' || this.candidates[i].usingContactLenses == 'true' ||
+                        this.candidates[i].usingDrugs == 'true' ||
                         this.candidates[i].RSI == 'true'){
                         this.candidates[i].healthProblem = 'YES';
                     } else {
@@ -626,7 +634,12 @@ var app = new Vue({
                 // error callback
                 
             })
+        },
+        getUrl: function(candidateID){
+            var goToUrl = "<?php echo base_url() . 'index.php/CandidateMission/candidateDetails/';?>"+candidateID;
+            document.location.href = goToUrl;
         }
+        
         
     },
     mounted: function(){
@@ -638,7 +651,7 @@ var app = new Vue({
                 this.candidates[i].dermatitis == 'true' || this.candidates[i].skinInfection == 'true' ||
                 this.candidates[i].allergies == 'true' || this.candidates[i].hernia == 'true' ||
                 this.candidates[i].highBloodPressure == 'true' || this.candidates[i].heartProblems == 'true' ||
-                this.candidates[i].usingDrugs == 'true' || this.candidates[i].usingContactLenses == 'true' ||
+                this.candidates[i].usingDrugs == 'true' ||
                 this.candidates[i].RSI == 'true'){
                 this.candidates[i].healthProblem = 'YES';
             } else {

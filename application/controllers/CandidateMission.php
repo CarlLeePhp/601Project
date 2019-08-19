@@ -33,7 +33,7 @@ class CandidateMission extends CI_Controller{
 
     // show candidate table
 	public function manageCandidate(){
-		if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
+		if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType'] == 'staff')){
 			redirect('/');
 		}
 		$userdata['userType'] = $_SESSION['userType'];
@@ -138,6 +138,19 @@ class CandidateMission extends CI_Controller{
             
         }
 
+    }
+
+    public function candidateDetails($candidateID){
+        if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType'] == 'staff')){
+            redirect('/');
+            $candidateID = "";
+		}
+		$userdata['userType'] = $_SESSION['userType'];
+        $data['candidate'] = $this->candidate_model->getCandidateFullInfo($candidateID);
+
+        $this->load->view('templates/header',$userdata);
+        $this->load->view('pages/candidateDetails',$data);
+        $this->load->view('templates/footer');
     }
 
 }

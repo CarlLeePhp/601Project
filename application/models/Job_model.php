@@ -15,7 +15,7 @@ class Job_model extends CI_Model {
     }
 
     public function get_publishedjobs($page,$jobTitle,$jobType,$location) {
-        $this->db->select('JobID,ThumbnailText,PublishTitle,JobTitle,JobType,City');
+        $this->db->select('JobID,ThumbnailText,PublishTitle,JobTitle,JobType,City,JobImage');
          
         $this->db->where('JobStatus', 'published');
         if($page=="home"){
@@ -39,7 +39,7 @@ class Job_model extends CI_Model {
     public function get_specificJobInfo($jobID){
         $this->db->where('JobStatus', 'published');
         $this->db->where('JobID',$jobID);
-        $this->db->select('JobID,ThumbnailText,JobTitle,JobType,City,Suburb,PublishDate,PublishTitle,Editor1');
+        $this->db->select('JobID,ThumbnailText,JobTitle,JobType,City,Suburb,PublishDate,PublishTitle,Editor1,JobImage');
         $query = $this->db->get('Job');
         return $query->row_array();
     }
@@ -84,7 +84,8 @@ class Job_model extends CI_Model {
         $this->db->insert('Job', $data);
     }
 
-    public function publishJob($jobID,$textEditor,$thumbnailText,$publishTitle,$publishDate){
+    public function publishJob($jobID,$textEditor,$thumbnailText,$publishTitle,$publishDate,$fileDestination=""){
+        
         $data = array(
             'JobStatus' => 'published',
             'Editor1' => $textEditor,
@@ -92,6 +93,9 @@ class Job_model extends CI_Model {
             'PublishTitle' => $publishTitle,
             'PublishDate' => $publishDate,
         );
+        if(!empty($fileDestination)){
+            $data['JobImage'] = $fileDestination;
+        }
         $this->db->where('JobID',$jobID);
         $this->db->update('Job',$data);
     }

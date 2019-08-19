@@ -16,7 +16,7 @@
     <tbody>
     <legend class="text-md-left text-center">Client's Brief: <b><?php echo strtoupper($job['JobStatus']);?></b></legend>
         <?php foreach($job as $key => $value):?>
-        <?php if($key == 'JobID' || $key == 'Description' || $key == 'Editor1' || $key == 'ThumbnailText' || $key == 'JobStatus' || $key == 'PublishTitle' || $key == "PublishDate")  :?>
+        <?php if($key == 'JobID' || $key == 'Description' || $key == 'Editor1' || $key == 'ThumbnailText' || $key == 'JobStatus' || $key == 'PublishTitle' || $key == "PublishDate" || $key == "Bookmark" || $key == "JobImage")  :?>
         <?php else :?>
         <tr>
         <th><?php echo $key ?></th>
@@ -41,17 +41,17 @@
 <hr />
     <?php if( $job['JobStatus'] == 'published') :?>
     <div class="row justify-content-center">
-        <a class="btn btn-outline-dark col-md-3 col-6" href="<?php echo base_url()?>index.php/Jobs/jobUnpublish/<?php echo $job['JobID'];?>">Unpublish from job page</a>
+        <a class="btn btn-outline-dark col-md-3 col-9" href="<?php echo base_url()?>index.php/Jobs/jobUnpublish/<?php echo $job['JobID'];?>">Unpublish from job page</a>
     </div>
     <?php endif;?>
 </div>
     
-<h2 class="text-center">WebContent</h2>
+<h2 class="text-center mt-md-0 mt-5">WebContent</h2>
 <hr class="border border-dark"/>
 
 <!-- Editable Page For Job -->
 <div class="container mb-5">
-    <form action="<?php echo base_url()?>index.php/Jobs/jobPublish/<?php echo $job['JobID'];?>" method="post">
+    <form action="<?php echo base_url()?>index.php/Jobs/jobPublish/<?php echo $job['JobID'];?>" method="post" enctype="multipart/form-data">
         <div class="row justify-content-start">
             <div class="col-12 mt-4">
                 <input type="text" class="form-control border border-0" value="<?php echo $job['PublishTitle'] ;?>" style="height:80px;font-size:48px;" placeholder="Enter Title" name="publishTitle"/>
@@ -76,12 +76,19 @@
             </table>
             </div>
             <div class="mt-4 col-md-4 ">
-                    <div class="row justify-content-center">
-                        <img src="<?php echo base_url()?>lib/images/facebook.jpg">
+                    <div class="row justify-content-md-start justify-content-center">
+                    <?php $setImgPreviewID = "" ;?>
+                      <?php if(empty($job['JobImage'])):?>
+                        <?php $setImgPreviewID = "imgPreview" ;?>
+                        <img id="imgPreview" src="<?php echo base_url()?>lib/images/facebook.jpg" class="mx-md-2" style="width:275px;height:165px;">
+                    <?php else :?>
+                        <?php $setImgPreviewID = "imgPreview1" ;?>
+                        <img id="imgPreview1" src="<?php echo base_url() . 'jobImages/' . $job['JobImage']?>"  class="mx-md-2" style="width:275px;height:165px;">
+                    <?php endif;?>
                     </div>
                     <div class="row justify-content-center">
-                    <input type="file" id="JobID" name="jobImage">
-                </div>
+                    <input type="file" onchange="document.getElementById('<?php echo $setImgPreviewID ; ?>').src = window.URL.createObjectURL(this.files[0])" name="jobImage" class="offset-1 offset-md-0">
+                    </div>
             </div>
         </div>
         <label for="thumbnailTextID" class="text-muted  mt-4">Briefs text for thumbnail: </label>
@@ -125,7 +132,7 @@
         <form>
         <tr id="targetRow<?php echo $candidateData['CandidateID'];?>"><th scope="row">
         <a onclick="removeAssignedCandidate(<?php echo $candidateData['CandidateID']?>)" class="text-danger"><i style="font-size:25px" class="icon ion-md-close-circle"></i> </a></th>
-        <td><a onclick="resetCandidateData(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></td>
+        <td><a onclick="resetCandidateData(<?php echo $candidateData['CandidateID']?>)" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></td>
         <td><?php echo $candidateData['FirstName'] . ' ' . $candidateData['LastName'];?></td>
         <td><?php echo $candidateData['PhoneNumber'];?></td>
         <td><?php echo $candidateData['Email'];?></td>
@@ -218,8 +225,9 @@ function removeAssignedCandidate($candidateID){
     };
 }
 
-function resetCandidateData($candidateID,$workingHoursSaved){
-    var the_data = 'workingHoursSaved='+$workingHoursSaved;
+function resetCandidateData($candidateID){
+    <?php $savedHoursWorked[$candidateData['CandidateID']] = 0;?>
+    var the_data = 'workingHoursSaved='+0;
     xRequest.open("POST","<?php echo base_url()?>index.php/Jobs/resetCandidateData/"+$candidateID,true)
     xRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xRequest.send(the_data);
@@ -227,4 +235,5 @@ function resetCandidateData($candidateID,$workingHoursSaved){
         document.getElementById('targetRow'+$candidateID).innerHTML = xRequest.responseText;
     };
 }
+
 </script>
