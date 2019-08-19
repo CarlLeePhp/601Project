@@ -395,6 +395,7 @@ var app = new Vue({
                 }
             } else if (sortKey == 'LastName') {
                 this.toggle = !this.toggle
+                
                 if(this.toggle){
                     this.candidatesCopy.sort(function(a, b) {
                         return a.LastName.localeCompare(b.LastName)

@@ -8,7 +8,13 @@ class Job_model extends CI_Model {
      * Select Functions
     */
     // get all jobs
-    public function get_jobs() {
+    public function get_jobs($page="") {
+        if($page=='archive'){
+            $this->db->where('JobStatus','completed');
+        } else {
+            $data = array('completed');
+            $this->db->where_not_in('JobStatus',$data);
+        }
         $this->db->order_by('JobSubmittedDate', 'DESC');
         $query = $this->db->get('Job');
         return $query->result_array();

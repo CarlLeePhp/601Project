@@ -213,10 +213,10 @@ class Jobs extends CI_Controller {
 		echo '<td><input type="text" id="candidateNotes' . $candidateData['CandidateID'] . '" onchange="updateCandidateNotes(' . $candidateData['CandidateID'] . ',' . $savedHoursWorked . ')" placeholder="' . $candidateData['CandidateNotes'] . '"></td></tr>';
 	}
 
-	//this is working, Removed Candidate, set job Status to NULL
+	
 	public function removeAssignedCandidate($candidateID,$jobID){
 		$this->candidate_model->removeAssignedCandidate($candidateID);
-		$job = $this->job_model->get_specificJob($jobID);
+		
 		$candidatesData = $this->candidate_model->getCandidatesJobDetails($jobID);
 		if(sizeof($candidatesData)==0){
 			$this->job_model->updateJobDetailsStatusNull($jobID);
@@ -260,7 +260,6 @@ class Jobs extends CI_Controller {
 		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
 	}
 
-	
 
 	public function jobInfo($jobID){
 		$data['job'] = $this->job_model->get_specificJobInfo($jobID);
