@@ -141,20 +141,12 @@ class Candidate_model extends CI_Model {
         $this->db->update('User', $data);
     }
 
-    public function update_sale($sale_id, $sale_name, $sale_email){
+    // update jobCV by ID
+    public function updateLinkByID($candidateID, $fileName){
         $data = array(
-            'SALE_NAME' => $sale_name,
-            'SALE_EMAIL' => $sale_email
+            'jobCV' => $fileName
         );
-        $this->db->where('SALE_ID', $sale_id);
-        $this->db->update('SALE', $data);
-    }
-
-    public function remove_sale($sale_id){
-        $data = array(
-            'AVAILABLE' => 'no'
-        );
-        $this->db->where('SALE_ID', $sale_id);
-        $this->db->update('SALE', $data);
+        $this->db->where('CandidateID', $candidateID);
+        $this->db->update('Candidate', $data);
     }
 }
