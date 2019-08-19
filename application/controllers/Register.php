@@ -65,6 +65,9 @@ class Register extends CI_Controller {
     }
 
     public function newStaff(){
+        if(!(isset($_SESSION['userType'])) || $_SESSION['userType']!='admin'){
+            redirect('/');
+        }
         $userEmail = $_POST['email'];
         $userPasswd = $_POST['password'];
         $confirmPassword= $_POST['confirmPassword'];

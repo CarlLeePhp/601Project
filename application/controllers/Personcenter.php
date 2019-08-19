@@ -36,9 +36,9 @@ class Personcenter extends CI_Controller {
 		
 		$userdata['userType'] = $_SESSION['userType'];
 		
-		if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-		}
+        }
 		
 		$data['title'] = "Manage Staff";
 		$data['message'] ="";
@@ -52,11 +52,12 @@ class Personcenter extends CI_Controller {
 
 	//checkThis
 	public function newStaffPassword(){
+
 		$userdata['userType'] = $_SESSION['userType'];
 		
-		if(!(isset($_SESSION['userType']))){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-		}
+        }
 
 		$staffID = $_POST['staffID'];
 		$password = $_POST['newPassword'];
@@ -73,9 +74,9 @@ class Personcenter extends CI_Controller {
 	public function removeStaff(){
 		$userdata['userType'] = $_SESSION['userType'];
 		
-		if(!(isset($_SESSION['userType'])) && $_SESSION['userType']!='admin'){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-		}
+        }
 		
 		$encryptPass = do_hash( $_POST['adminPassword'], 'sha256');
 		$staffID = $_POST['staffID'];

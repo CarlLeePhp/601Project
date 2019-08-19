@@ -34,9 +34,9 @@ class CandidateMission extends CI_Controller{
 
     // show candidate table
 	public function manageCandidate(){
-		if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType'] == 'staff')){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-		}
+        }
 		$userdata['userType'] = $_SESSION['userType'];
 		$data['title'] = "Manage Candidate";
         $data['message'] ="";
@@ -65,9 +65,9 @@ class CandidateMission extends CI_Controller{
      */
     // get a offset value then return candidates
     public function getCandidates(){
-        if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
+        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-		}
+        }
         $offset=$_POST['offset'];
         $candidates = $this->candidate_model->getCandidatesWithName(10, $offset);
         echo json_encode($candidates);
@@ -161,10 +161,10 @@ class CandidateMission extends CI_Controller{
     }
 
     public function candidateDetails($candidateID){
-        if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType'] == 'staff')){
+        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
             redirect('/');
             $candidateID = "";
-		}
+        }
 		$userdata['userType'] = $_SESSION['userType'];
         $data['candidate'] = $this->candidate_model->getCandidateFullInfo($candidateID);
 

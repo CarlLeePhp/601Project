@@ -49,9 +49,9 @@ class Jobs extends CI_Controller {
 	
 	// show client tables
 	public function manageClient(){
-		if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-		}
+        }
 		$userdata['userType'] = $_SESSION['userType'];
 		$data['title'] = "Manage Client";
 		$data['message'] ="";
@@ -63,10 +63,10 @@ class Jobs extends CI_Controller {
 	}
 
 	public function jobDetails($paramJobID){
-		if(!(isset($_SESSION['userType']))&& ($_SESSION['userType']!='admin' || $_SESSION['userType']!='staff')){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-			$paramJobID="";
-		}
+			$paramJobID = "";
+        }
 		$userdata['userType'] = $_SESSION['userType'];
 		$data['title'] = "Job Details";
 		$data['job'] = $this->job_model->get_specificJob($paramJobID);
@@ -78,10 +78,10 @@ class Jobs extends CI_Controller {
 	}
 
 	public function jobPublish($paramJobID){
-		if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType']=='staff')){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
-			$paramJobID = "";
-		}
+			$paramJobID="";
+        }
 		$job = $this->job_model->get_specificJob($paramJobID);
 		$userdata['userType'] = $_SESSION['userType'];
 		$data['title'] = "Job Details";
@@ -141,10 +141,10 @@ class Jobs extends CI_Controller {
 	}
 
 	public function jobUnpublish($paramJobID){
-		if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType']=='staff')){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
 			$paramJobID = "";
-		}
+        }
 		$userdata['userType'] = $_SESSION['userType'];
 		$data['title'] = "Job Details";
 		
@@ -161,6 +161,10 @@ class Jobs extends CI_Controller {
 	 * AJAX Methods for staff and Admin
 	 */
 	public function updateHoursWorked($candidateID){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			redirect('/');
+			$candidateID = "";
+        }
 		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
 		$hoursWorked = $_POST['hoursWorked'];
 		$diffhoursWorked = $hoursWorked - $candidateData['CandidateHoursWorked'];
@@ -215,6 +219,11 @@ class Jobs extends CI_Controller {
 
 	
 	public function removeAssignedCandidate($candidateID,$jobID){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			redirect('/');
+			$candidateID = "";
+			$jobID = "";
+        }
 		$this->candidate_model->removeAssignedCandidate($candidateID);
 		
 		$candidatesData = $this->candidate_model->getCandidatesJobDetails($jobID);
@@ -225,7 +234,10 @@ class Jobs extends CI_Controller {
 	}
 
 	public function updateJobRate($candidateID){
-		
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			redirect('/');
+			$candidateID = "";
+        }
 		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
 		$jobRate = $_POST['jobRate'];
 		$workingHoursSaved = $_POST['workingHoursSaved'];
@@ -240,6 +252,10 @@ class Jobs extends CI_Controller {
 	}
 
 	public function updateCandidateNotes($candidateID,$page){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			redirect('/');
+			$candidateID = "";
+        }
 		$candidateNotes = $_POST['candidateNotes'];
 		$this->candidate_model->updateCandidateNotes($candidateID,$candidateNotes);
 
@@ -248,11 +264,15 @@ class Jobs extends CI_Controller {
 		$workingHoursSaved = $_POST['workingHoursSaved'];
 		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
 		} else {
-			echo 'test123';
+			echo 'Wrong Answer!';
 		}
 	}
 
 	public function resetCandidateData($candidateID){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			redirect('/');
+			$candidateID = "";
+        }
 		$this->candidate_model->resetCandidateJobDetailsData($candidateID);
 		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
 		$workingHoursSaved = $_POST['workingHoursSaved'];
@@ -262,6 +282,10 @@ class Jobs extends CI_Controller {
 
 
 	public function jobInfo($jobID){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			redirect('/');
+			$jobID = "";
+        }
 		$data['job'] = $this->job_model->get_specificJobInfo($jobID);
 		
 		$userdata['userType'] = $_SESSION['userType'];
@@ -271,6 +295,10 @@ class Jobs extends CI_Controller {
 	}
 
 	public function updateBookmark($jobID){
+		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			redirect('/');
+			$jobID = "";
+        }
 		$bookmarkValue = $_POST['bookmarkValue'];
 		
 		$this->job_model->updateBookmarkStatus($jobID,$bookmarkValue);
