@@ -18,13 +18,12 @@ class Archive extends CI_Controller{
 
     public function index(){
         
-        if(!(isset($_SESSION['userType']))&& !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
         }
-        
 
 		$userdata['userType'] = $_SESSION['userType'];
-        $data['title'] = "Manage Client";
+        $data['title'] = "Archive";
         $data['message'] ="";
         $data['jobs'] = $this->job_model->get_jobs('archive');
         $this->load->view('templates/header',$userdata);
