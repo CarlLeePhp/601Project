@@ -82,7 +82,7 @@
                 <img src="<?php echo base_url()?>lib/images/facebook.jpg" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
                 <?php endif;?>
                 <div class="card-body">
-                <p class="font-weight-bold p-0 "> <?php echo $job['PublishTitle'];?></p>
+                <p class="font-weight-bold p-0 mb-1"> <?php echo $job['PublishTitle'];?></p>
                     <?php echo $job['ThumbnailText'];?>
                 </div>
             </div>

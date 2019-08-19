@@ -20,7 +20,7 @@
                 <img style="width:125px;height:150px;"  src="<?php echo base_url()?>lib/images/SubmitCV.png">
                 </div>
                 <div class="card-title font-weight-bold">Apply for a job</div>
-                <p class="card-text text-justify m-4 text-center">Submit your application to Lee Recruitment.</p>
+                <p class="card-text text-justify m-4 text-center">Submit your job application to Lee Recruitment.</p>
             </div> </a>
         </div> 
 </div>

@@ -298,7 +298,9 @@ class Jobs extends CI_Controller {
 		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
 			redirect('/');
 			$jobID = "";
-        }
+			exit;
+		}
+		//code igniter -- we remove the error log message
 		$bookmarkValue = $_POST['bookmarkValue'];
 		
 		$this->job_model->updateBookmarkStatus($jobID,$bookmarkValue);

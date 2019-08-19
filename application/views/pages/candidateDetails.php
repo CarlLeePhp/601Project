@@ -21,7 +21,7 @@ RSI dependants smoke conviction convictionDetails CandidateNotes -->
             </div>
             <div class="col-md-4">
                 <div class="row ml-1"><label for="candidateCVID" class="font-weight-bold mt-2">Candidate's CV:</label></div>
-                <div class="row ml-1"><a href="#" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
+                <div class="row ml-1"><a href="<?php echo base_url() . 'candidatesCV/' . $candidate['candidateCV'];?>" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
             </div>
         </div>
 
@@ -62,6 +62,16 @@ RSI dependants smoke conviction convictionDetails CandidateNotes -->
             <div class="col-md-3">
                 <label for="passportNumberID" class="font-weight-bold mt-2">Passport Number:</label>
                 <input type="text" class="form-control border-0" id="passportNumberID" readonly value="<?php echo $candidate['passportNumber'];?>">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <label for="workPermitNumberID" class="font-weight-bold mt-2">Work Permit Number:</label>
+                <input type="text" class="form-control border-0" id="workPermitNumberID" readonly value="<?php echo $candidate['workPermitNumber'];?>">
+            </div>
+            <div class="col-md-3">
+                <label for="workPermitExpiryID" class="font-weight-bold mt-2">Work Permit Expiry Date:</label>
+                <input type="text" class="form-control border-0" id="workPermitExpiryID" readonly value="<?php echo $candidate['workPermitExpiry'];?>">
             </div>
         </div>
         <div class="row mt-3">

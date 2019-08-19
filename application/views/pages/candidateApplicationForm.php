@@ -1,7 +1,10 @@
 <div class="container mt-5">
     <!-- CandidateMission/applyJob/ -->
+    <b style="font-size:18px;">All applications are treated in the strictest confidence.</b><br>
+
         <h3 class="text-warning mt-3"> Interest </h3>
         <hr />
+        
         <div class="row">
             
             <div class="col-md-4">
@@ -33,16 +36,26 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="licenseNumberID" class="font-weight-bold mt-2">NZ License Number:</label>
-                <input type="text" class="form-control" v-model="licenseNumber" name="LicenseNumber" placeholder="license Number"
+                <input type="text" class="form-control" v-model="licenseNumber" name="LicenseNumber" placeholder="NZ License Number"
                     id="licenseNumberID">
             </div>
             <div class="col-md-4">
                 <label for="classLicenseID" class="font-weight-bold mt-2">Class of license:</label>
-                <input type="text" class="form-control" v-model="classLicense" placeholder="Class License" name="classLicense"
-                    id="classLicenseID">
+                <select class="form-control" id="classLicenseID" v-model="classLicense" name="classLicense" required>
+                    <option value="" selected></option>
+                    <option value="Class1 Learner">Class 1 - Car license (Learner or Restricted) </option>
+                    <option value="Class1 Restricted">Class 1 - Car license (Restricted) </option>
+                    <option value="Class1 Full">Class 1 - Car license (Full) </option>
+                    <option value="Class2 MediumRigidVehicleLearner">Class 2 - Medium rigid vehicle (Learner or Restricted) </option>
+                    <option value="Class2 MediumRigidVehicleFull">Class 2 - Medium rigid vehicle (Full) </option>
+                    <option value="Class3 MediumCombination">Class 3 - Medium combination (Learner or Full) </option>
+                    <option value="Class4 HeavyRigid">Class 4 - Heavy rigid (Learner or Full) </option>
+                    <option value="Class5 HeavyCombination">Class 5 - Heavy combination (Learner or Full) </option>
+                    <option value="Class6 Motorcycle">Class 6 - Motorcycle license </option>
+                </select>
             </div>
             <div class="col-md-4">
-                <label for="endorsementID" class="font-weight-bold mt-2">Endorsement:</label>
+                <label for="endorsementID" class="font-weight-bold mt-2">Endorsements:</label>
                 <input type="text" class="form-control" v-model="endorsement" placeholder="Endorsement" name="endorsement" id="endorsementID">
             </div>
         </div>
@@ -52,8 +65,8 @@
 
             <div class="col-md-3">
                 <label for="citizenshipID" class="font-weight-bold"> Citizenship:</label>
-                <select class="form-control" id="citizenshipID" v-model="citizenship" name="citizenship">
-                    <option value="-" selected>-</option>
+                <select class="form-control" id="citizenshipID" v-model="citizenship" name="citizenship" required>
+                    <option value="" selected></option>
                     <?php foreach($citizenships as $citizenship): ?>
                     <option value="<?php echo $citizenship['Citizenship']; ?>"><?php echo $citizenship['Citizenship']; ?></option>
                     <?php endforeach; ?>
@@ -67,7 +80,7 @@
             </div>
             <div class="col-md-3">
                 <label for="passportCountryID" class="font-weight-bold">Passport issuing country:</label>
-                <input type="text" class="form-control" v-model="passportCountry" placeholder="Passport issuing country" name="passportCountry"
+                <input type="text" class="form-control" v-model="passportCountry" placeholder="Passport Issuing Country" name="passportCountry"
                     id="passportCountryID" />
 
             </div>
@@ -75,7 +88,18 @@
                 <label for="passportNumberID" class="font-weight-bold">Passport Number:</label>
                 <input type="text" class="form-control" v-model="passportNumber" placeholder="Passport Number" name="passportNumber"
                     id="passportNumberID" />
-
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label for="workPermitNumberID" class="font-weight-bold">Work permit number:</label>
+                <input type="text" class="form-control" v-model="workPermitNumber" placeholder="Work Permit Number" name="workPermitNumber"
+                    id="workPermitNumberID" />
+            </div>
+            <div class="col-md-4">
+                <label for="workPermitExpiryID" class="font-weight-bold">Work permit expiry date:</label>
+                <input type="date" class="form-control" v-model="workPermitExpiry" placeholder="Work Permit Expiry Date" name="workPermitExpiry"
+                    id="workPermitExpiryID" />
             </div>
         </div>
         <h3 class="text-warning mt-3">Health</h3>
@@ -178,14 +202,14 @@
             <input type="checkbox" class="form-check-inline" v-model="smoke" name="smoke"> Do you smoke?<br>
 
             <input type="checkbox" class="form-check-inline" v-model="conviction" name="conviction"> Having conviction against the law?<br>
-            <label for="convictionDetailsID">Details if "yes" </label>
+            <label for="convictionDetailsID" class="mt-3">Details if <b>"yes"</b> </label>
             <textarea class="form-control rounded-0" id="convictionDetailsID" rows="5"
             v-model="convictionDetails"  name="convictionDetails"></textarea>
 
         </div>
         <h3 class="text-warning mt-3">Declaration and Authorisation To Lee Recruitment</h3>
         <hr />
-        <div class="container" style="overflow-y:scroll; height:150px;">
+        <div class="container font-weight-bold" style="overflow-y:scroll; height:400px;">
             <p>I CERTIFY that all information that I have provided to you is true, accurate and complete. </p>
             <p>
                 I UNDERSTAND that all information provided about me to you will be held by you and used for the purpose

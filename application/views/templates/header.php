@@ -7,13 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo base_url()?>lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo base_url()?>lib/main.css">
+    <link rel="stylesheet" href="<?php echo base_url()?>lib/newExtension.css">
     <link rel="shortcut icon" href="<?php echo base_url()?>lib/images/LeeIcon.ico" type="image/x-icon">
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
     <title>Document</title>
 </head>
 
-<body>
+<body style="background-color: #FFFFFF">
     <!-- start TopHeaderNav -->
     <nav>
         <div class="d-flex flex-column flex-sm-row align-items-center p-1 bg-light border-bottom shadow-sm">

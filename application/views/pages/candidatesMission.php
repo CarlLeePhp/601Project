@@ -79,7 +79,7 @@
                 aria-labelledby="v-pills-submitApplication-tab">
                 <div class="container m-md-5">
                     <br>
-                    <span class="display-4 ">Submit Application</span>
+                    <span class="display-4 ">Registration Form</span>
                     <hr>
                     <!-- CheckSession User == "" -->
                     <?php if($userType != 'anyone') { 
@@ -140,6 +140,8 @@ var app = new Vue({
         nationality : "",
         passportCountry : "",
         passportNumber : "",
+        workPermitNumber: "",
+        workPermitExpiry: "",
         compensationInjury : "",
         compensationDateFrom : "",
         compensationDateTo : "",
@@ -180,6 +182,8 @@ var app = new Vue({
             formData.append('nationality', this.nationality);
             formData.append('passportCountry', this.passportCountry);
             formData.append('passportNumber', this.passportNumber);
+            formData.append('workPermitExpiry', this.workPermitExpiry);
+            formData.append('workPermitNumber', this.workPermitNumber);
             formData.append('compensationInjury', this.compensationInjury);
             formData.append('compensationDateFrom', this.compensationDateFrom);
             formData.append('compensationDateTo', this.compensationDateTo);

@@ -93,6 +93,8 @@ class CandidateMission extends CI_Controller{
         'nationality' => $this->input->post('nationality'),
         'passportCountry' => $this->input->post('passportCountry'),
         'passportNumber' => $this->input->post('passportNumber'),
+        'workPermitNumber' => $this->input->post('workPermitNumber'),
+        'workPermitExpiry' => $this->input->post('workPermitExpiry'),
         'compensationInjury' => $this->input->post('compensationInjury'),
         'compensationDateFrom' => $this->input->post('compensationDateFrom'),
         'compensationDateTo' => $this->input->post('compensationDateTo'),
