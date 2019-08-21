@@ -2,7 +2,7 @@
 
 <h3 class="text-secondary ml-0 my-3">Candidate's Personal Information</h3>
 <hr/>
-<form action="<?php echo base_url()?>index.php/CandidateMission/applyJob/addingByAdministrator" method="post">
+<form action="<?php echo base_url()?>index.php/CandidateMission/applyJob" method="post">
         <div class="col-12">
         
             <div class="row">

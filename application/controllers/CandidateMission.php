@@ -90,7 +90,7 @@ class CandidateMission extends CI_Controller{
         return $alphabet;
     }
 
-    public function applyJob($param=""){
+    public function applyJob(){
         if(!isset($_SESSION['userEmail'])){
             //redirect('/personcenter/index');
             echo "Please login";
@@ -100,10 +100,8 @@ class CandidateMission extends CI_Controller{
         if($_SESSION['userType']!='admin' && $_SESSION['UserType']!='staff')
         {
             $userID = $_SESSION['userID'];
-            $param="";
         }
         else {
-            if($param=="addingByAdministrator"){
                 $userEmail = 'LeeRecruitment:' . $_POST['email'];
                 $userPasswd = rand(10000,99999);
                 $pos = rand(0,4); 
@@ -125,7 +123,6 @@ class CandidateMission extends CI_Controller{
                 $this->register_model->addUser($firstName, $lastName, $userEmail, $newUserPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, "0000-00-00", $gender);
                 $userData = $this->candidate_model->getUserByData($firstName,$lastName);
                 $userID = $userData['UserID'];
-            }
         }
         $data = array(
         'jobInterest' => $this->input->post('jobInterest'),
@@ -171,6 +168,7 @@ class CandidateMission extends CI_Controller{
         echo "Update successfully";
     }
 
+    
     public function uploadCV(){
         if(!isset($_SESSION['userEmail'])){
             echo "Please login";
