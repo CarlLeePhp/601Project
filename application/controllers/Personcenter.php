@@ -36,18 +36,17 @@ class Personcenter extends CI_Controller {
 		
 		$userdata['userType'] = $_SESSION['userType'];
 		
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		if($_SESSION['userType']=='admin'){
+
+			$data['title'] = "Manage Staff";
+			$data['message'] ="";
+			$data['staffs'] = $this->User_model->getAllStaff();
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/manageStaff',$data);
+			$this->load->view('templates/footer');
+		} else {
 			redirect('/');
-        }
-		
-		$data['title'] = "Manage Staff";
-		$data['message'] ="";
-		$data['staffs'] = $this->User_model->getAllStaff();
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/manageStaff',$data);
-		$this->load->view('templates/footer');
-		
-    
+		}
 	}
 
 	//checkThis
@@ -55,42 +54,44 @@ class Personcenter extends CI_Controller {
 
 		$userdata['userType'] = $_SESSION['userType'];
 		
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
-        }
+		if($_SESSION['userType']=='admin'){
 
-		$staffID = $_POST['staffID'];
-		$password = $_POST['newPassword'];
-		$data['title'] = "Manage Staff";
-		$data['message'] ="";
-		$this->User_model->update_staffPassword($staffID,$password);
-		$data['staffs'] = $this->User_model->getAllStaff();
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/manageStaff',$data);
-		$this->load->view('templates/footer');
+			$staffID = $_POST['staffID'];
+			$password = $_POST['newPassword'];
+			$data['title'] = "Manage Staff";
+			$data['message'] ="";
+			$this->User_model->update_staffPassword($staffID,$password);
+			$data['staffs'] = $this->User_model->getAllStaff();
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/manageStaff',$data);
+			$this->load->view('templates/footer');
+		} else {
+			redirect('/');
+		}
 	}
 
 	//checkThis
 	public function removeStaff(){
 		$userdata['userType'] = $_SESSION['userType'];
 		
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
-        }
+		if($_SESSION['userType']=='admin'){
 		
-		$encryptPass = do_hash( $_POST['adminPassword'], 'sha256');
-		$staffID = $_POST['staffID'];
-		$data['message'] = "";
-		if($_SESSION['userPassword'] != $encryptPass){
-			$data['message'] = "wrong admin's password";
+			$encryptPass = do_hash( $_POST['adminPassword'], 'sha256');
+			$staffID = $_POST['staffID'];
+			$data['message'] = "";
+			if($_SESSION['userPassword'] != $encryptPass){
+				$data['message'] = "wrong administrator password failure in removing staff";
+			} else {
+			$this->User_model->delete_staff($staffID);
+			}
+			$data['title'] = "Manage Staff";
+			$data['staffs'] = $this->User_model->getAllStaff();
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/manageStaff',$data);
+			$this->load->view('templates/footer');
 		} else {
-		$this->User_model->delete_staff($staffID);
+			redirect('/');
 		}
-		$data['title'] = "Manage Staff";
-		$data['staffs'] = $this->User_model->getAllStaff();
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/manageStaff',$data);
-		$this->load->view('templates/footer');
 	}
 
 	public function personalInfo(){

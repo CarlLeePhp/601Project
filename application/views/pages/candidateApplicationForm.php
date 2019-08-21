@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-4">
                 <label for="classLicenseID" class="font-weight-bold mt-2">Class of license:</label>
-                <select class="form-control" id="classLicenseID" v-model="classLicense" name="classLicense" required>
+                <select class="form-control" id="classLicenseID" v-model="classLicense" name="classLicense" >
                     <option value="" selected></option>
                     <option value="Class1 Learner">Class 1 - Car license (Learner or Restricted) </option>
                     <option value="Class1 Restricted">Class 1 - Car license (Restricted) </option>

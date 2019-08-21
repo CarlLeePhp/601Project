@@ -65,36 +65,40 @@ class Register extends CI_Controller {
     }
 
     public function newStaff(){
-        if(!(isset($_SESSION['userType'])) || $_SESSION['userType']!='admin'){
+        if($_SESSION['userType']=='admin'){
+
+            // if(preg_match("",$_POST['email']))
+            $userEmail = $_POST['email'];
+            $userPasswd = $_POST['password'];
+            $confirmPassword= $_POST['confirmPassword'];
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $DOB = '';
+            $Address = '';
+            $City = '';
+            $ZipCode = '';
+            $Suburb = '';
+            $PhoneNumber = '';
+            $gender = '';
+
+            $userType = 'staff';
+            $userPasswd = do_hash($userPasswd, 'sha256');
+            $data['message'] = "";
+            
+            $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
+        
+            $userdata['userType'] = $_SESSION['userType'];
+            $data['title'] = "Manage Staff";
+            $data['staffs'] = $this->user_model->getAllStaff();
+            $this->load->view('templates/header',$userdata);
+            $this->load->view('pages/manageStaff',$data);
+            $this->load->view('templates/footer');
+        } else {
             redirect('/');
         }
-        $userEmail = $_POST['email'];
-        $userPasswd = $_POST['password'];
-        $confirmPassword= $_POST['confirmPassword'];
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $DOB = '';
-        $Address = '';
-        $City = '';
-        $ZipCode = '';
-        $Suburb = '';
-        $PhoneNumber = '';
-        $gender = '';
-
-        $userType = 'staff';
-        $userPasswd = do_hash($userPasswd, 'sha256');
-        $data['message'] = "";
-        
-        $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
-       
-        $userdata['userType'] = $_SESSION['userType'];
-        $data['title'] = "Manage Staff";
-        $data['staffs'] = $this->user_model->getAllStaff();
-        $this->load->view('templates/header',$userdata);
-        $this->load->view('pages/manageStaff',$data);
-        $this->load->view('templates/footer');
     }
 
+    
     public function forgotPasswd(){
         $userdata['userType'] = 'anyone';
         $this->load->view('templates/header', $userdata);

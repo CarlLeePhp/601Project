@@ -6,7 +6,9 @@
     
     
     <div class="container ">
-
+    <button type="button" style="position:fixed;right: 20px; bottom:20px;z-index:1" class="btn btn-dark btn-lg border-white">
+       <a href="<?php echo base_url()?>index.php/CandidateMission/addingNewCandidateStaffOnly"><i style="font-size:30px;" class="icon ion-md-add m-1 text-white"></i></a>
+      </button>
         <!-- Collapse -->
         <a class="btn btn-outline-dark border border-dark form-control" style="border-radius: 15px 15px 0px 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         <span class="font-weight-bold">Filters</span><i class="ml-1 icon ion-md-barcode mx-3"></i></a>
@@ -111,6 +113,12 @@
                 </label>
             </div>
             <div class="form-check form-check-inline col-md-2">
+                <input class="form-check-input" type="checkbox" v-model="showCV" id="showCV">
+                <label style="font-size: 1em;" class="form-check-label my-1" for="showCV">
+                    CV
+                </label>
+            </div>
+            <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showTransportation" id="showTransportation">
                 <label style="font-size: 1em;" class="form-check-label my-1" for="showTransportation">
                     Transportation
@@ -186,16 +194,17 @@
     </div>
     <!-- Table -->
     <div class=" mb-5 px-5">
-    <div style="overflow:auto" v-if="candidates.length > 0">
+    <div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" v-if="candidates.length > 0">
         
             <table class="table table-hover mt-5 mr-5">
            
                 <thead>
                     <tr>
                         <th scope="col"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCV }">CV</th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('FirstName')">First Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LastName')">Last Name</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showLastName }">CV</th>
+                        
                         <th scope="col" v-bind:class="{ 'd-none': ! showPhoneNumber }"><a href="#" class="text-dark" @click.stop.prevent="">Phone Number</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDOB }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('DOB')">Date Of Birth</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="">Email</a></th>
@@ -221,9 +230,9 @@
                 <tbody>
                     <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
                         <th><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></th>
+                        <th v-bind:class="{ 'd-none': ! showCV }"><a class="btn btn-outline-dark px-2" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV" target="_blank">CV</a></th>
                         <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
                         <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
-                        <th><a class="text-dark" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV" target="_blank">CV</a></th>
                         <th v-text="candidate.PhoneNumber" v-bind:class="{ 'd-none': ! showPhoneNumber }"></th>
                         <th v-text="candidate.DOB" v-bind:class="{ 'd-none': ! showDOB }"></th>
                         <th v-text="candidate.Email" v-bind:class="{ 'd-none': ! showEmail }"></th>
@@ -313,6 +322,7 @@ var app = new Vue({
         showLastName: true,
         showJobInterest: true,
         showJobType: true,
+        showCV: true,
         showTransportation: true,
         showCitizenship: true,
         showCompensationInjury: true,

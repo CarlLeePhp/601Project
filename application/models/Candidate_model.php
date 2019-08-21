@@ -91,7 +91,13 @@ class Candidate_model extends CI_Model {
         return $query->result_array();
     }
 
-    
+    //only getting the ID of the user
+    public function getUserByData($firstName,$lastName){
+        $mySql = 'SELECT User.UserID From User WHERE User.UserID = (SELECT MAX(User.UserID) FROM User WHERE User.FirstName="'.$firstName . '" AND User.LastName="'. $lastName .'")';
+        $query = $this->db->query($mySql);
+        return $query->row_array();
+    }
+
     // get all candidate with the firstname and lastname of the user
     public function getCandidatesWithName($limitNum, $offsetNum){
         //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";

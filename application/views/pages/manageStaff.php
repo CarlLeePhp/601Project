@@ -93,25 +93,6 @@
         </div>
       </div>
     </div>
-
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModal2Label" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModal2Label">Action {{ errMessage }}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>{{ errors2 }}</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- Modal END -->
     
 </div>
@@ -126,10 +107,10 @@
     var app = new Vue({
         el: '#app',
         data: {
-            errors: "Password did not match, failed to update new staff into database",
-            errors2: "Password did not match, failed to update staff's password into database",
+            errors: "",
             confirmPassword: "",
             password: "",
+            passwordError: "",
             updateStaffPassword: "",
             confirmUpdate: "",
             errMessage: "Failed",
@@ -149,11 +130,15 @@
         methods: {
             checkForm: function(e){
                 if(this.confirmPassword == this.password){
-                    return true
+                    if(this.password.length<6){
+                        this.passwordError = "Password is too short"
+                        e.preventDefault();
+                    } else {
+                        return true
+                    }
                 } else {
-                    // this.errors = "Password did not match, failed to update new staff into database"
-                    // this.errMessage = "Failed"
                     e.preventDefault();
+                    this.errors = "Password and their validation did not match, failed to register new staff into database"
                     $('#exampleModal').modal('show')
                 }
             },
@@ -212,12 +197,18 @@
             },
             checkForm2: function(n){
               if(this.updateStaffPassword == this.confirmUpdate){
-                return true
+                if(this.updateStaffPassword.length<6){
+                        this.passwordError = "Password is too short"
+                        n.preventDefault();
+                    } else {
+                        return true
+                  }
               } else {
                 n.preventDefault();
-                $('#exampleModal2').modal('show')
+                this.errors = "Password and their validation did not match, failed to update staff's new password"
+                $('#exampleModal').modal('show')
               }
-            }
+            },
         }
         
     })

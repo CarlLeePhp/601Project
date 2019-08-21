@@ -31,7 +31,7 @@ class Login extends CI_Controller {
             $userPasswd = do_hash($userPasswd, 'sha256');
             // get the user's information from database
             $data['user'] = $this->user_model->getUserByEmail($userEmail);
-            if($data['user']['UserPasswd'] == $userPasswd){
+            if($data['user']['UserPasswd'] == $userPasswd && strlen($_POST['Password']) > 5){
                 $newdata = array(
                     'userEmail' => $userEmail,
                     'userID' => $data['user']['UserID'],
@@ -45,7 +45,6 @@ class Login extends CI_Controller {
                     'zip' => $data['user']['ZipCode'],
                     'suburb' => $data['user']['Suburb'],
                     'phoneNumber' => $data['user']['PhoneNumber'],
-                    
                 );
                 $this->session->set_userdata($newdata);
 

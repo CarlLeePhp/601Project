@@ -1,3 +1,4 @@
+
 <div class="container" id="app">
     <h3 class="text-warning mx-5 mt-5">Jobs at Lee Recruitment</h3>
     <hr />
@@ -43,7 +44,8 @@
     <div class="container">
       <hr />
       <div class="row mt-5">
-         <div v-for="job in jobs">
+       
+         <div  v-for="job in jobs">
             <div class="col m-3">
                 <a :href="job.ref" class="text-dark">
                 <div class="card" style="width: 18rem;">
@@ -57,6 +59,7 @@
                 </a>
             </div>
         </div>
+        
       </div>  <!--end row-->
       
 
@@ -83,17 +86,16 @@
             location: "",
             jobThumbnailText: "",
             publishTitle: "",
-            
             jobs: [
                 <?php foreach ($jobs as $job): ?> {
                 id: "<?php echo $job['JobID']; ?>",
-                jobTitle: "<?php echo $job['JobTitle']; ?>",
+                jobTitle: '<?php echo $job['JobTitle']; ?>',
                 jobType: "<?php echo $job['JobType']; ?>",
                 location: "<?php echo $job['City']; ?>",
-                jobThumbnailText: "<?php echo $job['ThumbnailText']; ?>",
+                jobThumbnailText: '<?php echo $job['ThumbnailText']; ?>',
                 publishTitle: "<?php echo $job['PublishTitle'];?>",
                 ref: "<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>",
-                imgSrc: "<?php if(!empty($job['JobImage'])){ echo base_url() . 'jobImages/' . $job['JobImage'];} else { echo base_url() . 'lib/images/facebook.jpg';} ?>",
+                imgSrc: "<?php if(!empty($job['JobImage'])){ echo base_url() . 'jobImages/' . $job['JobImage']; } else { echo base_url() . 'lib/images/facebook.jpg';} ?>",
                 altSrc: "<?php echo $job['JobTitle'] . ' ' . $job['City'] . $job['JobID'];?>",
             },
             <?php endforeach; ?>

@@ -49,132 +49,140 @@ class Jobs extends CI_Controller {
 	
 	// show client tables
 	public function manageClient(){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			$userdata['userType'] = $_SESSION['userType'];
+			$data['title'] = "Manage Client";
+			$data['message'] ="";
+			$data['jobs'] = $this->job_model->get_jobs();
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/manageClient',$data);
+			$this->load->view('templates/footer');
+		} else {
 			redirect('/');
-        }
-		$userdata['userType'] = $_SESSION['userType'];
-		$data['title'] = "Manage Client";
-		$data['message'] ="";
-		$data['jobs'] = $this->job_model->get_jobs();
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/manageClient',$data);
-		$this->load->view('templates/footer');
+		}
 		
 	}
 
 	public function jobDetails($paramJobID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
-			$paramJobID = "";
-        }
-		$userdata['userType'] = $_SESSION['userType'];
-		$data['title'] = "Job Details";
-		$data['job'] = $this->job_model->get_specificJob($paramJobID);
-		$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
 		
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/jobDetails',$data);
-		$this->load->view('templates/footer');
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			$userdata['userType'] = $_SESSION['userType'];
+			$data['title'] = "Job Details";
+			$data['job'] = $this->job_model->get_specificJob($paramJobID);
+			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
+			
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/jobDetails',$data);
+			$this->load->view('templates/footer');
+		} else {
+			redirect('/');
+		}
 	}
 
 	public function jobPublish($paramJobID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
-			$paramJobID="";
-        }
-		$job = $this->job_model->get_specificJob($paramJobID);
-		$userdata['userType'] = $_SESSION['userType'];
-		$data['title'] = "Job Details";
-
-		//content
-		$publishTitle = $_POST['publishTitle'];
-		if($publishTitle == NULL) {
-			$publishTitle = $job['JobType'] . ' ' . $job['JobTitle'] . ' worker needed in ' . $job['City'];
-		}
-		$thumbnailText = $_POST['thumbnailText'];
-		if($thumbnailText == NULL || strcasecmp($thumbnailText,'Enter text for thumbnail')==0){
-			$thumbnailText = "";
-		}
-		$textEditor = $_POST['editor1'];
-		if($textEditor == NULL || strrpos($textEditor,'Enter the text for job')){
-			$textEditor = 'For further information please contact us or email us at <a href="mailto:mark@leerecruitment.co.nz"><strong>mark@leerecruitment.co.nz</strong></a>';
-		}
 		
-		if(isset($_FILES['jobImage'])){
-			$file =  $_FILES['jobImage'];
-			$fileName = $_FILES['jobImage']['name'];
-			$fileTmpName = $_FILES['jobImage']['tmp_name'];
-			$fileSize = $_FILES['jobImage']['size'];
-			$fileError = $_FILES['jobImage']['error'];
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			$job = $this->job_model->get_specificJob($paramJobID);
+			$userdata['userType'] = $_SESSION['userType'];
+			$data['title'] = "Job Details";
 
-			$fileExt = explode(".",$fileName);
-			$fileRealExt = strtolower(end($fileExt));
-			$allowed = array('jpg','jpeg','png','gif');
+			//content
+			$publishTitle = $_POST['publishTitle'];
+			if($publishTitle == NULL) {
+				$publishTitle = $job['JobType'] . ' ' . $job['JobTitle'] . ' worker needed in ' . $job['City'];
+			}
+			$thumbnailText = $_POST['thumbnailText'];
+			if($thumbnailText == NULL || strcasecmp($thumbnailText,'Enter text for thumbnail')==0){
+				$thumbnailText = "";
+			}
+			$textEditor = $_POST['editor1'];
+			if($textEditor == NULL || strrpos($textEditor,'Enter the text for job')){
+				$textEditor = 'For further information please contact us or email us at <a href="mailto:mark@leerecruitment.co.nz"><strong>mark@leerecruitment.co.nz</strong></a>';
+			}
+			
+			if(isset($_FILES['jobImage'])){
+				$file =  $_FILES['jobImage'];
+				$fileName = $_FILES['jobImage']['name'];
+				$fileTmpName = $_FILES['jobImage']['tmp_name'];
+				$fileSize = $_FILES['jobImage']['size'];
+				$fileError = $_FILES['jobImage']['error'];
 
-			if(in_array($fileRealExt,$allowed)){
-				if($fileError === 0){
-					if($fileSize < 1000000){
-						$fileNameNew = $paramJobID . $fileName;
-						$fileDestination = 'jobImages/' . $fileNameNew;
-						move_uploaded_file($fileTmpName,$fileDestination);
+				$fileExt = explode(".",$fileName);
+				$fileRealExt = strtolower(end($fileExt));
+				$allowed = array('jpg','jpeg','png','gif');
+
+				if(in_array($fileRealExt,$allowed)){
+					if($fileError === 0){
+						if($fileSize < 1000000){
+							$fileNameNew = $paramJobID . $fileName;
+							$fileDestination = 'jobImages/' . $fileNameNew;
+							move_uploaded_file($fileTmpName,$fileDestination);
+						} else {
+							echo 'The file is too big';
+						}
 					} else {
-						echo 'The file is too big';
+						echo 'There was an error uploading the file';
 					}
 				} else {
-					echo 'There was an error uploading the file';
+					echo 'You cannot upload the file of this type';
 				}
-			} else {
-				echo 'You cannot upload the file of this type';
 			}
-		}
-		//4digitsYear-2digitsMonth-2digitsDay Format to match sql
-		$publishDate = date('Y-m-d');
-		//update the job
-		$this->job_model->publishJob($paramJobID,$textEditor,$thumbnailText,$publishTitle,$publishDate,$fileNameNew);
-		//select the job 
-		$data['job'] = $this->job_model->get_specificJob($paramJobID);
-		$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
+			//4digitsYear-2digitsMonth-2digitsDay Format to match sql
+			$publishDate = date('Y-m-d');
+			//update the job
+			$this->job_model->publishJob($paramJobID,$textEditor,$thumbnailText,$publishTitle,$publishDate,$fileNameNew);
+			//select the job 
+			$data['job'] = $this->job_model->get_specificJob($paramJobID);
+			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
 
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/jobDetails',$data);
-		$this->load->view('templates/footer');
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/jobDetails',$data);
+			$this->load->view('templates/footer');
+		} else {
+			redirect('/');
+		}
 	}
 
 	public function jobUnpublish($paramJobID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
-			$paramJobID = "";
-        }
-		$userdata['userType'] = $_SESSION['userType'];
-		$data['title'] = "Job Details";
 		
-		//update the jobstatus to null
-		$this->job_model->unpublishJob($paramJobID);
-		//select the job 
-		$data['job'] = $this->job_model->get_specificJob($paramJobID);
-		$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/jobDetails',$data);
-		$this->load->view('templates/footer');
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+
+			$userdata['userType'] = $_SESSION['userType'];
+			$data['title'] = "Job Details";
+			
+			//update the jobstatus to null
+			$this->job_model->unpublishJob($paramJobID);
+			//select the job 
+			$data['job'] = $this->job_model->get_specificJob($paramJobID);
+			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/jobDetails',$data);
+			$this->load->view('templates/footer');
+		} else {
+			redirect('/');
+		}
+
 	}
 	/**
 	 * AJAX Methods for staff and Admin
 	 */
 	public function updateHoursWorked($candidateID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
+			$hoursWorked = $_POST['hoursWorked'];
+			
+			$diffhoursWorked = $hoursWorked - $candidateData['CandidateHoursWorked'];
+			$currentEarnings = $candidateData['CandidateEarnings'];
+			$jobRate = $candidateData['JobRate'];
+			$currentEarnings = $diffhoursWorked * $jobRate + $currentEarnings; 
+			$this->candidate_model->updateCandidateHoursWorking($candidateID,$hoursWorked,$currentEarnings);
+			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
+			$workingHoursSaved = $_POST['workingHoursSaved'];
+			$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+		} else {
 			redirect('/');
-			$candidateID = "";
-        }
-		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
-		$hoursWorked = $_POST['hoursWorked'];
-		$diffhoursWorked = $hoursWorked - $candidateData['CandidateHoursWorked'];
-		$currentEarnings = $candidateData['CandidateEarnings'];
-		$jobRate = $candidateData['JobRate'];
-		$currentEarnings = $diffhoursWorked * $jobRate + $currentEarnings; 
-		$this->candidate_model->updateCandidateHoursWorking($candidateID,$hoursWorked,$currentEarnings);
-		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
-		$workingHoursSaved = $_POST['workingHoursSaved'];
-		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+		}
 	}
 
 	public function loadJobDetailsTable($candidatesData){
@@ -219,92 +227,92 @@ class Jobs extends CI_Controller {
 
 	
 	public function removeAssignedCandidate($candidateID,$jobID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+
+			$this->candidate_model->removeAssignedCandidate($candidateID);
+			
+			$candidatesData = $this->candidate_model->getCandidatesJobDetails($jobID);
+			if(sizeof($candidatesData)==0){
+				$this->job_model->updateJobDetailsStatusNull($jobID);
+			}
+			$this->loadJobDetailsTable($candidatesData);
+		} else {
 			redirect('/');
-			$candidateID = "";
-			$jobID = "";
-        }
-		$this->candidate_model->removeAssignedCandidate($candidateID);
-		
-		$candidatesData = $this->candidate_model->getCandidatesJobDetails($jobID);
-		if(sizeof($candidatesData)==0){
-			$this->job_model->updateJobDetailsStatusNull($jobID);
 		}
-		$this->loadJobDetailsTable($candidatesData);
 	}
 
 	public function updateJobRate($candidateID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+
+			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
+			$jobRate = $_POST['jobRate'];
+			$workingHoursSaved = $_POST['workingHoursSaved'];
+			if($workingHoursSaved=="" || $workingHoursSaved == NULL || $workingHoursSaved == 0){
+				$candidateEarnings = $jobRate * $candidateData['CandidateHoursWorked'];
+				$this->candidate_model->updateCandidateHoursWorking($candidateID,$candidateData['CandidateHoursWorked'],$candidateEarnings);
+			}
+			$this->candidate_model->updateJobRate($candidateID,$jobRate);
+			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
+			$workingHoursSaved = $_POST['workingHoursSaved'];
+			$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+		} else {
 			redirect('/');
-			$candidateID = "";
-        }
-		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
-		$jobRate = $_POST['jobRate'];
-		$workingHoursSaved = $_POST['workingHoursSaved'];
-		if($workingHoursSaved=="" || $workingHoursSaved == NULL || $workingHoursSaved == 0){
-			$candidateEarnings = $jobRate * $candidateData['CandidateHoursWorked'];
-			$this->candidate_model->updateCandidateHoursWorking($candidateID,$candidateData['CandidateHoursWorked'],$candidateEarnings);
 		}
-		$this->candidate_model->updateJobRate($candidateID,$jobRate);
-		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
-		$workingHoursSaved = $_POST['workingHoursSaved'];
-		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
 	}
 
 	public function updateCandidateNotes($candidateID,$page){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
-			$candidateID = "";
-        }
-		$candidateNotes = $_POST['candidateNotes'];
-		$this->candidate_model->updateCandidateNotes($candidateID,$candidateNotes);
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+			$candidateNotes = $_POST['candidateNotes'];
+			$this->candidate_model->updateCandidateNotes($candidateID,$candidateNotes);
 
-		if($page=="jobDetails"){
-		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
-		$workingHoursSaved = $_POST['workingHoursSaved'];
-		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+			if($page=="jobDetails"){
+			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
+			$workingHoursSaved = $_POST['workingHoursSaved'];
+			$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+			} else {
+				echo 'Wrong Answer!';
+			}
 		} else {
-			echo 'Wrong Answer!';
+			redirect('/');
 		}
 	}
 
 	public function resetCandidateData($candidateID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+
+			$this->candidate_model->resetCandidateJobDetailsData($candidateID);
+			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
+			$workingHoursSaved = $_POST['workingHoursSaved'];
+		
+			$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+		} else {
 			redirect('/');
-			$candidateID = "";
-        }
-		$this->candidate_model->resetCandidateJobDetailsData($candidateID);
-		$candidateData = $this->candidate_model->getCandidateByID($candidateID);
-		$workingHoursSaved = $_POST['workingHoursSaved'];
-	
-		$this->loadJobDetailsRow($candidateData,$workingHoursSaved);
+		}
 	}
 
 
 	public function jobInfo($jobID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+
+			$data['job'] = $this->job_model->get_specificJobInfo($jobID);
+			
+			$userdata['userType'] = $_SESSION['userType'];
+			$this->load->view('templates/header',$userdata);
+			$this->load->view('pages/jobInfo',$data);
+			$this->load->view('templates/footer');
+		} else {
 			redirect('/');
-			$jobID = "";
-        }
-		$data['job'] = $this->job_model->get_specificJobInfo($jobID);
-		
-		$userdata['userType'] = $_SESSION['userType'];
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/jobInfo',$data);
-		$this->load->view('templates/footer');
+		}
 	}
 
 	public function updateBookmark($jobID){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+		if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+
+			$bookmarkValue = $_POST['bookmarkValue'];
+			
+			$this->job_model->updateBookmarkStatus($jobID,$bookmarkValue);
+		} else {
 			redirect('/');
-			$jobID = "";
-			exit;
 		}
-		//code igniter -- we remove the error log message
-		$bookmarkValue = $_POST['bookmarkValue'];
-		
-		$this->job_model->updateBookmarkStatus($jobID,$bookmarkValue);
 	}
-
-
 }

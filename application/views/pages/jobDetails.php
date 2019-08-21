@@ -107,7 +107,7 @@
 <!-- EndHere -->
 <hr class="border border-dark"/>
 <div class="container-fluid">
-<div style="overflow:auto">
+<div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;">
         <div  id="ajax-content">
         <table class="table border-bottom border-dark"><thead>
         <tr>

@@ -12,6 +12,8 @@ class CandidateMission extends CI_Controller{
         $this->load->library('session');
         // Load Modesl
         $this->load->model('candidate_model');
+        $this->load->model('city_model');
+        $this->load->model('register_model');
 	}
     public function index($param = ''){
         
@@ -34,29 +36,32 @@ class CandidateMission extends CI_Controller{
 
     // show candidate table
 	public function manageCandidate(){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+
+            $userdata['userType'] = $_SESSION['userType'];
+            $data['title'] = "Manage Candidate";
+            $data['message'] ="";
+            $data['candidateNum'] = $this->candidate_model->countAll();
+            // $data['candidateNum'] = 30;
+            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0);
+            $this->load->view('templates/header',$userdata);
+            $this->load->view('pages/manageCandidate',$data);
+            $this->load->view('templates/footer');
+        } else {
+            redirect('/');
         }
-		$userdata['userType'] = $_SESSION['userType'];
-		$data['title'] = "Manage Candidate";
-        $data['message'] ="";
-        $data['candidateNum'] = $this->candidate_model->countAll();
-        // $data['candidateNum'] = 30;
-        $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0);
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/manageCandidate',$data);
-		$this->load->view('templates/footer');
 		
     }
 
     // download CV
     public function downloadCV($fileName){
-        if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
-            echo 'Please login';
-            exit;
-		}
-        $path = '/var/www/candidatesCV/'.$fileName;
-        force_download($path, NULL);
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+
+            $path = '/var/www/candidatesCV/'.$fileName;
+            force_download($path, NULL);
+        } else {
+            redirect('/');
+        }
     }
     
     
@@ -65,23 +70,63 @@ class CandidateMission extends CI_Controller{
      */
     // get a offset value then return candidates
     public function getCandidates(){
-        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+
+            $offset=$_POST['offset'];
+            $candidates = $this->candidate_model->getCandidatesWithName(10, $offset);
+            echo json_encode($candidates);
+        } else {
+            redirect('/');
         }
-        $offset=$_POST['offset'];
-        $candidates = $this->candidate_model->getCandidatesWithName(10, $offset);
-        echo json_encode($candidates);
 
     }
-    public function applyJob(){
+
+    public function getRandomAlphabet(){
+        $alphabetArray = array( 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j','k', 'l', 'm', 'n', 'o',
+        'p', 'q', 'r', 's', 't','u', 'v', 'w', 'x', 'y','z'
+        );
+        $randomNum = rand(0,25);
+        $alphabet = $alphabetArray[$randomNum];
+        return $alphabet;
+    }
+
+    public function applyJob($param=""){
         if(!isset($_SESSION['userEmail'])){
             //redirect('/personcenter/index');
             echo "Please login";
             exit;
         }
+        $candidateNotes = "";
+        if($_SESSION['userType']!='admin' && $_SESSION['UserType']!='staff')
+        {
+            $userID = $_SESSION['userID'];
+            $param="";
+        }
+        else {
+            if($param=="addingByAdministrator"){
+                $userEmail = 'LeeRecruitment:' . $_POST['email'];
+                $userPasswd = rand(10000,99999);
+                $pos = rand(0,4); 
+                $alphabet = $this->getRandomAlphabet();
+                $newUserPasswd = substr_replace($userPasswd, $alphabet, $pos, 1);
+                
+                $firstName = $_POST['firstName'];
+                $lastName = $_POST['lastName'];
+                $Address = $_POST['Address'];
+                $City = $_POST['City'];
+                $ZipCode = $_POST['ZipCode'];
+                $Suburb = $_POST['Suburb'];
+                $PhoneNumber = $_POST['PhoneNumber'];
+                $gender = $_POST['gender'];
 
-        
-        $userID = $_SESSION['userID'];
+                $userType = 'candidate';
+                $newUserPasswd = do_hash($newUserPasswd, 'sha256');
+                $candidateNotes = $_POST['candidateNotes'];
+                $this->register_model->addUser($firstName, $lastName, $userEmail, $newUserPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, "0000-00-00", $gender);
+                $userData = $this->candidate_model->getUserByData($firstName,$lastName);
+                $userID = $userData['UserID'];
+            }
+        }
         $data = array(
         'jobInterest' => $this->input->post('jobInterest'),
         'jobType' => $this->input->post('jobType'),
@@ -117,12 +162,12 @@ class CandidateMission extends CI_Controller{
         'smoke' => $this->input->post('smoke'),
         'conviction' => $this->input->post('conviction'),
         'convictionDetails' => $this->input->post('convictionDetails'),
-        'UserID' => $userID
+        'UserID' => $userID,
+        'CandidateNotes' => $candidateNotes,
         );
 
-        $this->candidate_model->applyJob($data);
-
         
+        $this->candidate_model->applyJob($data);
         echo "Update successfully";
     }
 
@@ -163,16 +208,31 @@ class CandidateMission extends CI_Controller{
     }
 
     public function candidateDetails($candidateID){
-        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-            redirect('/');
-            $candidateID = "";
-        }
-		$userdata['userType'] = $_SESSION['userType'];
-        $data['candidate'] = $this->candidate_model->getCandidateFullInfo($candidateID);
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
-        $this->load->view('templates/header',$userdata);
-        $this->load->view('pages/candidateDetails',$data);
-        $this->load->view('templates/footer');
+            $userdata['userType'] = $_SESSION['userType'];
+            $data['candidate'] = $this->candidate_model->getCandidateFullInfo($candidateID);
+
+            $this->load->view('templates/header',$userdata);
+            $this->load->view('pages/candidateDetails',$data);
+            $this->load->view('templates/footer');
+        } else {
+            redirect('/');
+        }
     }
 
+    public function addingNewCandidateStaffOnly(){
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+            $userdata['userType'] = $_SESSION['userType'];
+
+            $data['citizenships'] = $this->candidate_model->get_citizenships();
+            $data['cities'] = $this->city_model->get_cities();
+            $this->load->view('templates/header',$userdata);
+            $this->load->view('pages/candidateFormStaffOnly',$data);
+            $this->load->view('templates/footer');
+        }
+        else {
+            redirect('/');
+        }
+    }
 }

@@ -16,7 +16,9 @@
             </div>
             <div class="row ">
             <input type="password" class="form-control col-md-11" v-model="password" id="passwordID" name="password" required>
+            <small class="text-muted">The length of the password should atleast be 6 characters</small>
             </div>
+            
             <div class="row mt-2">
                 <label class="font-weight-bold" for="confirmPasswordID"><small class="text-danger">*</small> ConfirmPassword: </label>
             </div>
@@ -40,8 +42,11 @@
         </div>
     </div>
     
-    
+    <div v-if="passwordError.length" class="row">
+    <span class="text-danger pl-0" v-text="passwordError"></span>
+    </div>
     <div class="row mt-4">
+    
     <input type="submit" class="btn btn-outline-dark" value="Register Staff"/>
     </div>
     </div>
