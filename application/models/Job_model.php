@@ -20,6 +20,14 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
+    // get all unchecked jobs
+    public function getUnchecked(){
+        $this->db->where('Checked', NULL);
+        $this->db->order_by('JobSubmittedDate', 'DESC');
+        $query = $this->db->get('Job');
+        return $query->result_array();
+    }
+
     public function get_publishedjobs($page,$jobTitle,$jobType,$location) {
         $this->db->select('JobID,ThumbnailText,PublishTitle,JobTitle,JobType,City,JobImage');
          
