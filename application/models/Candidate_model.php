@@ -103,7 +103,17 @@ class Candidate_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
-    
+    // get all unchecked candidate with the firstname and lastname
+    public function getUnchecked(){
+        //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
+        //$query = $this->db->query($mySql);
+        $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
+        $this->db->from('Candidate');
+        $this->db->join('User', 'Candidate.UserID = User.UserID');
+        $this->db->where('Checked', NULL);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     // get all citizenships
     public function get_citizenships(){
         $query = $this->db->get('Citizenship');
