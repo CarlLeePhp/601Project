@@ -11,10 +11,10 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active text-dark font-weight-bold" id="addStaff-tab" data-toggle="tab" href="#addStaff" role="tab" aria-controls="addStaff" aria-selected="true"> Add Staff<i class="ml-1 icon ion-md-add-circle-outline text-success"></i></a>
+                <a class="nav-link active text-dark font-weight-bold" id="addStaff-tab" @click="clearErrMess" data-toggle="tab" href="#addStaff" role="tab" aria-controls="addStaff" aria-selected="true"> Add Staff<i class="ml-1 icon ion-md-add-circle-outline text-success"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark font-weight-bold" id="changeStaffPassword-tab" data-toggle="tab" href="#changeStaffPassword" role="tab" aria-controls="changeStaffPassword" aria-selected="false">Change staff's password<i class="ml-1 icon ion-md-refresh text-info"></i></a>
+                <a class="nav-link text-dark font-weight-bold" id="changeStaffPassword-tab" @click="clearErrMess" data-toggle="tab" href="#changeStaffPassword" role="tab" aria-controls="changeStaffPassword" aria-selected="false">Change staff's password<i class="ml-1 icon ion-md-refresh text-info"></i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark font-weight-bold" id="removeStaff-tab" data-toggle="tab" href="#removeStaff" role="tab" aria-controls="removeStaff" aria-selected="false">Remove Staff<i class="ml-1 icon ion-md-remove-circle-outline text-danger"></i></a>
@@ -128,87 +128,38 @@
             ]
         },
         methods: {
-            checkForm: function(e){
-                if(this.confirmPassword == this.password){
-                    if(this.password.length<6){
+            
+          sortBy: function(sortKey) {
+            this.toggle = !this.toggle;
+            if(this.toggle){
+                this.staffs.sort(function(a, b){
+                    return a[sortKey].localeCompare(b[sortKey]);
+                })
+            } else {
+                this.staffs.sort(function(a, b){
+                    return b[sortKey].localeCompare(a[sortKey]);
+                })
+            }
+          },
+            checkDataForm: function(e,confirm,passwd,messageERR){
+              if(confirm == passwd){
+                if(passwd.length<6){
                         this.passwordError = "Password is too short"
                         e.preventDefault();
                     } else {
                         return true
-                    }
-                } else {
-                    e.preventDefault();
-                    this.errors = "Password and their validation did not match, failed to register new staff into database"
-                    $('#exampleModal').modal('show')
-                }
-            },
-            sortBy: function(sortKey) {
-              if(sortKey == 'id'){
-                this.toggle = !this.toggle
-                if(this.toggle){
-                  this.staffs.sort(function(a,b){return a.id - b.id})
-                } else {
-                  this.staffs.sort(function(a,b){return b.id - a.id})
-                }
-              } else if (sortKey == 'email'){
-                this.toggle = !this.toggle
-                if(this.toggle){
-                this.staffs.sort(function(a,b){return a.email.localeCompare(b.email)})
-                }
-                else {
-                  this.staffs.sort(function(a,b){return b.email.localeCompare(a.email)})
-                }
-              } else if(sortKey == 'firstName'){
-                this.toggle = !this.toggle
-                if(this.toggle){
-                this.staffs.sort(function(a,b){return a.firstName.localeCompare(b.firstName)})
-                } else {
-                  this.staffs.sort(function(a,b){return b.firstName.localeCompare(a.firstName)})
-                }
-              } else if(sortKey == 'lastName') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                  this.staffs.sort(function(a,b){return a.lastName.localeCompare(b.lastName)})
-                } else {
-                  this.staffs.sort(function(a,b){return b.lastName.localeCompare(a.lastName)})
-                }
-              } else if(sortKey == 'city'){
-                this.toggle = !this.toggle
-                if(this.toggle){
-                  this.staffs.sort(function(a,b){return a.city.localeCompare(b.city)})
-                } else {
-                  this.staffs.sort(function(a,b){return b.city.localeCompare(a.city)})
-                }
-              } else if(sortKey == 'address'){
-                this.toggle = !this.toggle
-                if(this.toggle){
-                  this.staffs.sort(function(a,b){return a.address.localeCompare(b.address)})
-                } else {
-                  this.staffs.sort(function(a,b){return b.address.localeCompare(a.address)})
-                }
-              } else if(sortKey == 'phoneNumber'){
-                this.toggle = !this.toggle
-                if(this.toggle){
-                  this.staffs.sort(function(a,b){return a.localeCompare(b.phoneNumber)})
-                } else {
-                  this.staffs.sort(function(a,b){return b.localeCompare(a.phoneNumber)})
-                }
-              }
-            },
-            checkForm2: function(n){
-              if(this.updateStaffPassword == this.confirmUpdate){
-                if(this.updateStaffPassword.length<6){
-                        this.passwordError = "Password is too short"
-                        n.preventDefault();
-                    } else {
-                        return true
                   }
               } else {
-                n.preventDefault();
-                this.errors = "Password and their validation did not match, failed to update staff's new password"
+                e.preventDefault();
+                this.errors = messageERR
                 $('#exampleModal').modal('show')
               }
             },
+            clearErrMess: function(){
+              this.password = "";
+              this.confirmPassword= "";
+              this.passwordError = "";
+            }
         }
         
     })

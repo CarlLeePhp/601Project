@@ -131,10 +131,11 @@ class Personcenter extends CI_Controller {
 		$data['message'] = "";
 
 		if($_SESSION['userPassword'] != $encryptPass){
-			$data['message'] = "Password is not the same as your current password, failed to update password";
+			$data['message'] = "The password you entered in Current Password input box is not the same as your current password, failed to update password";
 		} else {
 			$this->User_model->update_personalPassword($userID,$newPassword);
 			$data['message'] = "Success! Your password has been changed";
+			$_SESSION['userPassword'] = $encryptPass;
 		}
 
 		$data['userID'] = $_SESSION['userID'];

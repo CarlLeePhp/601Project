@@ -70,6 +70,15 @@ class Candidate_model extends CI_Model {
         return $query->row_array();
     }
 
+    //assign jobID to candidate
+    public function assignCandidateJobID($candidateID,$jobID){
+        $this->db->where('CandidateID',$candidateID);
+        $data = array( 
+            'JobID' => $jobID,
+        );
+        $this->db->update('Candidate',$data);
+    }
+
     //remove Candidate From table in job Details
     public function removeAssignedCandidate($candidateID){
         $this->db->where('CandidateID',$candidateID);
@@ -99,12 +108,17 @@ class Candidate_model extends CI_Model {
     }
 
     // get all candidate with the firstname and lastname of the user
-    public function getCandidatesWithName($limitNum, $offsetNum){
+    public function getCandidatesWithName($limitNum, $offsetNum,$page=""){
         //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
         //$query = $this->db->query($mySql);
         $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
+        if($page == "jobDetails"){
+             $this->db->where('Candidate.JobID',NULL);
+            $this->db->or_where('Candidate.JobID',"");
+            $this->db->or_where('Candidate.JobID',0);
+        }
         $this->db->limit($limitNum, $offsetNum);
         $query = $this->db->get();
         return $query->result_array();
@@ -133,9 +147,16 @@ class Candidate_model extends CI_Model {
     }
 
     // return how many candidates
-    public function countAll(){
-        $result = $this->db->count_all('Candidate');
-        return $result;
+    public function countAll($page=""){
+        
+        
+        if($page == "jobDetails"){
+            $this->db->where('JobID',NULL);
+            $this->db->or_where('JobID',"");
+            $this->db->or_where('JobID',0);
+        }
+        
+        return $this->db->count_all_results('Candidate');;
     }
     /**
      * Insert functions

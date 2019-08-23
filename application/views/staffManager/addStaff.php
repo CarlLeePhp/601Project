@@ -1,7 +1,7 @@
 
 <div class="container mt-5" >
    
-    <form action="<?php echo base_url() ?>index.php/Register/newStaff" method="post" @submit="checkForm">
+    <form action="<?php echo base_url() ?>index.php/Register/newStaff" method="post" @submit="checkDataForm($event,confirmPassword,password,'Password and their validation did not match, failed to register new staff into database')">
     <div class="container justify-content-center">
     <div class="row">
        <div class="col-md-6">

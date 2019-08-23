@@ -1,13 +1,16 @@
-<!-- 
-jobCV--
 
-compensationInjury 
-compensationDateFrom compensationDateTo asthma blackOut diabetes
-bronchitis backInjury deafness dermatitis skinInfection allergies
-hernia highBloodPressure heartProblems usingDrugs usingContactLenses
-RSI dependants smoke conviction convictionDetails CandidateNotes -->
+<?php if(!empty($job)):?>
+<div class="form-control bg-success text-center text-white font-weight-bold rounded-0" style="position:fixed; top:0px; z-index:1;opacity:0.9">
+    Assigning candidate to <?php echo $job['JobTitle'] . ' in ' . $job['City'];?>
+</div>
 <div id="app" class="container mt-5">
-    
+<a href="<?php echo base_url();?>index.php/Jobs/assignCandidate/<?php echo $candidate['CandidateID'];?>/<?php echo $job['JobID'];?>">
+<button type="button" style="position:fixed;right: 20px; bottom:20px;z-index:1" class=" btn-lg border-white">
+    <span>Assign this candidate</span>
+    <i style="font-size:30px;" class="icon ion-md-contacts m-1 text-dark"></i>
+</button></a>
+
+<?php endif;?>
         <h1 class="text-dark mt-3 text-center"> Candidate Detailed Information </h3>
         <hr />
         <div class="row">
@@ -21,7 +24,7 @@ RSI dependants smoke conviction convictionDetails CandidateNotes -->
             </div>
             <div class="col-md-4">
                 <div class="row ml-1"><label for="candidateCVID" class="font-weight-bold mt-2">Candidate's CV:</label></div>
-                <div class="row ml-1"><a href="<?php echo base_url() . 'candidatesCV/' . $candidate['candidateCV'];?>" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
+                <div class="row ml-1"><a href="<?php echo base_url()?>index.php/CandidateMission/downloadCV/<?php echo $candidate['candidateCV'];?>" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
             </div>
         </div>
 

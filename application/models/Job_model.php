@@ -115,14 +115,30 @@ class Job_model extends CI_Model {
     }
     // Insert a new Sale
 
-    public function unpublishJob($jobID){
+    public function unpublishJob($jobID,$status){
+
         $data = array(
-            'JobStatus' => 'null',
+            'JobStatus' => $status,
         );
         $this->db->where('JobID',$jobID);
         $this->db->update('Job',$data);
     }
 
+    public function updateJobStatusToComplete($jobID){
+        $this->db->where('JobID',$jobID);
+        $data = array(
+            'JobStatus' => 'completed',
+        );
+        $this->db->update('Job',$data);
+    }
+
+    public function updateJobStatusToActive($jobID){
+        $this->db->where('JobID',$jobID);
+        $data = array(
+            'JobStatus' => 'active',
+        );
+        $this->db->update('Job',$data);
+    }
 
     public function updateJobDetailsStatusNull($jobID){
         $this->db->where('JobID',$jobID);

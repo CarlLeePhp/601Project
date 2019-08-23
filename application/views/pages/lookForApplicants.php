@@ -482,7 +482,7 @@ var app = new Vue({
                 description: "<?php echo $job['Description']; ?>",
                 dateSubmitted: "<?php echo $job['JobSubmittedDate']?>",
                 ref: "<?php echo base_url()?>index.php/Jobs/jobDetails/<?php echo $job['JobID'];?>",
-                checked: "<?php if($job['Checked']=="true"){ echo true; } else { echo false;};?>"
+                checked: "<?php if($job['Checked']=="true"){ echo true; } else { echo false;};?>",
             },
             <?php endforeach; ?>
         ],

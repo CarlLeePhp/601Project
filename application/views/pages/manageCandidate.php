@@ -1,4 +1,11 @@
+
 <div id="app">
+
+<?php if(sizeof($job)>3):?>
+<div class="form-control bg-success text-center text-white font-weight-bold rounded-0" style="position:fixed; top:0px;z-index:1;opacity:0.9">
+    Assigning candidate to <?php echo $job['JobTitle'] . ' in ' . $job['City'];?>
+</div>
+<?php endif;?>
     <div style="height: 50px;"></div>
 
     <h2 class="text-center"><?php echo $title; ?></h2>
@@ -6,9 +13,11 @@
     
     
     <div class="container ">
-    <button type="button" style="position:fixed;right: 20px; bottom:20px;z-index:1" class="btn btn-dark btn-lg border-white">
-       <a href="<?php echo base_url()?>index.php/CandidateMission/addingNewCandidateStaffOnly"><i style="font-size:30px;" class="icon ion-md-add m-1 text-white"></i></a>
-      </button>
+        <a href="<?php echo base_url()?>index.php/CandidateMission/addingNewCandidateStaffOnly">
+            <button type="button" style="position:fixed;right: 20px; bottom:20px;z-index:1" class="btn btn-dark btn-lg border-white">
+            <i style="font-size:30px;" class="icon ion-md-add m-1 text-white"></i>
+            </button>
+        </a>
         <!-- Collapse -->
         <a class="btn btn-outline-dark border border-dark form-control" style="border-radius: 15px 15px 0px 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         <span class="font-weight-bold">Filters</span><i class="ml-1 icon ion-md-barcode mx-3"></i></a>
@@ -24,8 +33,8 @@
                     
                     <select class="form-control p-2" type="text" v-model="filterJobType" id="jobTypeID">
                         <option selected></option>
-                        <option value="Full Time">Full Time</option>
-                        <option value="Part Time">Part Time</option>
+                        <option value="FullTime">Full Time</option>
+                        <option value="PartTime">Part Time</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
@@ -200,37 +209,39 @@
            
                 <thead>
                     <tr>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showAssignCandidate }"><a href="#" class="text-dark" @click.stop.prevent="">Assign Candidate</a></th>
                         <th scope="col"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCV }">CV</th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('FirstName')">First Name</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('LastName')">Last Name</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark pr-5" @click.stop.prevent="sortBy('FirstName')">First Name</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark pr-5" @click.stop.prevent="sortBy('LastName')">Last Name</a></th>
                         
                         <th scope="col" v-bind:class="{ 'd-none': ! showPhoneNumber }"><a href="#" class="text-dark" @click.stop.prevent="">Phone Number</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDOB }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('DOB')">Date Of Birth</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDOB }"><a href="#" class="text-dark pr-5" @click.stop.prevent="sortBy('DOB')">Date Of Birth</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="">Email</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('City')">City</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('City')">City</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="">Address</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showSuburb }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Suburb')">Suburb</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showGender }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Gender')">Gender</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showSuburb }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('Suburb')">Suburb</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showGender }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('Gender')">Gender</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCitizenship }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('citizenship')">Citizenship</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationInjury }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationInjury')">Compensation Injury</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationInjury }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('compensationInjury')">Compensation Injury</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateFrom')">Compensation From</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateTo }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateTo')">Compensation To</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('healthProblem')">Health Problem</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('healthProblem')">Health Problem</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDependants }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dependants')">Dependants</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showSmoke }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('smoke')">Smoke</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showConviction }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('conviction')">Conviction</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showConviction }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('conviction')">Conviction</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showConvictionDetails }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('convictionDetails')">Conviction Detail</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCandidateNotes }"><a href="#" class="text-dark" @click.stop.prevent="">Notes</a></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
-                        <th><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></th>
-                        <th v-bind:class="{ 'd-none': ! showCV }"><a class="btn btn-outline-dark px-2" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV" target="_blank">CV</a></th>
+                        <th class="textInfoPos" v-bind:class="{ 'd-none': ! showAssignCandidate }"><span class="textInfo text-center" style="left: 0px;overflow:initial;">Assign job <br>to this Candidate</span><a v-on:click="AssignIDURL(candidate.CandidateID)" role="button" class="text-info"><i style="font-size:30px;" class="ml-1 icon ion-md-contacts mx-3"></i></a></th>
+                        <th class="textInfoPos"><span class="textInfo text-center" style="left: -35px;width:190px;">See Candidate's Details</span><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></th>
+                        <th class="textInfoPos" v-bind:class="{ 'd-none': ! showCV }"><span class="textInfo text-center" style="left: -45px;width:160px;">Download <br>Candidate's CV</span><a class="btn btn-outline-dark px-2" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV">CV</a></th>
                         <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
                         <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
                         <th v-text="candidate.PhoneNumber" v-bind:class="{ 'd-none': ! showPhoneNumber }"></th>
@@ -317,7 +328,7 @@ var app = new Vue({
         candidates: <?php echo json_encode($candidates); ?>,
         candidatesCopy: [],
         showBookmark: false,
-        
+        showAssignCandidate: <?php if(isset($job['JobID'])){echo "true";} else {echo "false";}?>,
         showFirstName: true,
         showLastName: true,
         showJobInterest: true,
@@ -413,12 +424,14 @@ var app = new Vue({
             }
             var formData = new FormData()
             formData.append('offset', offset);
-            var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/getCandidates/'
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/getCandidates/<?php echo $fromPage;?>'
             this.$http.post(urllink, formData).then(res => {
                 var result = res.body
+                this.candidatesCopy = [];
                 this.candidates = [];
                 this.candidates = result;
                 for(var i=0; i<this.candidates.length; i++){
+                    
                     if(this.candidates[i].asthma == 'true' || this.candidates[i].blackOut == 'true' || 
                         this.candidates[i].diabetes == 'true' || this.candidates[i].bronchitis == 'true' ||
                         this.candidates[i].backInjury == 'true' || this.candidates[i].deafness == 'true' ||
@@ -431,10 +444,28 @@ var app = new Vue({
                     } else {
                         this.candidates[i].healthProblem = 'NO';
                     }
-            
+                    let jobInterest = this.candidates[i].jobInterest.toLowerCase();
+                    let jobType = this.candidates[i].jobType.toLowerCase();
+                    let firstName = this.candidates[i].FirstName.toLowerCase();
+                    let city = this.candidates[i].City.toLowerCase();
+                    let lastName = this.candidates[i].LastName.toLowerCase();
+                    let suburb = this.candidates[i].Suburb.toLowerCase();
+                    let phoneNumber = this.candidates[i].PhoneNumber.toLowerCase();
+                    let email = this.candidates[i].Email.toLowerCase();
+
+                    if(jobInterest.search(this.filterJobInterest.toLowerCase()) >= 0
+                    && jobType.search(this.filterJobType.toLowerCase()) >= 0
+                    && firstName.search(this.filterFirstName.toLowerCase()) >= 0
+                    && city.search(this.filterCity.toLowerCase()) >= 0
+                    && lastName.search(this.filterLastName.toLowerCase()) >= 0
+                    && suburb.search(this.filterSuburb.toLowerCase()) >= 0
+                    && phoneNumber.search(this.filterPhoneNumber.toLowerCase()) >= 0
+                    && email.search(this.filterEmail.toLowerCase()) >= 0){
+                    this.candidatesCopy.push(this.candidates[i]);
+                    }
                 }
-                this.candidatesCopy = this.candidates;
-                
+               
+                //this.candidatesCopy = this.candidates;
             }, res => {
                 // error callback
                 
@@ -454,9 +485,15 @@ var app = new Vue({
             })
         },
         getUrl: function(candidateID){
-            var goToUrl = "<?php echo base_url() . 'index.php/CandidateMission/candidateDetails/';?>"+candidateID;
+            var issetJob = "<?php if(isset($job['JobID'])){ echo $job['JobID'];}?>"
+            var goToUrl = "<?php echo base_url() . 'index.php/CandidateMission/candidateDetails/';?>"+candidateID +"/"+issetJob;
             document.location.href = goToUrl;
-        }
+        },
+        AssignIDURL: function(candidateID,jobID){
+            var issetJob = "<?php if(isset($job['JobID'])){ echo $job['JobID'];}?>"
+            var goToUrl = "<?php echo base_url() . 'index.php/Jobs/assignCandidate/';?>"+candidateID +"/"+issetJob;
+            document.location.href = goToUrl;
+        },
         
         
     },
@@ -486,7 +523,10 @@ var app = new Vue({
             this.pageNums.push({id: i, isActive: false});
         }
         this.pageNums[0].isActive = true;
-
+        this.filterJobType = "<?php echo $job['JobType']?>";
+        //this.filterJobInterest = "<?php echo $job['JobTitle']?>";
+        //this.filterCity = "<?php echo $job['City']?>";
+        this.applyFilters();
     }
 
 })

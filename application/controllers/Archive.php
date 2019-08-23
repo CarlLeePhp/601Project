@@ -18,7 +18,7 @@ class Archive extends CI_Controller{
 
     public function index(){
         
-        if(isset($_SESSION['userType']) && ($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
             $userdata['userType'] = $_SESSION['userType'];
             $data['title'] = "Archive";

@@ -126,7 +126,7 @@
     </div>
     <!-- Table -->
     <div class=" mb-5 px-5">
-    <div style="overflow:auto" >
+    <div class="dragscroll" style=" overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" >
         
             <table class="table table-hover mt-5 mr-5">
            
@@ -134,17 +134,17 @@
                     <tr>
                         <th scope="col" v-bind:class="{ 'd-none': ! showBookmark }"><a href="#"  @click.stop.prevent="sortBy('bookmark')" class="text-dark "><img src="<?php echo base_url();?>lib/images/Bookmark1.png" style="height: 16px; width:16px;"></a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDetails }"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('clientTitle')">Title</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('clientName')">Name</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('clientTitle')">Title</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('clientName')">Name</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCompany }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('company')">Company</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('email')">Email</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showContactNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('contactNumber')">Contact Number</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobTitle')">Job Title</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('address')">Address</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('city')">City</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark  p-2 pr-3" @click.stop.prevent="sortBy('city')">City</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDescription }">Description</th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDateSubmitted }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dateSubmitted')">DateSubmitted</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDateSubmitted }"><a href="#" class="text-dark py-2" @click.stop.prevent="sortBy('dateSubmitted')">DateSubmitted</a></th>
                        
                     </tr>
                 </thead>
@@ -277,130 +277,16 @@ var app = new Vue({
             this.jobs = this.jobsCopy;
         },
         sortBy: function(sortKey) {
-            if (sortKey == 'clientName') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.clientName.localeCompare(b.clientName)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.clientName.localeCompare(a.clientName)
-                    })
-                }
+            this.toggle = !this.toggle;
+            if(this.toggle){
+                this.jobs.sort(function(a, b){
+                    return a[sortKey].localeCompare(b[sortKey]);
+                })
+            } else {
+                this.jobs.sort(function(a, b){
+                    return b[sortKey].localeCompare(a[sortKey]);
+                })
             }
-            else if (sortKey == 'dateSubmitted') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.dateSubmitted.localeCompare(b.dateSubmitted)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.dateSubmitted.localeCompare(a.dateSubmitted)
-                    })
-                }
-            } else if (sortKey == 'bookmark') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.bookmarkStat.localeCompare(b.bookmarkStat)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.bookmarkStat.localeCompare(a.bookmarkStat)
-                    })
-                }
-            } else if (sortKey == 'company') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.company.localeCompare(b.company)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.company.localeCompare(a.company)
-                    })
-                }
-            } else if (sortKey == 'contactNumber') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.contactNumber.localeCompare(b.contactNumber)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.contactNumber.localeCompare(a.contactNumber)
-                    })
-                }
-            }  else if (sortKey == 'jobTitle') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.jobTitle.localeCompare(b.jobTitle)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.jobTitle.localeCompare(a.jobTitle)
-                    })
-                }
-            } else if (sortKey == 'email') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.email.localeCompare(b.email)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.email.localeCompare(a.email)
-                    })
-                }
-            }   else if (sortKey == 'jobType') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.jobType.localeCompare(b.jobType)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.jobType.localeCompare(a.jobType)
-                    })
-                }
-            } else if (sortKey == 'city') {
-                this.toggle = !this.toggle
-                if(this.toggle){ 
-                    this.jobs.sort(function(a, b) {
-                        return a.city.localeCompare(b.city)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.city.localeCompare(a.city)
-                    })
-                }
-            } else if (sortKey == 'address') {
-                this.toggle = !this.toggle
-                if(this.toggle){
-                    this.jobs.sort(function(a, b) {
-                        return a.address.localeCompare(b.address)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.address.localeCompare(a.address)
-                    })
-                }
-            } else if (sortKey == 'clientTitle') {
-                this.toggle = !this.toggle
-                if(this.toggle) {
-                    this.jobs.sort(function(a, b) {
-                        return a.clientTitle.localeCompare(b.clientTitle)
-                    })
-                } else {
-                    this.jobs.sort(function(a, b) {
-                        return b.clientTitle.localeCompare(a.clientTitle)
-                    })
-                }
-            }
-            
         },
         updateBookmark: function(jobID){
             var xRequest = new XMLHttpRequest;

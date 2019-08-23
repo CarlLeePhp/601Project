@@ -1,6 +1,4 @@
-<?php if(!(isset($_SESSION['userType']))&& ($_SESSION['userType']!='admin' && $_SESSION['userType']!='staff')){
-			redirect('/');
-		} ?>
+
 <div id="app">
 <div style="height: 50px;"></div>
 
@@ -8,15 +6,14 @@
 <hr />
 
 <div class="container mb-2 p-md-5">
-<?php if($userType == 'staff' || $userType == 'admin'):?>
 <div class="row justify-content-center">
     <table class="table table-sm col-4 table-hover">
     
     
     <tbody>
-    <legend class="text-md-left text-center">Client's Brief: <b><?php echo strtoupper($job['JobStatus']);?></b></legend>
+    <legend class="text-md-left text-center">Client's Brief: <b><?php if(empty($job['JobStatus'])){ echo "NULL";} else { echo strtoupper($job['JobStatus']);}?></b></legend>
         <?php foreach($job as $key => $value):?>
-        <?php if($key == 'JobID' || $key == 'Description' || $key == 'Editor1' || $key == 'ThumbnailText' || $key == 'JobStatus' || $key == 'PublishTitle' || $key == "PublishDate" || $key == "Bookmark" || $key == "JobImage")  :?>
+        <?php if($key == 'JobID' || $key == 'Description' || $key == 'Editor1' || $key == 'ThumbnailText' || $key == 'JobStatus' || $key == 'PublishTitle' || $key == "PublishDate" || $key == "Bookmark" || $key == "JobImage" || $key == "Checked")  :?>
         <?php else :?>
         <tr>
         <th><?php echo $key ?></th>
@@ -39,11 +36,14 @@
     </div>
 </div>
 <hr />
-    <?php if( $job['JobStatus'] == 'published') :?>
     <div class="row justify-content-center">
-        <a class="btn btn-outline-dark col-md-3 col-9" href="<?php echo base_url()?>index.php/Jobs/jobUnpublish/<?php echo $job['JobID'];?>">Unpublish from job page</a>
-    </div>
+    <?php if( sizeof($candidatesData)>0 && $job['JobStatus'] != "completed") :?>
+        <a class="btn btn-outline-danger col-md-3 col-9 m-2" href="<?php echo base_url()?>index.php/Jobs/updateJobToArchive/<?php echo $job['JobID'];?>">Send job to Archive</a>
     <?php endif;?>
+    <?php if( $job['JobStatus'] == 'published') :?>
+        <a class="btn btn-outline-dark col-md-3 col-9 m-2" href="<?php echo base_url()?>index.php/Jobs/jobUnpublish/<?php echo $job['JobID'];?>">Unpublish job</a>
+    <?php endif;?>
+    </div>
 </div>
     
 <h2 class="text-center mt-md-0 mt-5">WebContent</h2>
@@ -64,7 +64,7 @@
                 <tbody>
                 <legend class="text-md-left text-center">Job's classifications:</legend>
                     <?php foreach($job as $key => $value):?>
-                        <?php if(($key == 'JobTitle' || $key == 'JobType' || $key == 'City' || $key == 'Suburb' || $key == 'PublishDate') && $value != NULL):?>
+                        <?php if($value != NULL && ($key == 'JobTitle' || $key == 'JobType' || $key == 'City' || $key == 'Suburb' || $key == 'PublishDate') ):?>
                         <tr>
                         <th><?php echo $key . ':';?></th>
                         <td><?php echo $value?></th>
@@ -87,7 +87,7 @@
                     <?php endif;?>
                     </div>
                     <div class="row justify-content-center">
-                    <input type="file" onchange="document.getElementById('<?php echo $setImgPreviewID ; ?>').src = window.URL.createObjectURL(this.files[0])" name="jobImage" class="offset-1 offset-md-0">
+                    <input type="file" onchange="document.getElementById('<?php echo $setImgPreviewID ; ?>').src = window.URL.createObjectURL(this.files[0])" name="jobImage" class="offset-1 offset-md-0" required>
                     </div>
             </div>
         </div>
@@ -131,8 +131,8 @@
         <?php $savedHoursWorked[$candidateData['CandidateID']] = $candidateData['CandidateHoursWorked'];?>
         <form>
         <tr id="targetRow<?php echo $candidateData['CandidateID'];?>"><th scope="row">
-        <a onclick="removeAssignedCandidate(<?php echo $candidateData['CandidateID']?>)" class="text-danger"><i style="font-size:25px" class="icon ion-md-close-circle"></i> </a></th>
-        <td><a onclick="resetCandidateData(<?php echo $candidateData['CandidateID']?>)" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></td>
+        <div class="textInfoPos"><span class="textInfo">Remove Candidate</span><a onclick="removeAssignedCandidate(<?php echo $candidateData['CandidateID']?>)" class="text-danger"><i style="font-size:25px" class="icon ion-md-close-circle"></i> </a></div></th>
+        <td><div class="textInfoPos"><span class="textInfo font-weight-bold" style="left:-50px;">Reset Data to 0</span><a onclick="resetCandidateData(<?php echo $candidateData['CandidateID']?>)" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></div></td>
         <td><?php echo $candidateData['FirstName'] . ' ' . $candidateData['LastName'];?></td>
         <td><?php echo $candidateData['PhoneNumber'];?></td>
         <td><?php echo $candidateData['Email'];?></td>
@@ -155,11 +155,8 @@
    
 </div>
     <div class="row justify-content-center">
-        <a class="col-md-3 col-6 btn btn-info my-5">Assign Candidate </a>
+        <a href="<?php echo base_url()?>index.php/CandidateMission/manageCandidate/jobDetails/<?php echo $job['JobID'];?>" class="col-md-3 col-6 btn btn-info my-5">Assign Candidate </a>
     </div>
-<?php else: redirect('/');?>
-        
-<?php endif; ?>
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>

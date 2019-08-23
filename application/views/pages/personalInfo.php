@@ -20,12 +20,14 @@
                     <label for="oldPassword" class="col-md-3 col-form-label"><b>Current Password</b></label>
                     <div class="col-md-9 p-md-0 ">
                     <input type="password" class="form-control"  id="oldPassword" placeholder="Enter Current Password" name="oldPassword" required/>
+                   
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="newPassword" class="col-md-3 col-form-label"><b>New Password</b></label>
                     <div class="col-md-9 p-md-0 ">
                     <input type="password" class="form-control" v-model="newPassword" id="newPassword" placeholder="Enter New Password" name="newPassword" required/>
+                    <small class="text-muted">The password should atleast be 6 characters in length</small>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -125,7 +127,12 @@
             
             checkForm: function(e){
                 if(this.confirmNewPassword == this.newPassword){
-                    this.notMatchPasswordError = ""
+                    if(this.newPassword.length<6){
+                        this.notMatchPasswordError = "The password is too short"
+                        e.preventDefault()
+                    } else {
+                        this.notMatchPasswordError = ""
+                    }
                    
                 } else {
                     this.notMatchPasswordError = "New Password did not match"

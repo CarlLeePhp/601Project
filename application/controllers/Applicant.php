@@ -17,47 +17,51 @@ class Applicant extends CI_Controller{
     public function index(){
         
         
-        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
-        }
-        $userdata['userType'] = $_SESSION['userType'];
+        if( $_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+            $userdata['userType'] = $_SESSION['userType'];
 
-        $data['title'] = "Manage Client";
-        $data['message'] ="";
-        $data['jobs'] = $this->job_model->getUnchecked();
-        $data['candidates'] = $this->candidate_model->getUnchecked();
-        
-		$this->load->view('templates/header',$userdata);
-        $this->load->view('pages/lookForApplicants',$data);
-        
-		$this->load->view('templates/footer');
+            $data['title'] = "Manage Client";
+            $data['message'] ="";
+            $data['jobs'] = $this->job_model->getUnchecked();
+            $data['candidates'] = $this->candidate_model->getUnchecked();
+            
+            $this->load->view('templates/header',$userdata);
+            $this->load->view('pages/lookForApplicants',$data);
+            
+            $this->load->view('templates/footer');
+        }
+        else {
+            redirect('/');
+        }
     }
 
     // show candidate table
 	public function manageCandidate(){
-		if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
+        if( $_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+            $userdata['userType'] = $_SESSION['userType'];
+            $data['title'] = "Manage Candidate";
+            $data['message'] ="";
+            $data['candidateNum'] = $this->candidate_model->countAll();
+            // $data['candidateNum'] = 30;
+            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0);
+            $this->load->view('templates/header',$userdata);
+            $this->load->view('pages/manageCandidate',$data);
+            $this->load->view('templates/footer');
         }
-		$userdata['userType'] = $_SESSION['userType'];
-		$data['title'] = "Manage Candidate";
-        $data['message'] ="";
-        $data['candidateNum'] = $this->candidate_model->countAll();
-        // $data['candidateNum'] = 30;
-        $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0);
-		$this->load->view('templates/header',$userdata);
-		$this->load->view('pages/manageCandidate',$data);
-		$this->load->view('templates/footer');
+        else {
+            redirect('/');
+        }
 		
     }
 
     // download CV
     public function downloadCV($fileName){
-        if(!(isset($_SESSION['userType']))&& $_SESSION['userType']!='admin'){
-            echo 'Please login';
-            exit;
-		}
-        $path = '/var/www/candidatesCV/'.$fileName;
-        force_download($path, NULL);
+        if( $_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+            $path = '/var/www/candidatesCV/'.$fileName;
+            force_download($path, NULL);
+        } else {
+            redirect('/');
+        }
     }
     
     
@@ -66,12 +70,13 @@ class Applicant extends CI_Controller{
      */
     // get a offset value then return candidates
     public function getCandidates(){
-        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-			redirect('/');
+            if( $_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+            $offset=$_POST['offset'];
+            $candidates = $this->candidate_model->getCandidatesWithName(10, $offset);
+            echo json_encode($candidates);
+        } else {
+            redirect('/');
         }
-        $offset=$_POST['offset'];
-        $candidates = $this->candidate_model->getCandidatesWithName(10, $offset);
-        echo json_encode($candidates);
 
     }
     public function applyJob(){
@@ -164,16 +169,16 @@ class Applicant extends CI_Controller{
     }
 
     public function candidateDetails($candidateID){
-        if(!(isset($_SESSION['userType'])) || !($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff')){
-            redirect('/');
-            $candidateID = "";
-        }
-		$userdata['userType'] = $_SESSION['userType'];
-        $data['candidate'] = $this->candidate_model->getCandidateFullInfo($candidateID);
+        if( $_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+            $userdata['userType'] = $_SESSION['userType'];
+            $data['candidate'] = $this->candidate_model->getCandidateFullInfo($candidateID);
 
-        $this->load->view('templates/header',$userdata);
-        $this->load->view('pages/candidateDetails',$data);
-        $this->load->view('templates/footer');
+            $this->load->view('templates/header',$userdata);
+            $this->load->view('pages/candidateDetails',$data);
+            $this->load->view('templates/footer');
+        } else {
+            redirect('/');
+        }
     }
 
 }
