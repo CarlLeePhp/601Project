@@ -270,6 +270,7 @@ class Jobs extends CI_Controller {
 			$this->candidate_model->removeAssignedCandidate($candidateID);
 			
 			$candidatesData = $this->candidate_model->getCandidatesJobDetails($jobID);
+			
 			if(sizeof($candidatesData)==0){
 				$this->job_model->updateJobDetailsStatusNull($jobID);
 			}
@@ -283,9 +284,10 @@ class Jobs extends CI_Controller {
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
 			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
+
 			$jobRate = $_POST['jobRate'];
 			$workingHoursSaved = $_POST['workingHoursSaved'];
-			if(empty($workingHoursSaved)){
+			if(empty($workingHoursSaved) || $candidateData['JobRate'] == 0){
 				$candidateEarnings = $jobRate * $candidateData['CandidateHoursWorked'];
 				$this->candidate_model->updateCandidateHoursWorking($candidateID,$candidateData['CandidateHoursWorked'],$candidateEarnings);
 			}
