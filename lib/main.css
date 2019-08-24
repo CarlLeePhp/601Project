@@ -43,26 +43,60 @@
  
   
 /* homepage picture */
+@media only screen and (min-width:1024px) {
   #content {
-    background-image:url('./images/hiresPlaceHolder.jpg');
+    background-image:url('./images/bannerlee.png');
     background-repeat:no-repeat;
     background-size:100%;
     background-position:center;
+    /* height: 840px; */
+    height: 148vh;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+  #content {
+    background-image:url('./images/bannerlee.png');
+    background-repeat:no-repeat;
+    background-size:100%;
+    background-position:center;
+    /* height: 840px; */
+    height: 750px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+  #content {
+    background-image:url('./images/bannerlee.png');
+    background-repeat:no-repeat;
+    background-size:100%;
+    background-position:center;
+    /* height: 840px; */
+    height: 560px;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+  #content {
+    background-image:url('./images/bannerlee.png');
+    background-repeat:no-repeat;
+    background-size:100%;
+    background-position:center;
+    /* height: 840px; */
     height: 270px;
     }
-
- 
+}
 
 /* positioning buttons in homepage center images */
   #content div.centerY{
-    top:  65%;
+    top:  30%;
     position: relative;
   }
 
   /* custom text family for buttons in homepage */
   .customText{
     /* font-family: 'Courier New', Courier, monospace; */
-    font-size: 3vh;
+    font-size: 3.2vh;
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  */

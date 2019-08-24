@@ -3,9 +3,15 @@
 <div id="content">
   <div class="centerY">
     <div class="container text-center ">
+      <div class="row justify-content-center">
+        <div>
         <a href="<?php echo base_url() ?>index.php/EmployerMission/index/3" class="btn customButton customText mr-md-4 mr-2 lead">Seek a staff</a>
+        </div>
+        <div>
         <a href="<?php echo base_url() ?>index.php/Jobs" class="btn customButton customText ml-md-4 ml-2 lead">Seek a Job</a>
-    </div>
+        </div>
+      </div>
+      </div>
   </div>
 </div>
 
