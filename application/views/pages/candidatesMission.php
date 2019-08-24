@@ -172,40 +172,40 @@ var app = new Vue({
             console.log("you clicked me")
             var formData = new FormData()
 
-            formData.append('jobInterest', this.jobInterest);
-            formData.append('jobType', this.jobType);
-            formData.append('transportation', this.transportation);
-            formData.append('licenseNumber', this.licenseNumber);
-            formData.append('classLicense', this.classLicense);
-            formData.append('endorsement', this.endorsement);
-            formData.append('citizenship', this.citizenship);
-            formData.append('nationality', this.nationality);
-            formData.append('passportCountry', this.passportCountry);
-            formData.append('passportNumber', this.passportNumber);
-            formData.append('workPermitExpiry', this.workPermitExpiry);
-            formData.append('workPermitNumber', this.workPermitNumber);
-            formData.append('compensationInjury', this.compensationInjury);
-            formData.append('compensationDateFrom', this.compensationDateFrom);
-            formData.append('compensationDateTo', this.compensationDateTo);
-            formData.append('asthma', this.asthma);
-            formData.append('blackOut', this.blackOut);
-            formData.append('diabetes', this.diabetes);
-            formData.append('bronchitis', this.bronchitis);
-            formData.append('backInjury', this.backInjury);
-            formData.append('deafness', this.deafness);
-            formData.append('dermatitis', this.dermatitis);
-            formData.append('skinInfection', this.skinInfection);
-            formData.append('allergies', this.allergies);
-            formData.append('hernia', this.hernia);
-            formData.append('highBloodPressure', this.highBloodPressure);
-            formData.append('heartProblems', this.heartProblems);
-            formData.append('usingDrugs', this.usingDrugs);
-            formData.append('usingContactLenses', this.usingContactLenses);
+            formData.append('JobInterest', this.jobInterest);
+            formData.append('JobType', this.jobType);
+            formData.append('Transportation', this.transportation);
+            formData.append('LicenseNumber', this.licenseNumber);
+            formData.append('ClassLicense', this.classLicense);
+            formData.append('Endorsement', this.endorsement);
+            formData.append('Citizenship', this.citizenship);
+            formData.append('Nationality', this.nationality);
+            formData.append('PassportCountry', this.passportCountry);
+            formData.append('PassportNumber', this.passportNumber);
+            formData.append('WorkPermitExpiry', this.workPermitExpiry);
+            formData.append('WorkPermitNumber', this.workPermitNumber);
+            formData.append('CompensationInjury', this.compensationInjury);
+            formData.append('CompensationDateFrom', this.compensationDateFrom);
+            formData.append('CompensationDateTo', this.compensationDateTo);
+            formData.append('Asthma', this.asthma);
+            formData.append('BlackOut', this.blackOut);
+            formData.append('Diabetes', this.diabetes);
+            formData.append('Bronchitis', this.bronchitis);
+            formData.append('BackInjury', this.backInjury);
+            formData.append('Deafness', this.deafness);
+            formData.append('Dermatitis', this.dermatitis);
+            formData.append('SkinInfection', this.skinInfection);
+            formData.append('Allergies', this.allergies);
+            formData.append('Hernia', this.hernia);
+            formData.append('HighBloodPressure', this.highBloodPressure);
+            formData.append('HeartProblems', this.heartProblems);
+            formData.append('UsingDrugs', this.usingDrugs);
+            formData.append('UsingContactLenses', this.usingContactLenses);
             formData.append('RSI', this.RSI);
-            formData.append('dependants', this.dependants);
-            formData.append('smoke', this.smoke);
-            formData.append('conviction', this.conviction);
-            formData.append('convictionDetails', this.convictionDetails);
+            formData.append('Dependants', this.dependants);
+            formData.append('Smoke', this.smoke);
+            formData.append('Conviction', this.conviction);
+            formData.append('ConvictionDetails', this.convictionDetails);
             var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/applyJob/'
             this.$http.post(urllink, formData).then(res => {
                 var result = res.body
@@ -218,11 +218,11 @@ var app = new Vue({
             })
 
             // upload the cv
-            var candidateCV = document.getElementById("JobCVID");
+            var candidateCV = document.getElementById("jobCVID");
 
             var formData = new FormData()
 
-            formData.append('jobCV', candidateCV.files[0]);
+            formData.append('JobCV', candidateCV.files[0]);
             var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/uploadCV/'
             this.$http.post(urllink, formData).then(res => {
                 var result = res.body
@@ -238,11 +238,11 @@ var app = new Vue({
         },
         testCV: function(){
             console.log("you got me")
-            var candidateCV = document.getElementById("JobCVID");
+            var candidateCV = document.getElementById("jobCVID");
 
             var formData = new FormData()
 
-            formData.append('jobCV', candidateCV.files[0]);
+            formData.append('JobCV', candidateCV.files[0]);
             var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/uploadCV/'
             this.$http.post(urllink, formData).then(res => {
                 var result = res.body

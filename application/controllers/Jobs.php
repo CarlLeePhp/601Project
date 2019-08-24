@@ -238,11 +238,11 @@ class Jobs extends CI_Controller {
         echo '<td>' . $candidateData['PhoneNumber'] . '</td>';
         echo '<td>' . $candidateData['Email'] . '</td>';
 		echo '<td>' . $candidateData['Address'] . '</td>';
-        echo '<td>' . $candidateData['jobType'] . '</td>';
-		echo '<td><input type="text" id="hoursWorked' . $candidateData['CandidateID'] . '" onchange="updateHoursWorked(' . $candidateData['CandidateID'] .',' . $savedHoursWorked . ')" placeholder="' . $candidateData['CandidateHoursWorked'] . '"></td>';
-		echo '<td><input type="text" id="jobRate' . $candidateData['CandidateID'] . '" onchange="updateJobRate(' . $candidateData['CandidateID'] .',' . $savedHoursWorked . ')" placeholder="' . $candidateData['JobRate'] .'"></td>';
+        echo '<td>' . $candidateData['JobType'] . '</td>';
+		echo '<td><input onclick="targetThisBox(\'hoursWorked' .  $candidateData['CandidateID'] . '\')" type="text" id="hoursWorked' . $candidateData['CandidateID'] . '" onchange="updateHoursWorked(' . $candidateData['CandidateID'] .',' . $savedHoursWorked . ')" placeholder="' . $candidateData['CandidateHoursWorked'] . '"></td>';
+		echo '<td><input onclick="targetThisBox(\'jobRate' .  $candidateData['CandidateID'] . '\')" type="text" id="jobRate' . $candidateData['CandidateID'] . '" onchange="updateJobRate(' . $candidateData['CandidateID'] .',' . $savedHoursWorked . ')" placeholder="' . $candidateData['JobRate'] .'"></td>';
 		echo '<td><input type="text" class="border-0" id="candidateEarnings' . $candidateData['CandidateID'] . '" value="' . $candidateData['CandidateEarnings'] . '"></td>';
-		echo '<td><input type="text" id="candidateNotes' . $candidateData['CandidateID'] . '" onchange="updateCandidateNotes(' . $candidateData['CandidateID'] . ',' . $savedHoursWorked . ')" placeholder="' . $candidateData['CandidateNotes'] . '"></td></tr>';
+		echo '<td><input onclick="targetThisBox(\'candidateNotes' .  $candidateData['CandidateID'] . '\')" type="text" id="candidateNotes' . $candidateData['CandidateID'] . '" onchange="updateCandidateNotes(' . $candidateData['CandidateID'] . ',' . $savedHoursWorked . ')" placeholder="' . $candidateData['CandidateNotes'] . '"></td></tr>';
 	}
 
 	public function assignCandidate($candidateID,$jobID){

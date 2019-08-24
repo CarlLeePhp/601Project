@@ -405,18 +405,18 @@
                         <td v-text="candidate.Address" v-bind:class="{ 'd-none': ! showAddress }"></td>
                         <td v-text="candidate.Suburb" v-bind:class="{ 'd-none': ! showSuburb }"></td>
                         <td v-text="candidate.Gender" v-bind:class="{ 'd-none': ! showGender }"></td>
-                        <td v-text="candidate.jobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></td>
-                        <td v-text="candidate.jobType" v-bind:class="{ 'd-none': ! showJobType }"></td>
-                        <td v-text="candidate.transportation" v-bind:class="{ 'd-none': ! showTransportation }"></td>
-                        <td v-text="candidate.citizenship" v-bind:class="{ 'd-none': ! showCitizenship }"></td>
-                        <td v-text="candidate.compensationInjury" v-bind:class="{ 'd-none': ! showCompensationInjury }"></td>
-                        <td v-text="candidate.compensationDateFrom" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"></td>
-                        <td v-text="candidate.compensationDateTo" v-bind:class="{ 'd-none': ! showCompensationDateTo }"></td>
+                        <td v-text="candidate.JobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></td>
+                        <td v-text="candidate.JobType" v-bind:class="{ 'd-none': ! showJobType }"></td>
+                        <td v-text="candidate.Transportation" v-bind:class="{ 'd-none': ! showTransportation }"></td>
+                        <td v-text="candidate.Citizenship" v-bind:class="{ 'd-none': ! showCitizenship }"></td>
+                        <td v-text="candidate.CompensationInjury" v-bind:class="{ 'd-none': ! showCompensationInjury }"></td>
+                        <td v-text="candidate.CompensationDateFrom" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"></td>
+                        <td v-text="candidate.CompensationDateTo" v-bind:class="{ 'd-none': ! showCompensationDateTo }"></td>
                         <td v-text="candidate.healthProblem" v-bind:class="{ 'd-none': ! showHealthConditions }"></td>
-                        <td v-text="candidate.dependants" v-bind:class="{ 'd-none': ! showDependants }"></td>
-                        <td v-text="candidate.smoke" v-bind:class="{ 'd-none': ! showSmoke }"></td>
-                        <td v-text="candidate.conviction" v-bind:class="{ 'd-none': ! showConviction }"></td>
-                        <td v-text="candidate.convictionDetails" v-bind:class="{ 'd-none': ! showConvictionDetails }"></td>
+                        <td v-text="candidate.Dependants" v-bind:class="{ 'd-none': ! showDependants }"></td>
+                        <td v-text="candidate.Smoke" v-bind:class="{ 'd-none': ! showSmoke }"></td>
+                        <td v-text="candidate.Conviction" v-bind:class="{ 'd-none': ! showConviction }"></td>
+                        <td v-text="candidate.ConvictionDetails" v-bind:class="{ 'd-none': ! showConvictionDetails }"></td>
                         <td v-bind:class="{ 'd-none': ! showCandidateNotes }"><input type="text" :id="candidate.CandidateID" v-on:change="updateNotes(candidate.CandidateID)" :value="candidate.CandidateNotes"></td>
                     
                         
@@ -574,8 +574,8 @@ var app = new Vue({
         candidateFilters: function(){
             this.candidatesCopy = [];
             for(var i=0; i<this.candidates.length; i++){
-                let jobInterest = this.candidates[i].jobInterest.toLowerCase();
-                let jobType = this.candidates[i].jobType.toLowerCase();
+                let jobInterest = this.candidates[i].JobInterest.toLowerCase();
+                let jobType = this.candidates[i].JobType.toLowerCase();
                 let firstName = this.candidates[i].FirstName.toLowerCase();
                 let city = this.candidates[i].City.toLowerCase();
                 let lastName = this.candidates[i].LastName.toLowerCase();
@@ -640,13 +640,13 @@ var app = new Vue({
         this.jobsCopy = this.jobs;
 
         for(var i=0; i<this.candidates.length; i++){
-            if(this.candidates[i].asthma == 'true' || this.candidates[i].blackOut == 'true' || 
-                this.candidates[i].diabetes == 'true' || this.candidates[i].bronchitis == 'true' ||
-                this.candidates[i].backInjury == 'true' || this.candidates[i].deafness == 'true' ||
-                this.candidates[i].dermatitis == 'true' || this.candidates[i].skinInfection == 'true' ||
-                this.candidates[i].allergies == 'true' || this.candidates[i].hernia == 'true' ||
-                this.candidates[i].highBloodPressure == 'true' || this.candidates[i].heartProblems == 'true' ||
-                this.candidates[i].usingDrugs == 'true' ||
+            if(this.candidates[i].Asthma == 'true' || this.candidates[i].BlackOut == 'true' || 
+                this.candidates[i].Diabetes == 'true' || this.candidates[i].Bronchitis == 'true' ||
+                this.candidates[i].BackInjury == 'true' || this.candidates[i].Deafness == 'true' ||
+                this.candidates[i].Dermatitis == 'true' || this.candidates[i].SkinInfection == 'true' ||
+                this.candidates[i].Allergies == 'true' || this.candidates[i].Hernia == 'true' ||
+                this.candidates[i].HighBloodPressure == 'true' || this.candidates[i].HeartProblems == 'true' ||
+                this.candidates[i].UsingDrugs == 'true' ||
                 this.candidates[i].RSI == 'true'){
                 this.candidates[i].healthProblem = 'YES';
             } else {

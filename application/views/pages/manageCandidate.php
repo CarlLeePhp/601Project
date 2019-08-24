@@ -205,7 +205,7 @@
     <div class=" mb-5 px-5">
     <div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" v-if="candidates.length > 0">
         
-            <table class="table table-hover mt-5 mr-5">
+            <table class="table table-hover mt-5 mr-5" id="candidateTable">
            
                 <thead>
                     <tr>
@@ -241,7 +241,7 @@
                     <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
                         <th class="textInfoPos" v-bind:class="{ 'd-none': ! showAssignCandidate }"><span class="textInfo text-center" style="left: 0px;overflow:initial;">Assign job <br>to this Candidate</span><a v-on:click="AssignIDURL(candidate.CandidateID)" role="button" class="text-info"><i style="font-size:30px;" class="ml-1 icon ion-md-contacts mx-3"></i></a></th>
                         <th class="textInfoPos"><span class="textInfo text-center" style="left: -35px;width:190px;">See Candidate's Details</span><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></th>
-                        <th class="textInfoPos" v-bind:class="{ 'd-none': ! showCV }"><span class="textInfo text-center" style="left: -45px;width:160px;">Download <br>Candidate's CV</span><a class="btn btn-outline-dark px-2" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV">CV</a></th>
+                        <th class="textInfoPos" v-bind:class="{ 'd-none': ! showCV }"><span class="textInfo text-center" style="left: -45px;width:160px;">Download <br>Candidate's CV</span><a class="btn btn-outline-dark px-2" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.JobCV">CV</a></th>
                         <th v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></th>
                         <th v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></th>
                         <th v-text="candidate.PhoneNumber" v-bind:class="{ 'd-none': ! showPhoneNumber }"></th>
@@ -251,19 +251,19 @@
                         <th v-text="candidate.Address" v-bind:class="{ 'd-none': ! showAddress }"></th>
                         <th v-text="candidate.Suburb" v-bind:class="{ 'd-none': ! showSuburb }"></th>
                         <th v-text="candidate.Gender" v-bind:class="{ 'd-none': ! showGender }"></th>
-                        <th v-text="candidate.jobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></th>
-                        <th v-text="candidate.jobType" v-bind:class="{ 'd-none': ! showJobType }"></th>
-                        <th v-text="candidate.transportation" v-bind:class="{ 'd-none': ! showTransportation }"></th>
-                        <th v-text="candidate.citizenship" v-bind:class="{ 'd-none': ! showCitizenship }"></th>
-                        <th v-text="candidate.compensationInjury" v-bind:class="{ 'd-none': ! showCompensationInjury }"></th>
-                        <th v-text="candidate.compensationDateFrom" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"></th>
-                        <th v-text="candidate.compensationDateTo" v-bind:class="{ 'd-none': ! showCompensationDateTo }"></th>
+                        <th v-text="candidate.JobInterest" v-bind:class="{ 'd-none': ! showJobInterest }"></th>
+                        <th v-text="candidate.JobType" v-bind:class="{ 'd-none': ! showJobType }"></th>
+                        <th v-text="candidate.Transportation" v-bind:class="{ 'd-none': ! showTransportation }"></th>
+                        <th v-text="candidate.Citizenship" v-bind:class="{ 'd-none': ! showCitizenship }"></th>
+                        <th v-text="candidate.CompensationInjury" v-bind:class="{ 'd-none': ! showCompensationInjury }"></th>
+                        <th v-text="candidate.CompensationDateFrom" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"></th>
+                        <th v-text="candidate.CompensationDateTo" v-bind:class="{ 'd-none': ! showCompensationDateTo }"></th>
                         <th v-text="candidate.healthProblem" v-bind:class="{ 'd-none': ! showHealthConditions }"></th>
-                        <th v-text="candidate.dependants" v-bind:class="{ 'd-none': ! showDependants }"></th>
-                        <th v-text="candidate.smoke" v-bind:class="{ 'd-none': ! showSmoke }"></th>
-                        <th v-text="candidate.conviction" v-bind:class="{ 'd-none': ! showConviction }"></th>
-                        <th v-text="candidate.convictionDetails" v-bind:class="{ 'd-none': ! showConvictionDetails }"></th>
-                        <th v-bind:class="{ 'd-none': ! showCandidateNotes }"><input type="text" :id="candidate.CandidateID" v-on:change="updateNotes(candidate.CandidateID)" :value="candidate.CandidateNotes"></th>
+                        <th v-text="candidate.Dependants" v-bind:class="{ 'd-none': ! showDependants }"></th>
+                        <th v-text="candidate.Smoke" v-bind:class="{ 'd-none': ! showSmoke }"></th>
+                        <th v-text="candidate.Conviction" v-bind:class="{ 'd-none': ! showConviction }"></th>
+                        <th v-text="candidate.ConvictionDetails" v-bind:class="{ 'd-none': ! showConvictionDetails }"></th>
+                        <th v-bind:class="{ 'd-none': ! showCandidateNotes }"><input type="text" @click="targetThisBox(candidate.CandidateID)" v-on:keyup.enter="clearSelection()" :id="candidate.CandidateID" v-on:change="updateNotes(candidate.CandidateID)" :value="candidate.CandidateNotes"></th>
                     
                         
                     </tr>
@@ -316,7 +316,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
-
 
 <script>
 var app = new Vue({
@@ -372,8 +371,8 @@ var app = new Vue({
         applyFilters: function(){
             this.candidatesCopy = [];
             for(var i=0; i<this.candidates.length; i++){
-                let jobInterest = this.candidates[i].jobInterest.toLowerCase();
-                let jobType = this.candidates[i].jobType.toLowerCase();
+                let jobInterest = this.candidates[i].JobInterest.toLowerCase();
+                let jobType = this.candidates[i].JobType.toLowerCase();
                 let firstName = this.candidates[i].FirstName.toLowerCase();
                 let city = this.candidates[i].City.toLowerCase();
                 let lastName = this.candidates[i].LastName.toLowerCase();
@@ -414,6 +413,16 @@ var app = new Vue({
                 })
             }
         },
+        targetThisBox: function(elementID){
+            const input = document.getElementById(elementID);
+            input.focus();
+            input.select();
+        },
+        clearSelection: function(){
+            if (window.getSelection) {window.getSelection().removeAllRanges();document.activeElement.blur();}
+            else if (document.selection) {document.selection.empty();}
+        },
+        
         getCandidates: function(offset){
             for(var i=0; i<this.pageNums.length; i++){
                 if(this.pageNums[i].id == offset){
@@ -432,20 +441,20 @@ var app = new Vue({
                 this.candidates = result;
                 for(var i=0; i<this.candidates.length; i++){
                     
-                    if(this.candidates[i].asthma == 'true' || this.candidates[i].blackOut == 'true' || 
-                        this.candidates[i].diabetes == 'true' || this.candidates[i].bronchitis == 'true' ||
-                        this.candidates[i].backInjury == 'true' || this.candidates[i].deafness == 'true' ||
-                        this.candidates[i].dermatitis == 'true' || this.candidates[i].skinInfection == 'true' ||
-                        this.candidates[i].allergies == 'true' || this.candidates[i].hernia == 'true' ||
-                        this.candidates[i].highBloodPressure == 'true' || this.candidates[i].heartProblems == 'true' ||
-                        this.candidates[i].usingDrugs == 'true' ||
+                    if(this.candidates[i].Asthma == 'true' || this.candidates[i].BlackOut == 'true' || 
+                        this.candidates[i].Diabetes == 'true' || this.candidates[i].Bronchitis == 'true' ||
+                        this.candidates[i].BackInjury == 'true' || this.candidates[i].Deafness == 'true' ||
+                        this.candidates[i].Dermatitis == 'true' || this.candidates[i].SkinInfection == 'true' ||
+                        this.candidates[i].Allergies == 'true' || this.candidates[i].Hernia == 'true' ||
+                        this.candidates[i].HighBloodPressure == 'true' || this.candidates[i].HeartProblems == 'true' ||
+                        this.candidates[i].UsingDrugs == 'true' ||
                         this.candidates[i].RSI == 'true'){
                         this.candidates[i].healthProblem = 'YES';
                     } else {
                         this.candidates[i].healthProblem = 'NO';
                     }
-                    let jobInterest = this.candidates[i].jobInterest.toLowerCase();
-                    let jobType = this.candidates[i].jobType.toLowerCase();
+                    let jobInterest = this.candidates[i].JobInterest.toLowerCase();
+                    let jobType = this.candidates[i].JobType.toLowerCase();
                     let firstName = this.candidates[i].FirstName.toLowerCase();
                     let city = this.candidates[i].City.toLowerCase();
                     let lastName = this.candidates[i].LastName.toLowerCase();
@@ -477,7 +486,15 @@ var app = new Vue({
             formData.append('candidateNotes', document.getElementById(candidateID).value);
             var urllink = "<?php echo base_Url(); ?>" + 'index.php/Jobs/updateCandidateNotes/'+candidateID+'/'+'manageCandidate'
             this.$http.post(urllink, formData).then(res => {
-                var result = res.body
+                var result = res.body;
+                //update the changes into the data in current page.
+                for(var i=0; i<this.candidates.length; i++){
+                    if(this.candidates[i].CandidateID == candidateID){
+                        this.candidates[i].CandidateNotes = document.getElementById(candidateID).value;
+                        this.candidatesCopy[i].CandidateNotes = this.candidates[i].CandidateNotes;
+                    }
+                }
+                
                 $('#'+candidateID).html(result);
             }, res => {
                 // error callback
@@ -500,13 +517,13 @@ var app = new Vue({
     mounted: function(){
         
         for(var i=0; i<this.candidates.length; i++){
-            if(this.candidates[i].asthma == 'true' || this.candidates[i].blackOut == 'true' || 
-                this.candidates[i].diabetes == 'true' || this.candidates[i].bronchitis == 'true' ||
-                this.candidates[i].backInjury == 'true' || this.candidates[i].deafness == 'true' ||
-                this.candidates[i].dermatitis == 'true' || this.candidates[i].skinInfection == 'true' ||
-                this.candidates[i].allergies == 'true' || this.candidates[i].hernia == 'true' ||
-                this.candidates[i].highBloodPressure == 'true' || this.candidates[i].heartProblems == 'true' ||
-                this.candidates[i].usingDrugs == 'true' ||
+            if(this.candidates[i].Asthma == 'true' || this.candidates[i].BlackOut == 'true' || 
+                this.candidates[i].Diabetes == 'true' || this.candidates[i].Bronchitis == 'true' ||
+                this.candidates[i].BackInjury == 'true' || this.candidates[i].Deafness == 'true' ||
+                this.candidates[i].Dermatitis == 'true' || this.candidates[i].SkinInfection == 'true' ||
+                this.candidates[i].Allergies == 'true' || this.candidates[i].Hernia == 'true' ||
+                this.candidates[i].HighBloodPressure == 'true' || this.candidates[i].HeartProblems == 'true' ||
+                this.candidates[i].UsingDrugs == 'true' ||
                 this.candidates[i].RSI == 'true'){
                 this.candidates[i].healthProblem = 'YES';
             } else {

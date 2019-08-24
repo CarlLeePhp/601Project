@@ -1,5 +1,5 @@
 <!-- this is a pane for admin so far the only working things is manageStaff-->
-<div class="row justify-content-around">
+<div class="this row justify-content-around">
    
         <div class="card border border-dark col-md-6 p-0 m-0">
 
@@ -25,7 +25,7 @@
             </div> </a>
         </div> 
     </div>
-    <div class="row">
+    <div class="this row">
    
     <div class="card border border-dark col-md-4 p-0 m-0">
 

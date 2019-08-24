@@ -1,5 +1,5 @@
 <!-- this is a pane for admin so far the only working things is manageStaff-->
-<div class="row justify-content-around">
+<div class="this row justify-content-around">
    
         <div class="card border border-dark col-md-4 p-0 m-0">
 
@@ -35,30 +35,30 @@
             </div> </a>
         </div> 
     </div>
-    <div class="row">
+<div class="this row">
    
     <div class="card border border-dark col-md-4 p-0 m-0">
 
-<a href="<?php echo base_url()?>index.php/Archive" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">
+    <a href="<?php echo base_url()?>index.php/Archive" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">
     <div class="row justify-content-center card-body">
     <img style="width:150px;height:150px;"  src="<?php echo base_url()?>lib/images/Archive.png">
     </div>
     <div class="card-title font-weight-bold">Archives</div>
     <p class="card-text text-justify m-4">Search the information of the pasts archives.</p>
 
-</div> </a>
-</div> 
-<div class="card border border-dark col-md-4 p-0 m-0">
+    </div> </a>
+    </div> 
+    <div class="card border border-dark col-md-4 p-0 m-0">
 
-<a href="<?php echo base_url()?>index.php/Jobs/manageClient" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">
+    <a href="<?php echo base_url()?>index.php/Jobs/manageClient" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">
     <div class="row justify-content-center card-body">
     <img style="width:150px;height:150px;"  src="<?php echo base_url()?>lib/images/Client.png">
     </div>
     <div class="card-title font-weight-bold">Manage Clients</div>
     <p class="card-text text-justify m-4">Look through the clients applications, publish and assign candidates.</p>
 
-</div> </a>
-</div>
+    </div> </a>
+    </div>
     <div class="card border border-dark col-md-4 p-0 m-0">
 
     <a href="<?php echo base_url()?>index.php/candidateMission/manageCandidate/" style="color: black; text-decoration:none"><div class="container p-0 m-0 mt-4 text-center">

@@ -3,7 +3,7 @@
 <div class="form-control bg-success text-center text-white font-weight-bold rounded-0" style="position:fixed; top:0px; z-index:1;opacity:0.9">
     Assigning candidate to <?php echo $job['JobTitle'] . ' in ' . $job['City'];?>
 </div>
-<div id="app" class="container mt-5">
+
 <a href="<?php echo base_url();?>index.php/Jobs/assignCandidate/<?php echo $candidate['CandidateID'];?>/<?php echo $job['JobID'];?>">
 <button type="button" style="position:fixed;right: 20px; bottom:20px;z-index:1" class=" btn-lg border-white">
     <span>Assign this candidate</span>
@@ -11,6 +11,7 @@
 </button></a>
 
 <?php endif;?>
+<div id="app" class="container mt-5">
         <h1 class="text-dark mt-3 text-center"> Candidate Detailed Information </h3>
         <hr />
         <div class="row">
@@ -24,7 +25,7 @@
             </div>
             <div class="col-md-4">
                 <div class="row ml-1"><label for="candidateCVID" class="font-weight-bold mt-2">Candidate's CV:</label></div>
-                <div class="row ml-1"><a href="<?php echo base_url()?>index.php/CandidateMission/downloadCV/<?php echo $candidate['candidateCV'];?>" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
+                <div class="row ml-1"><a href="<?php echo base_url()?>index.php/CandidateMission/downloadCV/<?php echo $candidate['CandidateCV'];?>" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
             </div>
         </div>
 
@@ -52,29 +53,29 @@
         <div class="row mt-3">
             <div class="col-md-3">
                 <label for="citizenshipID" class="font-weight-bold mt-2">Citizenship:</label>
-                <input type="text" class="form-control border-0" id="citizenshipID" readonly value="<?php echo $candidate['citizenship'];?>">
+                <input type="text" class="form-control border-0" id="citizenshipID" readonly value="<?php echo $candidate['Citizenship'];?>">
             </div>
             <div class="col-md-3">
                 <label for="nationalityID" class="font-weight-bold mt-2">Nationality:</label>
-                <input type="text" class="form-control border-0" id="nationalityID" readonly value="<?php echo $candidate['nationality'];?>">
+                <input type="text" class="form-control border-0" id="nationalityID" readonly value="<?php echo $candidate['Nationality'];?>">
             </div>
             <div class="col-md-3">
                 <label for="passportCountryID" class="font-weight-bold mt-2">Passport Issued Country:</label>
-                <input type="text" class="form-control border-0" id="passportCountryID" readonly value="<?php echo $candidate['passportCountry'];?>">
+                <input type="text" class="form-control border-0" id="passportCountryID" readonly value="<?php echo $candidate['PassportCountry'];?>">
             </div>
             <div class="col-md-3">
                 <label for="passportNumberID" class="font-weight-bold mt-2">Passport Number:</label>
-                <input type="text" class="form-control border-0" id="passportNumberID" readonly value="<?php echo $candidate['passportNumber'];?>">
+                <input type="text" class="form-control border-0" id="passportNumberID" readonly value="<?php echo $candidate['PassportNumber'];?>">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-md-3">
                 <label for="workPermitNumberID" class="font-weight-bold mt-2">Work Permit Number:</label>
-                <input type="text" class="form-control border-0" id="workPermitNumberID" readonly value="<?php echo $candidate['workPermitNumber'];?>">
+                <input type="text" class="form-control border-0" id="workPermitNumberID" readonly value="<?php echo $candidate['WorkPermitNumber'];?>">
             </div>
             <div class="col-md-3">
                 <label for="workPermitExpiryID" class="font-weight-bold mt-2">Work Permit Expiry Date:</label>
-                <input type="text" class="form-control border-0" id="workPermitExpiryID" readonly value="<?php echo $candidate['workPermitExpiry'];?>">
+                <input type="text" class="form-control border-0" id="workPermitExpiryID" readonly value="<?php echo $candidate['WorkPermitExpiry'];?>">
             </div>
         </div>
         <div class="row mt-3">
@@ -102,11 +103,11 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="jobInterestID" class="font-weight-bold mt-2">Job Interest:</label>
-                <input type="text" class="form-control border-0" id="jobInterestID" readonly value="<?php echo $candidate['jobInterest'];?>">
+                <input type="text" class="form-control border-0" id="jobInterestID" readonly value="<?php echo $candidate['JobInterest'];?>">
             </div>
             <div class="col-md-4">
                 <label for="jobTypeID" class="font-weight-bold mt-2">Job Type:</label>
-                <input type="text" class="form-control border-0" id="jobTypeID" readonly value="<?php echo $candidate['jobType'];?>">
+                <input type="text" class="form-control border-0" id="jobTypeID" readonly value="<?php echo $candidate['JobType'];?>">
             </div>
         </div>
         <h3 class="text-warning mt-3"> Transportation </h3>
@@ -114,7 +115,7 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="transportationID" class="font-weight-bold mt-2">Transportation:</label>
-                <input type="text" class="form-control border-0" id="transportationID" readonly value="<?php echo $candidate['transportation'];?>">
+                <input type="text" class="form-control border-0" id="transportationID" readonly value="<?php echo $candidate['Transportation'];?>">
             </div>
         </div>
         <div class="row">
@@ -124,11 +125,11 @@
             </div>
             <div class="col-md-4">
                 <label for="classLicenseID" class="font-weight-bold mt-2">Class License:</label>
-                <input type="text" class="form-control border-0" id="classLicenseID" readonly value="<?php echo $candidate['classLicense'];?>">
+                <input type="text" class="form-control border-0" id="classLicenseID" readonly value="<?php echo $candidate['ClassLicense'];?>">
             </div>
             <div class="col-md-4">
                 <label for="endorsementID" class="font-weight-bold mt-2">Endorsement:</label>
-                <input type="text" class="form-control border-0" id="endorsementID" readonly value="<?php echo $candidate['endorsement'];?>">
+                <input type="text" class="form-control border-0" id="endorsementID" readonly value="<?php echo $candidate['Endorsement'];?>">
             </div>
         </div>
         
@@ -139,57 +140,57 @@
                 <div class="col-md-9">
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['asthma'] == "true") { echo "checked";} ; ?> disabled>Asthma
+                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['Asthma'] == "true") { echo "checked";} ; ?> disabled>Asthma
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['blackOut'] == "true") { echo "checked";} ;?> disabled>BlackOut / Seizures
+                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['BlackOut'] == "true") { echo "checked";} ;?> disabled>BlackOut / Seizures
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['diabetes'] == "true") { echo "checked";} ;?> disabled>Diabetes
+                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['Diabetes'] == "true") { echo "checked";} ;?> disabled>Diabetes
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['bronchitis'] == "true"){ echo "checked";} ;?> disabled>Bronchitis
+                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['Bronchitis'] == "true"){ echo "checked";} ;?> disabled>Bronchitis
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['backInjury'] == "true"){ echo "checked";} ;?> disabled>Back Injury / strain
+                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['BackInjury'] == "true"){ echo "checked";} ;?> disabled>Back Injury / strain
 
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" <?php if($candidate['deafness'] == "true"){ echo "checked";} ;?> disabled>Deafness
+                            <input type="checkbox" class="form-check-inline" <?php if($candidate['Deafness'] == "true"){ echo "checked";} ;?> disabled>Deafness
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" <?php if($candidate['dermatitis'] == "true"){ echo "checked";} ;?> disabled>Dermatitis/Eczema
+                            <input type="checkbox" class="form-check-inline" <?php if($candidate['Dermatitis'] == "true"){ echo "checked";} ;?> disabled>Dermatitis/Eczema
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" <?php if($candidate['skinInfection'] == "true"){ echo "checked";} ;?> disabled>Skin infection
+                            <input type="checkbox" class="form-check-inline" <?php if($candidate['SkinInfection'] == "true"){ echo "checked";} ;?> disabled>Skin infection
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" <?php if($candidate['allergies'] == "true"){ echo "checked";} ;?> disabled>Allergies
+                            <input type="checkbox" class="form-check-inline" <?php if($candidate['Allergies'] == "true"){ echo "checked";} ;?> disabled>Allergies
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" <?php if($candidate['hernia'] == "true"){ echo "checked";} ;?> disabled>Hernia
+                            <input type="checkbox" class="form-check-inline" <?php if($candidate['Hernia'] == "true"){ echo "checked";} ;?> disabled>Hernia
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" <?php if($candidate['highBloodPressure'] == "true"){ echo "checked";} ;?> disabled>High blood
+                            <input type="checkbox" class="form-check-inline" <?php if($candidate['HighBloodPressure'] == "true"){ echo "checked";} ;?> disabled>High blood
                             pressure
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline" <?php if($candidate['heartProblems'] == "true"){ echo "checked";} ;?> disabled>Heart Problems
+                            <input type="checkbox" class="form-check-inline" <?php if($candidate['HeartProblems'] == "true"){ echo "checked";} ;?> disabled>Heart Problems
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['usingDrugs'] == "true"){ echo "checked";} ;?> disabled>taking Drugs / Medicine
+                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['UsingDrugs'] == "true"){ echo "checked";} ;?> disabled>taking Drugs / Medicine
 
                         </div>
                         <div class="col-md-4">
-                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['usingContactLenses'] == "true"){ echo "checked";} ;?> disabled>Wearing contact
+                            <input type="checkbox" class="form-check-inline"  <?php if($candidate['UsingContactLenses'] == "true"){ echo "checked";} ;?> disabled>Wearing contact
                             lenses/ glasses
 
                         </div>
@@ -205,15 +206,15 @@
                         <label for="compensationInjuryID" class="font-weight-bold">
                             Compensation of any injury by ACC
                         </label>
-                        <input type="text" class="form-control border-0" id="compensationInjuryID" readonly value="<?php echo $candidate['compensationInjury'];?>">
+                        <input type="text" class="form-control border-0" id="compensationInjuryID" readonly value="<?php echo $candidate['CompensationInjury'];?>">
                     </div>
                     <div class="row mt-2">
                         <label for="compensationDateFromID" class="font-weight-bold">Dates From</label>
-                        <input type="date" name="compensationDateFrom" id="compensationDateFromID" readonly value="<?php echo $candidate['compensationDateFrom'];?>" class="form-control">
+                        <input type="date" name="compensationDateFrom" id="compensationDateFromID" readonly value="<?php echo $candidate['CompensationDateFrom'];?>" class="form-control">
 
 
                         <label for="compensationDateToID" class="font-weight-bold mt-2">Dates To</label>
-                        <input type="date" name="compensationDateTo" readonly value="<?php echo $candidate['compensationDateTo'];?>" id="compensationDateToID" class="form-control">
+                        <input type="date" name="compensationDateTo" readonly value="<?php echo $candidate['CompensationDateTo'];?>" id="compensationDateToID" class="form-control">
 
                     </div>
                 </div>
@@ -222,14 +223,14 @@
         <h3 class="text-warning mt-3">Other Details</h3>
         <hr />
         <div class="container mb-5">
-            <input type="checkbox" class="form-check-inline" <?php if($candidate['dependants'] == "true"){ echo "checked";} ;?> disabled name="dependants"> Having dependants <br>
+            <input type="checkbox" class="form-check-inline" <?php if($candidate['Dependants'] == "true"){ echo "checked";} ;?> disabled name="dependants"> Having dependants <br>
 
-            <input type="checkbox" class="form-check-inline" <?php if($candidate['smoke'] == "true"){ echo "checked";} ;?> disabled name="smoke"> Smoking<br>
+            <input type="checkbox" class="form-check-inline" <?php if($candidate['Smoke'] == "true"){ echo "checked";} ;?> disabled name="smoke"> Smoking<br>
 
-            <input type="checkbox" class="form-check-inline" <?php if($candidate['conviction'] == "true"){ echo "checked";} ;?> disabled name="conviction"> Having conviction against the law<br>
+            <input type="checkbox" class="form-check-inline" <?php if($candidate['Conviction'] == "true"){ echo "checked";} ;?> disabled name="conviction"> Having conviction against the law<br>
             <label for="convictionDetailsID" class="mt-3">Details of convictions </label>
             <textarea class="form-control rounded-0" id="convictionDetailsID" rows="5" readonly  name="convictionDetails">
-            <?php echo $candidate['convictionDetails'];?>
+            <?php echo $candidate['ConvictionDetails'];?>
             </textarea>
 
         </div>

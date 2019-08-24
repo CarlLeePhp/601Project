@@ -137,12 +137,12 @@
         <td><?php echo $candidateData['PhoneNumber'];?></td>
         <td><?php echo $candidateData['Email'];?></td>
 		<td><?php echo $candidateData['Address'];?></td>
-        <td><?php echo $candidateData['jobType'];?></td>
+        <td><?php echo $candidateData['JobType'];?></td>
         
-		<td><input type="text" id="hoursWorked<?php echo $candidateData['CandidateID']?>" onchange="updateHoursWorked(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['CandidateHoursWorked'];?>"></td>
-		<td><input type="text" id="jobRate<?php echo $candidateData['CandidateID']?>" onchange="updateJobRate(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['JobRate'];?>"></td>
+		<td><input onclick="targetThisBox('hoursWorked<?php echo $candidateData['CandidateID']?>')" type="text" id="hoursWorked<?php echo $candidateData['CandidateID']?>" onchange="updateHoursWorked(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['CandidateHoursWorked'];?>"></td>
+		<td><input onclick="targetThisBox('jobRate<?php echo $candidateData['CandidateID']?>')" type="text" id="jobRate<?php echo $candidateData['CandidateID']?>" onchange="updateJobRate(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['JobRate'];?>"></td>
         <td><input type="text" class="border-0" id="candidateEarnings<?php echo $candidateData['CandidateID']?>" value="<?php printf('%.2f',$candidateData['CandidateEarnings']);?>"> </td>
-        <td><input type="text" id="candidateNotes<?php echo $candidateData['CandidateID']?>" onchange="updateCandidateNotes(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['CandidateNotes'];?>"></td>
+        <td><input onclick="targetThisBox('candidateNotes<?php echo $candidateData['CandidateID']?>')" type="text" id="candidateNotes<?php echo $candidateData['CandidateID']?>" onchange="updateCandidateNotes(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['CandidateNotes'];?>"></td>
         </tr>
         </form>
         
@@ -165,7 +165,11 @@
     CKEDITOR.replace( 'editor1' );
 </script>
 <script>
-    
+        function targetThisBox(elementID){
+            const input = document.getElementById(elementID);
+            input.focus();
+            input.select();
+        }
 var xRequest = new XMLHttpRequest();
 function updateHoursWorked($candidateID,$workingHoursSaved) {
         var hoursWorked = document.getElementById('hoursWorked'+$candidateID).value;
