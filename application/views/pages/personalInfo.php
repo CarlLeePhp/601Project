@@ -23,7 +23,7 @@
                    
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-1">
                     <label for="newPassword" class="col-md-3 col-form-label"><b>New Password</b></label>
                     <div class="col-md-9 p-md-0 ">
                     <input type="password" class="form-control" v-model="newPassword" id="newPassword" placeholder="Enter New Password" name="newPassword" required/>
@@ -36,11 +36,18 @@
                     <input type="password" class="form-control" v-model="confirmNewPassword" id="confirmNewPassword" placeholder="Re-Type New Password" name="confirmPassword" required/>
                     </div>
                 </div>
-                <div class="mt-3 row offset-md-3" v-if="notMatchPasswordError.length">
+                <div class="offset-md-3" v-if="notMatchPasswordError.length">
                     <p class="text-danger" v-text="notMatchPasswordError"></p>
                 </div>
-                <div class="row justify-content-md-end ml-1 mb-3 m-md-0">
-                    <input type="submit" value="Update Password" class="btn btn-dark"/>
+                <div class="row">
+                    <div class="col">
+                    
+                    </div>
+                    <div class="justify-content-md-end">
+                    <div class="mx-3 mb-3 m-md-0">
+                        <input type="submit" value="Update Password" class="btn btn-dark"/>
+                    </div>
+                    </div>
                 </div>
                 </div>
             </div>
