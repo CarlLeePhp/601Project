@@ -26,8 +26,12 @@ class Applicant extends CI_Controller{
             $data['candidates'] = $this->candidate_model->getUnchecked();
             
             $this->load->view('templates/header',$userdata);
-            $this->load->view('pages/lookForApplicants',$data);
-            
+            //$this->load->view('pages/lookForApplicants',$data);
+            $this->load->view('applicant/tabHeader');
+            $this->load->view('applicant/tab1');
+            $this->load->view('applicant/tab2');
+            $this->load->view('templates/modal');
+            $this->load->view('applicant/vue',$data);
             $this->load->view('templates/footer');
         }
         else {
