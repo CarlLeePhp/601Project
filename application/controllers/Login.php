@@ -79,22 +79,4 @@ class Login extends CI_Controller {
     /**
      * AJAX
      */
-    // return check list item
-    function getItem($model_id){
-        $data = $this->checklist_model->get_item($model_id);
-        $result = "";
-        foreach ($data as $item){
-            $result = $result.$item['CLTP_DES'].",";
-        }
-        $result = substr($result, 0, strlen($result) - 1);
-        echo $result;
-    }
-
-    // add a new boat model
-    function add_model(){
-        $new_model = $_POST['new_model'];
-        
-        $this->boatmodel_model->add_model($new_model);
-
-    }
 }
