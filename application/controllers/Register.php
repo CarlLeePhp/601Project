@@ -39,13 +39,42 @@ class Register extends CI_Controller {
          * Check password and confirm password.
          * If they are different, return an information.
          */
-        $userEmail = $_POST['Email'];
-        $userPasswd = $_POST['password'];
-        $confirmPassword= $_POST['confirmPassword'];
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $DOB = $_POST['DOB'];
-        $Address = $_POST['Address'];
+        if(isset($_POST['Email'])){
+            if(preg_match('%^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){
+                $userEmail = $_POST['Email'];
+            } else { echo 'Invalid Email Address';}
+        }
+        
+        if(isset($_POST['password'])){
+            if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['password'])))){
+                $userPasswd = $_POST['password'];
+            } else { echo 'Invalid UserPassword';}
+        }
+
+        if(isset($_POST['firstName'])){
+            if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
+                $firstName = $_POST['firstName'];
+            } else { echo 'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+        }
+
+        if(isset($_POST['lastName'])){
+            if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
+                $lastName = $_POST['lastName'];
+            } else { echo 'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+        }
+        
+        if(isset($_POST['DOB'])){
+            if(preg_match('%^\d{2}-\d{2}-\d{4}$%',stripslashes(trim($_POST['DOB'])))){
+                $DOB = $_POST['DOB'];
+            } else { echo 'Invalid format for date, the valid format is, example: dd/mm/yyyy';}
+        }
+        
+        if(isset($_POST['Address'])){
+            if(preg_match('%%',stripslashes(trim($_POST['Address'])))){
+                $Address = $_POST['Address'];
+            } else { echo 'Invalid address';}
+        }
+       
         $City = $_POST['City'];
         $ZipCode = $_POST['ZipCode'];
         $Suburb = $_POST['Suburb'];

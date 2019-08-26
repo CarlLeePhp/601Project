@@ -24,11 +24,77 @@ class Archive extends CI_Controller{
             $data['title'] = "Archive";
             $data['message'] ="";
             $data['jobs'] = $this->job_model->get_jobs('archive');
+            $bookmarkStat= "";
+            for($i=0;$i<sizeof($data['jobs']);$i++){
+                $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
+                if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
+                $bookmarkUrl= "Bookmark". $data['jobs'][$i]['JobID'];
+                
+                $data['jobs'][$i]['ref'] = $ref;
+                $data['jobs'][$i]['bookmarkStat'] = $bookmarkStat;
+                $data['jobs'][$i]['bookmarkUrl'] = $bookmarkUrl;
+            }
+            $data['archiveJobNum'] = $this->job_model->countAllArchive();
             $this->load->view('templates/header',$userdata);
             $this->load->view('pages/archive',$data);
             $this->load->view('templates/footer');
         } else {
             redirect('/');
         }
+    }
+
+    public function applyFilterArchive(){
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+
+            $userdata['userType'] = $_SESSION['userType'];
+            $data['title'] = "Archive";
+            $company = $_POST['companyName'];
+            $city = $_POST['cityName'];
+            $jobTitle = $_POST['jobTitleName'];
+            $contactNumber = $_POST['contactNumberName'];
+            $contactPerson = $_POST['contactPersonName'];
+            $jobStatus = "completed";
+            $page="archive";
+            $data['jobs'] = $this->job_model->applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus);
+            $bookmarkStat= "";
+            for($i=0;$i<sizeof($data['jobs']);$i++){
+                $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
+                if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
+                $bookmarkUrl= "Bookmark". $data['jobs'][$i]['JobID'];
+                
+                $data['jobs'][$i]['ref'] = $ref;
+                $data['jobs'][$i]['bookmarkStat'] = $bookmarkStat;
+                $data['jobs'][$i]['bookmarkUrl'] = $bookmarkUrl;
+            }
+
+            echo json_encode($data['jobs']);
+            
+        } else {
+            redirect('/');
+        }
+    }
+
+    public function getJobsArchive(){
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+
+            $offset=$_POST['offset'];
+            $page="archive";
+            $jobsResult = $this->job_model->get_jobs($page,$offset);
+            $bookmarkStat= "";
+            for($i=0;$i<sizeof($jobsResult);$i++){
+                $ref = base_url() . 'index.php/Jobs/jobDetails/' . $jobsResult[$i]['JobID'];
+                if($jobsResult[$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
+                $bookmarkUrl= "Bookmark". $jobsResult[$i]['JobID'];
+                
+                $jobsResult[$i]['ref'] = $ref;
+                $jobsResult[$i]['bookmarkStat'] = $bookmarkStat;
+                $jobsResult[$i]['bookmarkUrl'] = $bookmarkUrl;
+            }
+
+            echo json_encode($jobsResult);
+        } else {
+            redirect('/');
+        }
+
     }
 }

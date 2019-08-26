@@ -156,7 +156,7 @@ class Candidate_model extends CI_Model {
             $this->db->or_where('JobID',0);
         }
         
-        return $this->db->count_all_results('Candidate');;
+        return $this->db->count_all_results('Candidate');
     }
     /**
      * Insert functions

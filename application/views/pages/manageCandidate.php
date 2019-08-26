@@ -542,7 +542,7 @@ var app = new Vue({
         this.pageNums[0].isActive = true;
         this.filterJobType = "<?php echo $job['JobType']?>";
         //this.filterJobInterest = "<?php echo $job['JobTitle']?>";
-        //this.filterCity = "<?php echo $job['City']?>";
+        this.filterCity = "<?php echo $job['City']?>";
         this.applyFilters();
     }
 

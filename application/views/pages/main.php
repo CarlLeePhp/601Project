@@ -89,7 +89,7 @@
                 <?php endif;?>
                 <div class="card-body">
                 <p class="font-weight-bold p-0 mb-1"> <?php echo $job['PublishTitle'];?></p>
-                    <?php echo $job['ThumbnailText'];?>
+                 <p class="text-justify text-decoration-none">   <?php echo $job['ThumbnailText'];?></p>
                 </div>
             </div>
           </a>

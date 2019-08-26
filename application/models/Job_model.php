@@ -8,12 +8,14 @@ class Job_model extends CI_Model {
      * Select Functions
     */
     // get all jobs
-    public function get_jobs($page="") {
+    public function get_jobs($page="",$offset=0) {
         if($page=='archive'){
             $this->db->where('JobStatus','completed');
+            $this->db->limit(10,$offset);
         } else {
             $data = array('completed');
             $this->db->where_not_in('JobStatus',$data);
+            $this->db->limit(10,$offset);
         }
         $this->db->order_by('JobSubmittedDate', 'DESC');
         $query = $this->db->get('Job');
@@ -155,5 +157,73 @@ class Job_model extends CI_Model {
             'Bookmark' => $bookmarkValue,
         );
         $this->db->update('Job',$data);
+    }
+
+    public function applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus,$bookmarkStat=""){
+        if($page=="archive")
+        {
+            $this->db->where('JobStatus',$jobStatus);
+        }
+        else {
+            $data = array('JobStatus','completed');
+            $this->db->where_not_in('JobStatus',$data);
+        }
+        if(!empty($company)){
+            $this->db->like('Company',$company);
+        }
+        if(!empty($city)){
+            $this->db->like('City',$city);
+        }
+        if(!empty($jobTitle)){
+            $this->db->like('JobTitle',$jobTitle);
+        }
+        if(!empty($contactNumber)){
+            $this->db->like('ContactNumber',$contactNumber);
+        }
+        if(!empty($contactPerson)){
+            $this->db->like('ClientName',$contactPerson);
+        }
+        if(!empty($jobStatus)){
+            if($jobStatus=="NoAction"){
+                $this->db->where('JobStatus',NULL);
+                $this->db->or_where('JobStatus',"");
+                $this->db->or_where('JobStatus',"NoAction");
+            } else {
+                $this->db->where('JobStatus',$jobStatus);
+            }
+        }
+        $query = $this->db->get('Job');
+        return $query->result_array();
+    }
+
+    public function countAllArchive(){
+        
+        $this->db->where('JobStatus','completed');
+        return $this->db->count_all_results('Job');
+    }
+
+    public function getNextPageArchive($limitNum,$offsetNum){
+        $this->db->where('JobStatus','completed');
+        $this->db->limit($limitNum, $offsetNum);
+        $query = $this->db->get('Job');
+        return $query->result_array();
+    }
+
+    public function countAllActiveJob(){
+        $data = array(
+            'JobStatus' => 'completed',
+        );
+        $this->db->where_not_in('JobStatus',$data);
+        return $this->db->count_all_results('Job');
+    }
+
+    public function getNextPageActiveJob($limitNum,$offsetNum){
+        $data = array(
+            'JobStatus' => 'completed',
+        );
+        $this->db->where_not_in('JobStatus',$data);
+        $this->db->limit($limitNum, $offsetNum);
+        $query = $this->db->get('Job');
+        return $query->result_array();
     }
 }
