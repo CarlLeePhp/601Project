@@ -203,7 +203,7 @@
     </div>
     <!-- Table -->
     <div class=" mb-5 px-5">
-    <div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" v-if="candidates.length > 0">
+    <div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" >
         
             <table class="table table-hover mt-5 mr-5" id="candidateTable">
            
@@ -384,6 +384,7 @@ var app = new Vue({
             this.$http.post(urllink, formData).then(res => {
                 var result = res.body
                 this.candidatesCopy = result
+            
                 this.pageNums = [];
                 for(var i=0; i<this.candidateCopy.length; i=i+10){
                     this.pageNums.push({id: i, isActive: false});
