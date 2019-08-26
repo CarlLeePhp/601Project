@@ -173,10 +173,44 @@ var app = new Vue({
             }
         },
         checkClient: function(jobID){
-            console.log(jobID);
+            var formData = new FormData()
+
+            formData.append('jobID', jobID);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/applicant/checkClient/'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body
+                // remove it from the jobs array
+                for(var i=0; i<this.jobs.length; i++){
+                    if(this.jobs[i].id == jobID){
+                        this.jobs.splice(i, 1);
+                    }
+                }
+                this.jobsCopy = this.jobs;
+            }, res => {
+                // error callback
+                this.message = 'Post was failed, please try it later.';
+                $('#myModal').modal('show');
+            })
         },
         checkCandidate: function(candidateID){
-            console.log(candidateID);
+            var formData = new FormData()
+
+            formData.append('candidateID', candidateID);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/applicant/checkCandidate/'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body
+                // remove it from the candidatesCopy array
+                for(var i=0; i<this.candidatesCopy.length; i++){
+                    if(this.candidatesCopy[i].CandidateID == candidateID){
+                        this.candidatesCopy.splice(i, 1);
+                    }
+                }
+                this.candidates = this.candidatesCopy;
+            }, res => {
+                // error callback
+                this.message = 'Post was failed, please try it later.';
+                $('#myModal').modal('show');
+            })
         }
         
     },
