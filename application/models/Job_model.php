@@ -76,6 +76,16 @@ class Job_model extends CI_Model {
     }
 
     /**
+     * Update functions
+     */
+
+    public function checkJob($jobID){
+        $this->db->set('Checked', 'true');
+        $this->db->where('JobID', $jobID);
+        $this->db->update('Job');
+    }
+
+    /**
      * Insert functions
      */
 

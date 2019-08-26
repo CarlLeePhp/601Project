@@ -22,4 +22,28 @@ class ContactUS extends CI_Controller{
         $this->load->view('templates/footer');
 
     }
+
+    /**
+     * Methods for AJAX
+     */
+
+    public function sendMessage(){
+        $userName = $_POST['userName'];
+        $userEmail = $_POST['userEmail'];
+        $userContact = $_POST['userContact'];
+        $userMessage = $_POST['userMessage'];
+
+        /**
+         * Email config
+         */
+            
+        $to      = 'leekunhui@gmail.com';
+        $subject = 'Message from Website';
+        $message = 'Name: '.$userName.'; Email: '.$userEmail.'; Contact: '.$userContact.';\n Message:'.$userMessage;
+        $headers = 'From: carl@markleetesting12300.name' . "\r\n" .
+            'Return-Path: carl@markleetesting12300.name' . "\r\n" .
+            'Reply-To: carl@markleetesting12300.name' . "\r\n";
+        mail($to, $subject, $message, $headers);
+
+     }
 }

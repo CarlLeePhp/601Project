@@ -130,7 +130,7 @@ INSERT INTO `City` VALUES (1,'Auckland'),(2,'Christchurch'),(3,'Dunedin'),(4,'Gi
 UNLOCK TABLES;
 
 --
--- Table structure for table `job`
+-- Table structure for table `Job`
 --
 
 DROP TABLE IF EXISTS `Job`;

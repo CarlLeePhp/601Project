@@ -169,7 +169,14 @@ class Candidate_model extends CI_Model {
     /**
      * Update Functions
      */
-
+    public function checkCandidate($candidateID){
+        $data = array(
+            'Checked' => 'true'
+        );
+        $this->db->where('CandidateID', $candidateID);
+        $this->db->update('Candidate', $data);
+    }
+    
     public function updatePasswdByEmail($email, $userPasswd){
         $data = array(
             'UserPasswd' => $userPasswd

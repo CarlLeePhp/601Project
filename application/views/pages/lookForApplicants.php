@@ -358,7 +358,7 @@
     </div>
     <!-- Table -->
     <div class=" mb-5 px-5">
-    <div style="overflow:auto" v-if="candidates.length > 0">
+    <div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" v-if="candidates.length > 0">
         
             <table class="table table-hover mt-5 mr-5">
            
