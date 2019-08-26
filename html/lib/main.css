@@ -45,7 +45,7 @@
 /* homepage picture */
 @media only screen and (min-width:1024px) {
 #content {
-  background-image:url('./images/bannerlee.png');
+  background-image:url('./images/bannerLee.png');
   background-repeat:no-repeat;
   background-size:100%;
   background-position:center;
