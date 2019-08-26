@@ -42,11 +42,8 @@ class CandidateMission extends CI_Controller{
             $userdata['userType'] = $_SESSION['userType'];
             $data['title'] = "Manage Candidate";
             $data['message'] ="";
-            $data['candidateNum'] = $this->candidate_model->countAll($page);
-            // $data['candidateNum'] = 30;
-            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page);
             
-            //is it a good idea to match the interest from candidate / job?
+            
             $data['job'] = array (
                 'JobType' => "",
                 'City' => "",
@@ -55,6 +52,13 @@ class CandidateMission extends CI_Controller{
             if(!empty($jobID)){
                 $data['job'] = $this->job_model->get_specificJob($jobID);
             }
+            $data['jobID'] = $jobID;
+            $data['candidateNum'] = $this->candidate_model->countAll($page,$data['job']['City'],$data['job']['JobType']);
+            // $data['candidateNum'] = 30;
+            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page,$data['job']['City'],$data['job']['JobType']);
+            
+            //is it a good idea to match the interest from candidate / job?
+            
             $data['fromPage'] = $page; 
             $this->load->view('templates/header',$userdata);
             $this->load->view('pages/manageCandidate',$data);
@@ -83,14 +87,41 @@ class CandidateMission extends CI_Controller{
     // get a offset value then return candidates
     public function getCandidates($page=""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
-
-            $offset=$_POST['offset'];
-            $candidates = $this->candidate_model->getCandidatesWithName(10, $offset,$page);
-            echo json_encode($candidates);
+            $offset = $_POST['offset'];
+            $jobInterest = $_POST['jobInterest'];
+            $city = $_POST['city'];
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $suburb = $_POST['suburb'];
+            $email = $_POST['email'];
+            $phoneNumber = $_POST['phoneNumber'];
+            $jobType = $_POST['jobType'];
+            
+            
+            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, $offset,$page,$city,$jobType,$jobInterest,$firstName,$lastName,$suburb,$phoneNumber,$email);
+            echo json_encode($data['candidates']);
         } else {
             redirect('/');
         }
+    }
 
+    public function applyFilterCandidate($page=""){
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+        
+            $jobInterest = $_POST['jobInterest'];
+            $city = $_POST['city'];
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $suburb = $_POST['suburb'];
+            $email = $_POST['email'];
+            $phoneNumber = $_POST['phoneNumber'];
+            $jobType = $_POST['jobType'];
+            
+            $data['candidates'] = $this->candidate_model->getFilterCandidate($page,$city,$jobType,$jobInterest,$firstName,$lastName,$suburb,$phoneNumber,$email);
+            echo json_encode($data['candidates']);
+        } else {
+            redirect('/');
+        }
     }
 
     public function getRandomAlphabet(){

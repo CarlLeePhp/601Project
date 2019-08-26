@@ -132,26 +132,26 @@
            
                 <thead>
                     <tr>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showBookmark }"><a href="#"  @click.stop.prevent="sortBy('bookmark')" class="text-dark "><img src="<?php echo base_url();?>lib/images/Bookmark1.png" style="height: 16px; width:16px;"></a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showBookmark }"><a href="#"  @click.stop.prevent="sortBy('Bookmark')" class="text-dark "><img src="<?php echo base_url();?>lib/images/Bookmark1.png" style="height: 16px; width:16px;"></a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDetails }"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('clientTitle')">Title</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('clientName')">Name</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompany }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('company')">Company</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('email')">Email</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showContactNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('contactNumber')">Contact Number</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobTitle')">Job Title</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('address')">Address</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark  p-2 pr-3" @click.stop.prevent="sortBy('city')">City</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('ClientTitle')">Title</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('ClientName')">Name</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompany }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Company')">Company</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Email')">Email</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showContactNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('ContactNumber')">Contact Number</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('JobTitle')">Job Title</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('JobType')">Job Type</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Address')">Address</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark  p-2 pr-3" @click.stop.prevent="sortBy('City')">City</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDescription }">Description</th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDateSubmitted }"><a href="#" class="text-dark py-2" @click.stop.prevent="sortBy('dateSubmitted')">DateSubmitted</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDateSubmitted }"><a href="#" class="text-dark py-2" @click.stop.prevent="sortBy('JobSubmittedDate')">DateSubmitted</a></th>
                        
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="job in jobs" :key="job.JobID">
                         
-                        <td v-bind:class="{ 'd-none': ! showBookmark }"> <input type="checkbox" :id="job.bookmarkUrl" v-on:click="updateBookmark(job.id)" :checked="job.bookmarkStat"></td>
+                        <td v-bind:class="{ 'd-none': ! showBookmark }"><input type="checkbox" :id="job.bookmarkUrl" v-on:click="updateBookmark(job.JobID)" :checked="job.bookmarkStat"></td>
                         <td class="textInfoPos" v-bind:class="{ 'd-none': ! showDetails }"><span class="textInfo text-center" style="left: -35px;width:190px;">See Job's Details</span><a :href="job.ref" role="button"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
                         <td v-text="job.ClientTitle" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
                         <td v-text="job.ClientName" v-bind:class="{ 'd-none': ! showClientName }"></td>
@@ -163,7 +163,7 @@
                         <td v-text="job.Address" v-bind:class="{ 'd-none': ! showAddress }"></td>
                         <td v-text="job.City" v-bind:class="{ 'd-none': ! showCity }"></td>
                         <td v-text="job.Description" v-bind:class="{ 'd-none': ! showDescription }"></td>
-                        <td v-text="job.DateSubmitted" v-bind:class="{ 'd-none': ! showDateSubmitted }"></td>
+                        <td v-text="job.JobSubmittedDate" v-bind:class="{ 'd-none': ! showDateSubmitted }"></td>
                     </tr>
                 </tbody>
             </table>
@@ -302,6 +302,7 @@ var app = new Vue({
             var bookmarkVal = "";
             if(document.getElementById("Bookmark"+jobID).checked){
                 bookmarkVal = "true";
+               
             } else {
                 bookmarkVal = "false";
             }

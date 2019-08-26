@@ -108,16 +108,43 @@ class Candidate_model extends CI_Model {
     }
 
     // get all candidate with the firstname and lastname of the user
-    public function getCandidatesWithName($limitNum, $offsetNum,$page=""){
+    public function getCandidatesWithName($limitNum, $offsetNum,$page="",$city="",$jobType="",$jobInterest="",$firstName="",$lastName="",$suburb="",$phoneNumber="",$email=""){
         //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
         //$query = $this->db->query($mySql);
         $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
         if($page == "jobDetails"){
-             $this->db->where('Candidate.JobID',NULL);
-            $this->db->or_where('Candidate.JobID',"");
-            $this->db->or_where('Candidate.JobID',0);
+            $this->db->group_start();
+                $this->db->where('Candidate.JobID',NULL);
+                $this->db->or_where('Candidate.JobID',"");
+                $this->db->or_where('Candidate.JobID',0);
+            $this->db->group_end();
+        }
+        
+        if(!empty($city)){
+            $this->db->where('User.City',$city);
+        }
+        if(!empty($jobType)){
+        $this->db->where('Candidate.JobType',$jobType);
+        }
+        if(!empty($jobInterest)){
+            $this->db->like('Candidate.JobInterest',$jobInterest);
+        }
+        if(!empty($firstName)){
+            $this->db->like('User.FirstName',$firstName);
+        }
+        if(!empty($lastName)){
+            $this->db->like('User.LastName',$lastName);
+        }
+        if(!empty($suburb)){
+            $this->db->where('User.Suburb',$suburb);
+        }
+        if(!empty($phoneNumber)){
+            $this->db->like('User.PhoneNumber',$phoneNumber);
+        }
+        if(!empty($email)){
+            $this->db->where('User.Email',$email);
         }
         $this->db->limit($limitNum, $offsetNum);
         $query = $this->db->get();
@@ -147,17 +174,86 @@ class Candidate_model extends CI_Model {
     }
 
     // return how many candidates
-    public function countAll($page=""){
-        
-        
+    public function countAll($page="",$city="",$jobType="",$jobInterest="",$firstName="",$lastName="",$suburb="",$email="",$phoneNumber=""){
+        $this->db->select('User.City,User.FirstName,User.LastName,User.Suburb,User.Email,User.PhoneNumber,Candidate.*');
+        $this->db->from('Candidate');
+        $this->db->join('User', 'Candidate.UserID = User.UserID');
         if($page == "jobDetails"){
-            $this->db->where('JobID',NULL);
-            $this->db->or_where('JobID',"");
-            $this->db->or_where('JobID',0);
+            $this->db->group_start();
+                $this->db->where('JobID',NULL);
+                $this->db->or_where('JobID',"");
+                $this->db->or_where('JobID',0);
+            $this->db->group_end();
+        }
+        if(!empty($city)){
+            $this->db->where('City',$city);
+        }
+        if(!empty($jobType)){
+            $this->db->where('JobType',$jobType);
+        }
+        if(!empty($jobType)){
+            $this->db->like('JobInterest',$jobInterest);
+        }
+        if(!empty($jobType)){
+            $this->db->where('FirstName',$firstName);
+        }
+        if(!empty($jobType)){
+            $this->db->where('LastName',$lastName);
+        }
+        if(!empty($jobType)){
+            $this->db->where('Suburb',$suburb);
+        }
+        if(!empty($jobType)){
+            $this->db->like('Email',$email);
+        }
+        if(!empty($jobType)){
+            $this->db->like('PhoneNumber',$phoneNumber);
+        }
+        return $this->db->count_all_results();
+    }
+
+    public function getFilterCandidate($page="",$city="",$jobType="",$jobInterest="",$firstName="",$lastName="",$suburb="",$phoneNumber="",$email=""){
+        //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
+        //$query = $this->db->query($mySql);
+        $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
+        $this->db->from('Candidate');
+        $this->db->join('User', 'Candidate.UserID = User.UserID');
+        if($page == "jobDetails"){
+            $this->db->group_start();
+                $this->db->where('Candidate.JobID',NULL);
+                $this->db->or_where('Candidate.JobID',"");
+                $this->db->or_where('Candidate.JobID',0);
+            $this->db->group_end();
         }
         
-        return $this->db->count_all_results('Candidate');
+        if(!empty($city)){
+            $this->db->where('User.City',$city);
+        }
+        if(!empty($jobType)){
+        $this->db->where('Candidate.JobType',$jobType);
+        }
+        if(!empty($jobInterest)){
+            $this->db->like('Candidate.JobInterest',$jobInterest);
+        }
+        if(!empty($firstName)){
+            $this->db->like('User.FirstName',$firstName);
+        }
+        if(!empty($lastName)){
+            $this->db->like('User.LastName',$lastName);
+        }
+        if(!empty($suburb)){
+            $this->db->where('User.Suburb',$suburb);
+        }
+        if(!empty($phoneNumber)){
+            $this->db->like('User.PhoneNumber',$phoneNumber);
+        }
+        if(!empty($email)){
+            $this->db->where('User.Email',$email);
+        }
+        $query = $this->db->get();
+        return $query->result_array();
     }
+
     /**
      * Insert functions
      */

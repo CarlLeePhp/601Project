@@ -169,7 +169,7 @@ class Job_model extends CI_Model {
         $this->db->update('Job',$data);
     }
 
-    public function applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus,$bookmarkStat=""){
+    public function applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus){
         if($page=="archive")
         {
             $this->db->where('JobStatus',$jobStatus);

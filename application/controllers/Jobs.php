@@ -59,7 +59,7 @@ class Jobs extends CI_Controller {
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
                 if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
                 $bookmarkUrl= "Bookmark". $data['jobs'][$i]['JobID'];
-                
+                if(empty($data['jobs'][$i]['JobStatus'])){ $data['jobs'][$i]['JobStatus']="NoAction"; }
                 $data['jobs'][$i]['ref'] = $ref;
                 $data['jobs'][$i]['bookmarkStat'] = $bookmarkStat;
                 $data['jobs'][$i]['bookmarkUrl'] = $bookmarkUrl;
@@ -401,7 +401,7 @@ class Jobs extends CI_Controller {
             $contactPerson = $_POST['contactPersonName'];
 			$jobStatus = $_POST['jobStatus'];
 			$page = "manageClient";
-            $data['jobs'] = $this->job_model->applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson);
+            $data['jobs'] = $this->job_model->applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus);
             $bookmarkStat= "";
             for($i=0;$i<sizeof($data['jobs']);$i++){
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
