@@ -39,12 +39,45 @@ class Register extends CI_Controller {
          * Check password and confirm password.
          * If they are different, return an information.
          */
-        $userEmail = $_POST['Email'];
-        $userPasswd = $_POST['password'];
-        $confirmPassword= $_POST['confirmPassword'];
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $DOB = $_POST['DOB'];
+        $errorIsTrue = false;
+
+        if(isset($_POST['Email'])){
+            if(preg_match('%^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){
+                $userEmail = $_POST['Email'];
+            } else { $errorIsTrue = true; echo 'Invalid Email Address';}
+        }
+        
+        if(isset($_POST['password'])){
+            if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['password'])))){
+                $userPasswd = $_POST['password'];
+            } else { $errorIsTrue = true;  echo 'Invalid UserPassword';}
+        }
+
+        if(isset($_POST['firstName'])){
+            if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
+                $firstName = $_POST['firstName'];
+            } else { $errorIsTrue = true; echo 'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+        }
+
+        if(isset($_POST['lastName'])){
+            if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
+                $lastName = $_POST['lastName'];
+            } else { $errorIsTrue = true; echo 'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+        }
+        
+        if(isset($_POST['DOB'])){
+            if(preg_match('%^[1|2]{1}(9[0-9][0-9]|0[0-9][0-9])-(0[0-9]|1[0|1|2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])$%',stripslashes(trim($_POST['DOB'])))){
+                if($_POST['DOB']<=date("Y-m-d")){
+                    $DOB = $_POST['DOB'];
+                } { $errorIsTrue = true; echo 'The DOB cant be bigger than current Date';}
+            } else { $errorIsTrue = true; echo 'Error The Date is invalid format';}
+        }
+        
+        // if(isset($_POST['Address'])){
+        //     if(preg_match('%%',stripslashes(trim($_POST['Address'])))){
+               
+        //     } else { echo 'Invalid address';}
+        // }
         $Address = $_POST['Address'];
         $City = $_POST['City'];
         $ZipCode = $_POST['ZipCode'];

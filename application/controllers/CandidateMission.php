@@ -42,11 +42,8 @@ class CandidateMission extends CI_Controller{
             $userdata['userType'] = $_SESSION['userType'];
             $data['title'] = "Manage Candidate";
             $data['message'] ="";
-            $data['candidateNum'] = $this->candidate_model->countAll($page);
-            // $data['candidateNum'] = 30;
-            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page);
             
-            //is it a good idea to match the interest from candidate / job?
+            
             $data['job'] = array (
                 'JobType' => "",
                 'City' => "",
@@ -55,6 +52,13 @@ class CandidateMission extends CI_Controller{
             if(!empty($jobID)){
                 $data['job'] = $this->job_model->get_specificJob($jobID);
             }
+            $data['jobID'] = $jobID;
+            $data['candidateNum'] = $this->candidate_model->countAll($page,$data['job']['City'],$data['job']['JobType']);
+            // $data['candidateNum'] = 30;
+            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page,$data['job']['City'],$data['job']['JobType']);
+            
+            //is it a good idea to match the interest from candidate / job?
+            
             $data['fromPage'] = $page; 
             $this->load->view('templates/header',$userdata);
             $this->load->view('pages/manageCandidate',$data);
@@ -69,7 +73,7 @@ class CandidateMission extends CI_Controller{
     public function downloadCV($fileName){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
-            $path = '/var/www/candidatesCV/'.$fileName;
+            $path = 'C:\\xamppNew2\\htdocs\\' .'candidatesCV\\'.$fileName;
             force_download($path, NULL);
         } else {
             redirect('/');
@@ -83,15 +87,44 @@ class CandidateMission extends CI_Controller{
     // get a offset value then return candidates
     public function getCandidates($page=""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
-
-            $offset=$_POST['offset'];
-            $candidates = $this->candidate_model->getCandidatesWithName(10, $offset,$page);
-            echo json_encode($candidates);
+            $offset = $_POST['offset'];
+            $jobInterest = $_POST['jobInterest'];
+            $city = $_POST['city'];
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $suburb = $_POST['suburb'];
+            $email = $_POST['email'];
+            $phoneNumber = $_POST['phoneNumber'];
+            $jobType = $_POST['jobType'];
+            
+            
+            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, $offset,$page,$city,$jobType,$jobInterest,$firstName,$lastName,$suburb,$phoneNumber,$email);
+            echo json_encode($data['candidates']);
         } else {
             redirect('/');
         }
-
     }
+
+    public function applyFilterCandidate($page=""){
+        if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+        
+            $jobInterest = $_POST['jobInterest'];
+            $city = $_POST['city'];
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $suburb = $_POST['suburb'];
+            $email = $_POST['email'];
+            $phoneNumber = $_POST['phoneNumber'];
+            $jobType = $_POST['jobType'];
+            
+            $data['candidates'] = $this->candidate_model->getFilterCandidate($page,$city,$jobType,$jobInterest,$firstName,$lastName,$suburb,$phoneNumber,$email);
+            echo json_encode($data['candidates']);
+        } else {
+            redirect('/');
+        }
+    }
+
+   
 
     public function getRandomAlphabet(){
         $alphabetArray = array( 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j','k', 'l', 'm', 'n', 'o',
@@ -128,13 +161,36 @@ class CandidateMission extends CI_Controller{
                 $Suburb = $_POST['Suburb'];
                 $PhoneNumber = $_POST['PhoneNumber'];
                 $gender = $_POST['gender'];
-
+                
+                
                 $userType = 'candidate';
                 $newUserPasswd = do_hash($newUserPasswd, 'sha256');
                 $candidateNotes = $_POST['candidateNotes'];
                 $this->register_model->addUser($firstName, $lastName, $userEmail, $newUserPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, "0000-00-00", $gender);
                 $userData = $this->candidate_model->getUserByData($firstName,$lastName);
                 $userID = $userData['UserID'];
+                if(isset($_FILES['jobCVID'])){
+                    $config['upload_path'] = '/var/www/html/candidatesCV';
+                    //$config['upload_path'] = 'C:\\xamppNew2\\htdocs\\candidatesCV';
+                    $config['allowed_types'] = 'pdf|png|doc|docx';
+                    $config['max_size'] = 10000;
+                    $config['max_width'] = 0;
+                    $config['max_height'] = 0;
+                    $config['file_name'] = $userID;
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('jobCV')) {
+                        echo "Apply Failed";
+                    } else {
+                        echo "Apply Successfully";
+                    }
+
+                    // Update the download link
+                    $uploadName = $_FILES['jobCVID']['name'];
+                    $items = explode(".", $uploadName);
+                    $extent = $items[count($items) - 1];
+                    $downloadName = $config['file_name'] .'.'.$extent;
+                    $this->candidate_model->updateLinkByID($userID, $downloadName);
+                }
         }
         $data = array(
         'JobInterest' => $this->input->post('jobInterest'),
@@ -177,9 +233,10 @@ class CandidateMission extends CI_Controller{
 
         
         $this->candidate_model->applyJob($data);
-        echo "Update successfully";
+        
     }
 
+    
     
     public function uploadCV(){
         if(!isset($_SESSION['userEmail'])){
@@ -191,8 +248,9 @@ class CandidateMission extends CI_Controller{
         // get max candidate ID
         $candidate = $this->candidate_model->getMaxIDByUserID($userID);
         $maxID=$candidate['MaxID'];
-        
-        $config['upload_path'] = constant('JOB_IMAGE_PATH');
+
+        $config['upload_path'] = constant('CV_PATH');
+
         $config['allowed_types'] = 'pdf|png|doc|docx';
         $config['max_size'] = 10000;
         $config['max_width'] = 0;

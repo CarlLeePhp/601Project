@@ -10,33 +10,33 @@
         <!-- Collapse -->
         <a class="btn btn-outline-dark border border-dark form-control" style="border-radius: 15px 15px 0px 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         <span class="font-weight-bold">Filters</span><i class="ml-1 icon ion-md-barcode mx-3"></i></a>
-
+       
         <div class="collapse border border-dark p-5 bg-white" style="border-radius: 0px 0px 15px 15px;" id="collapseExample">
             <div class="form-row mt-1">
                 <div class="form-group col-md-3">
                     <label class="text-dark font-weight-bold" for="company">Company:</label>
-                    <input type="text" class="form-control" v-model="filterCompany" id="company" placeholder="Company Name">
+                    <input type="text" class="form-control" name="companyName" v-model="filterCompany" id="company" placeholder="Company Name">
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-dark font-weight-bold" for="city">City:</label>
-                    <input type="text" class="form-control" v-model="filterCity" id="city" placeholder="City">
+                    <input type="text" class="form-control" name="cityName" v-model="filterCity" id="city" placeholder="City">
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-dark font-weight-bold" for="jobTitle">Job Title:</label>
-                    <input type="text" class="form-control" v-model="filterJobTitle" id="jobTitle" placeholder="Job Title">
+                    <input type="text" class="form-control" name="jobTitleName" v-model="filterJobTitle" id="jobTitle" placeholder="Job Title">
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-dark font-weight-bold" for="ContactNumber">Contact Number:</label>
-                    <input type="text" class="form-control" v-model="filterContactNumber" id="ContactNumber" placeholder="Contact Number">
+                    <input type="text" class="form-control" name="contactNumberName" v-model="filterContactNumber" id="ContactNumber" placeholder="Contact Number">
                 </div>
                 <div class="form-group col-md-3">
                     <label class="text-dark font-weight-bold" for="ContactPerson">Contact person name:</label>
-                    <input type="text" class="form-control" v-model="filterContactPerson" id="ContactPerson" placeholder="Contact person name">
+                    <input type="text" class="form-control" name="contactPersonName" v-model="filterContactPerson" id="ContactPerson" placeholder="Contact person name">
                 </div>
             </div>
             <button class="btn btn-outline-info " @click="applyFilters">Apply</button>
-            <button class="btn btn-outline-dark mx-2" @click="clearFilters">Clear</button>
-
+            <a href="<?php echo base_url()?>index.php/Archive" class="btn btn-outline-dark mx-2">Clear</a>
+      
             <p class="mt-md-5 mt-3 text-dark font-weight-bold">Shows column:</p>
             <div class="form-check form-check-inline col-md-2">
                 <input class="form-check-input" type="checkbox" v-model="showBookmark" id="showBookmark">
@@ -132,44 +132,53 @@
            
                 <thead>
                     <tr>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showBookmark }"><a href="#"  @click.stop.prevent="sortBy('bookmark')" class="text-dark "><img src="<?php echo base_url();?>lib/images/Bookmark1.png" style="height: 16px; width:16px;"></a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showBookmark }"><a href="#"  @click.stop.prevent="sortBy('Bookmark')" class="text-dark "><img src="<?php echo base_url();?>lib/images/Bookmark1.png" style="height: 16px; width:16px;"></a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDetails }"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('clientTitle')">Title</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('clientName')">Name</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompany }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('company')">Company</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('email')">Email</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showContactNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('contactNumber')">Contact Number</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobTitle')">Job Title</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('address')">Address</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark  p-2 pr-3" @click.stop.prevent="sortBy('city')">City</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('ClientTitle')">Title</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark p-2 pr-3" @click.stop.prevent="sortBy('ClientName')">Name</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompany }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Company')">Company</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showEmail }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Email')">Email</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showContactNumber }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('ContactNumber')">Contact Number</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('JobTitle')">Job Title</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('JobType')">Job Type</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Address')">Address</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCity }"><a href="#" class="text-dark  p-2 pr-3" @click.stop.prevent="sortBy('City')">City</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDescription }">Description</th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDateSubmitted }"><a href="#" class="text-dark py-2" @click.stop.prevent="sortBy('dateSubmitted')">DateSubmitted</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDateSubmitted }"><a href="#" class="text-dark py-2" @click.stop.prevent="sortBy('JobSubmittedDate')">DateSubmitted</a></th>
                        
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="job in jobs" :key="job.id">
+                    <tr v-for="job in jobs" :key="job.JobID">
                         
-                        <td v-bind:class="{ 'd-none': ! showBookmark }"> <input type="checkbox" :id="job.bookmarkUrl" v-on:click="updateBookmark(job.id)" :checked="job.bookmarkStat"></td>
-                        <td v-bind:class="{ 'd-none': ! showDetails }"><a :href="job.ref" role="button"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
-                        <td v-text="job.clientTitle" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
-                        <td v-text="job.clientName" v-bind:class="{ 'd-none': ! showClientName }"></td>
-                        <td v-text="job.company" v-bind:class="{ 'd-none': ! showCompany }"></td>
-                        <td v-text="job.email" v-bind:class="{ 'd-none': ! showEmail }"></td>
-                        <td v-text="job.contactNumber" v-bind:class="{ 'd-none': ! showContactNumber }"></td>
-                        <td v-text="job.jobTitle" v-bind:class="{ 'd-none': ! showJobTitle }"></td>
-                        <td v-text="job.jobType" v-bind:class="{ 'd-none': ! showJobType }"></td>
-                        <td v-text="job.address" v-bind:class="{ 'd-none': ! showAddress }"></td>
-                        <td v-text="job.city" v-bind:class="{ 'd-none': ! showCity }"></td>
-                        <td v-text="job.description" v-bind:class="{ 'd-none': ! showDescription }"></td>
-                        <td v-text="job.dateSubmitted" v-bind:class="{ 'd-none': ! showDateSubmitted }"></td>
+                        <td v-bind:class="{ 'd-none': ! showBookmark }"><input type="checkbox" :id="job.bookmarkUrl" v-on:click="updateBookmark(job.JobID)" :checked="job.bookmarkStat"></td>
+                        <td class="textInfoPos" v-bind:class="{ 'd-none': ! showDetails }"><span class="textInfo text-center" style="left: -35px;width:190px;">See Job's Details</span><a :href="job.ref" role="button"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
+                        <td v-text="job.ClientTitle" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
+                        <td v-text="job.ClientName" v-bind:class="{ 'd-none': ! showClientName }"></td>
+                        <td v-text="job.Company" v-bind:class="{ 'd-none': ! showCompany }"></td>
+                        <td v-text="job.Email" v-bind:class="{ 'd-none': ! showEmail }"></td>
+                        <td v-text="job.ContactNumber" v-bind:class="{ 'd-none': ! showContactNumber }"></td>
+                        <td v-text="job.JobTitle" v-bind:class="{ 'd-none': ! showJobTitle }"></td>
+                        <td v-text="job.JobType" v-bind:class="{ 'd-none': ! showJobType }"></td>
+                        <td v-text="job.Address" v-bind:class="{ 'd-none': ! showAddress }"></td>
+                        <td v-text="job.City" v-bind:class="{ 'd-none': ! showCity }"></td>
+                        <td v-text="job.Description" v-bind:class="{ 'd-none': ! showDescription }"></td>
+                        <td v-text="job.JobSubmittedDate" v-bind:class="{ 'd-none': ! showDateSubmitted }"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <!-- Table End -->  
+    <!-- Table End --> 
+    <div class="row  justify-content-center mb-4">
+        <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" v-for="pageNum in pageNums" :key="pageNum.id" :class="{ active: pageNum.isActive }">
+                <a class="page-link"  href="#" @click.stop.prevent="getJobs(pageNum.id)">{{ pageNum.id / 10 + 1 }}</a>
+            </li>
+        </ul>
+        </nav>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -192,7 +201,6 @@
     </div>
 
     <!-- Modal END -->
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -206,27 +214,8 @@ var app = new Vue({
         errors: "",
         bookmarkID: "",
         toggle: false,
-        jobs: [
-            <?php foreach ($jobs as $job): ?> {
-                id: "<?php echo $job['JobID']; ?>",
-                
-                clientTitle: "<?php echo $job['ClientTitle']; ?>",
-                clientName: "<?php echo $job['ClientName']; ?>",
-                company: "<?php echo $job['Company']; ?>",
-                email: "<?php echo $job['Email']; ?>",
-                contactNumber: "<?php echo $job['ContactNumber']; ?>",
-                jobTitle: "<?php echo $job['JobTitle']; ?>",
-                jobType: "<?php echo $job['JobType']; ?>",
-                address: "<?php echo $job['Address']; ?>",
-                city: "<?php echo $job['City']; ?>",
-                description: "<?php echo $job['Description']; ?>",
-                dateSubmitted: "<?php echo $job['JobSubmittedDate']?>",
-                ref: "<?php echo base_url()?>index.php/Jobs/jobDetails/<?php echo $job['JobID'];?>",
-                bookmarkStat: "<?php if($job['Bookmark']=="true"){ echo true; } else { echo false;};?>",
-                bookmarkUrl: "Bookmark<?php echo $job['JobID'];?>",
-            },
-            <?php endforeach; ?>
-        ],
+        
+        jobs: <?php echo json_encode($jobs); ?>,
         jobsCopy: [],
         showBookmark: true,
         showDetails: true,
@@ -241,41 +230,19 @@ var app = new Vue({
         showCity: true,
         showDescription: true,
         showDateSubmitted: true,
-        
+        archiveJobNum: <?php echo $archiveJobNum;?>,
         // filters
         filterCompany: "",
         filterCity: "",
         filterJobTitle: "",
         filterContactNumber: "",
         filterContactPerson: "",
+        pageNums:[
+            {id: 1, isActive: true}
+        ]
         
     },
     methods: {
-        applyFilters: function(){
-            this.jobs = [];
-            for(var i=0; i<this.jobsCopy.length; i++){
-                let company = this.jobsCopy[i].company.toLowerCase();
-                let city = this.jobsCopy[i].city.toLowerCase();
-                let jobTitle = this.jobsCopy[i].jobTitle.toLowerCase();
-                let contactNumber = this.jobsCopy[i].contactNumber.toLowerCase();
-                let contactPerson = this.jobsCopy[i].clientName.toLowerCase();
-                if(company.search(this.filterCompany.toLowerCase()) >= 0
-                    && city.search(this.filterCity.toLowerCase()) >= 0
-                    && jobTitle.search(this.filterJobTitle.toLowerCase()) >= 0
-                    && contactNumber.search(this.filterContactNumber.toLowerCase()) >= 0
-                    && contactPerson.search(this.filterContactPerson.toLowerCase()) >= 0){
-                    this.jobs.push(this.jobsCopy[i]);
-                }
-            }
-        },
-        clearFilters: function(){
-            this.filterCompany = "";
-            this.filterCity = "";
-            this.filterJobTitle = "";
-            this.filterContactNumber = "";
-            this.filterContactPerson = "";
-            this.jobs = this.jobsCopy;
-        },
         sortBy: function(sortKey) {
             this.toggle = !this.toggle;
             if(this.toggle){
@@ -288,11 +255,54 @@ var app = new Vue({
                 })
             }
         },
+        getJobs: function(offset){
+            for(var i=0; i<this.pageNums.length; i++){
+                if(this.pageNums[i].id == offset){
+                    this.pageNums[i].isActive = true;
+                } else {
+                    this.pageNums[i].isActive = false;
+                }
+            }
+            var formData = new FormData()
+            formData.append('offset', offset);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/Archive/getJobsArchive'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body
+                this.jobs = result
+            }, res => {
+                // error callback
+                
+            })
+        },
+        applyFilters: function(){
+            
+            var formData = new FormData()
+            formData.append('companyName',this.filterCompany);
+            formData.append('cityName', this.filterCity);
+            formData.append('jobTitleName',this.filterJobTitle);
+            formData.append('contactNumberName',this.filterContactNumber);
+            formData.append('contactPersonName',this.filterContactPerson);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/Archive/applyFilterArchive'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body
+                this.jobs = result
+                this.pageNums = [];
+                for(var i=0; i<this.jobs.length; i=i+10){
+                    this.pageNums.push({id: i, isActive: false});
+                }
+                this.pageNums[0].isActive = true;
+                
+            }, res => {
+                // error callback
+                
+            })
+        },
         updateBookmark: function(jobID){
             var xRequest = new XMLHttpRequest;
             var bookmarkVal = "";
             if(document.getElementById("Bookmark"+jobID).checked){
                 bookmarkVal = "true";
+               
             } else {
                 bookmarkVal = "false";
             }
@@ -305,8 +315,13 @@ var app = new Vue({
            
         }
     },
+    
     mounted: function(){
-        this.jobsCopy = this.jobs;
+        this.pageNums = [];
+        for(var i=0; i<this.archiveJobNum; i=i+10){
+            this.pageNums.push({id: i, isActive: false});
+        }
+        this.pageNums[0].isActive = true;
     }
 
 })

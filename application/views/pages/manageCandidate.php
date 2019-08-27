@@ -203,7 +203,7 @@
     </div>
     <!-- Table -->
     <div class=" mb-5 px-5">
-    <div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" v-if="candidates.length > 0">
+    <div class="dragscroll" style="overflow: scroll; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;" >
         
             <table class="table table-hover mt-5 mr-5" id="candidateTable">
            
@@ -222,18 +222,18 @@
                         <th scope="col" v-bind:class="{ 'd-none': ! showAddress }"><a href="#" class="text-dark" @click.stop.prevent="">Address</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showSuburb }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('Suburb')">Suburb</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showGender }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('Gender')">Gender</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('jobInterest')">Job Interest</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('jobType')">Job Type</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('transportation')">Transportation</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCitizenship }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('citizenship')">Citizenship</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationInjury }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('compensationInjury')">Compensation Injury</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateFrom')">Compensation From</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateTo }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('compensationDateTo')">Compensation To</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobInterest }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('JobInterest')">Job Interest</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showJobType }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('JobType')">Job Type</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showTransportation }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Transportation')">Transportation</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCitizenship }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Citizenship')">Citizenship</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationInjury }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('CompensationInjury')">Compensation Injury</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateFrom }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('CompensationDateFrom')">Compensation From</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showCompensationDateTo }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('CompensationDateTo')">Compensation To</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showHealthConditions }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('healthProblem')">Health Problem</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showDependants }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('dependants')">Dependants</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showSmoke }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('smoke')">Smoke</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showConviction }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('conviction')">Conviction</a></th>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showConvictionDetails }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('convictionDetails')">Conviction Detail</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showDependants }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Dependants')">Dependants</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showSmoke }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('Smoke')">Smoke</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showConviction }"><a href="#" class="text-dark pt-5 pr-5 pb-3 pl-0" @click.stop.prevent="sortBy('Conviction')">Conviction</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showConvictionDetails }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('ConvictionDetails')">Conviction Detail</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCandidateNotes }"><a href="#" class="text-dark" @click.stop.prevent="">Notes</a></th>
                     </tr>
                 </thead>
@@ -352,11 +352,12 @@ var app = new Vue({
         showSuburb: true,
         showGender: false,
         candidateNum: <?php echo $candidateNum; ?>,
+        fromPage: "<?php echo $fromPage;?>",
         // filters
         filterJobInterest: "",
-        filterJobType: "",
+        filterJobType: "<?php if(!empty($job['JobType'])){echo $job['JobType'];}?>",
         filterFirstName: "",
-        filterCity: "",
+        filterCity: "<?php if(!empty($job['City'])){echo $job['City'];}?>",
         filterLastName: "",
         filterSuburb: "",
         filterPhoneNumber: "",
@@ -369,29 +370,48 @@ var app = new Vue({
     },
     methods: {
         applyFilters: function(){
-            this.candidatesCopy = [];
-            for(var i=0; i<this.candidates.length; i++){
-                let jobInterest = this.candidates[i].JobInterest.toLowerCase();
-                let jobType = this.candidates[i].JobType.toLowerCase();
-                let firstName = this.candidates[i].FirstName.toLowerCase();
-                let city = this.candidates[i].City.toLowerCase();
-                let lastName = this.candidates[i].LastName.toLowerCase();
-                let suburb = this.candidates[i].Suburb.toLowerCase();
-                let phoneNumber = this.candidates[i].PhoneNumber.toLowerCase();
-                let email = this.candidates[i].Email.toLowerCase();
-                if(jobInterest.search(this.filterJobInterest.toLowerCase()) >= 0
-                    && jobType.search(this.filterJobType.toLowerCase()) >= 0
-                    && firstName.search(this.filterFirstName.toLowerCase()) >= 0
-                    && city.search(this.filterCity.toLowerCase()) >= 0
-                    && lastName.search(this.filterLastName.toLowerCase()) >= 0
-                    && suburb.search(this.filterSuburb.toLowerCase()) >= 0
-                    && phoneNumber.search(this.filterPhoneNumber.toLowerCase()) >= 0
-                    && email.search(this.filterEmail.toLowerCase()) >= 0){
-                    this.candidatesCopy.push(this.candidates[i]);
+            var formData = new FormData()
+            formData.append('offset',1)
+            formData.append('jobInterest',this.filterJobInterest);
+            formData.append('city', this.filterCity);
+            formData.append('jobType',this.filterJobType);
+            formData.append('firstName',this.filterFirstName);
+            formData.append('phoneNumber',this.filterPhoneNumber);
+            formData.append('lastName',this.filterLastName);
+            formData.append('suburb',this.filterSuburb);
+            formData.append('email',this.filterEmail);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/applyFilterCandidate/<?php echo $fromPage;?>'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body
+                this.candidatesCopy = result
+            
+                this.pageNums = [];
+                for(var i=0; i<this.candidateCopy.length; i=i+10){
+                    this.pageNums.push({id: i, isActive: false});
                 }
+                this.pageNums[0].isActive = true;
+                for(var i=0; i<this.candidatesCopy.length; i++){
+            if(this.candidatesCopy[i].Asthma == 'true' || this.candidatesCopy[i].BlackOut == 'true' || 
+                this.candidatesCopy[i].Diabetes == 'true' || this.candidatesCopy[i].Bronchitis == 'true' ||
+                this.candidatesCopy[i].BackInjury == 'true' || this.candidatesCopy[i].Deafness == 'true' ||
+                this.candidatesCopy[i].Dermatitis == 'true' || this.candidatesCopy[i].SkinInfection == 'true' ||
+                this.candidatesCopy[i].Allergies == 'true' || this.candidatesCopy[i].Hernia == 'true' ||
+                this.candidatesCopy[i].HighBloodPressure == 'true' || this.candidatesCopy[i].HeartProblems == 'true' ||
+                this.candidatesCopy[i].UsingDrugs == 'true' ||
+                this.candidatesCopy[i].RSI == 'true'){
+                this.candidatesCopy[i].healthProblem = 'YES';
+            } else {
+                this.candidatesCopy[i].healthProblem = 'NO';
             }
+            
+        }
+            }, res => {
+            })
         },
         clearFilters: function(){
+            if(this.fromPage != "jobDetails"){
+                document.location.reload();
+            } else {
             this.filterJobInterest = "";
             this.filterJobType = "";
             this.filterFirstName = "";
@@ -399,7 +419,8 @@ var app = new Vue({
             this.filterLastName = "";
             this.filterPhoneNumber = "";
             this.filterEmail = "";
-            this.candidatesCopy = this.candidates;
+            this.applyFilters();
+            }
         },
         sortBy: function(sortKey) {
             this.toggle = !this.toggle;
@@ -432,52 +453,35 @@ var app = new Vue({
                 }
             }
             var formData = new FormData()
-            formData.append('offset', offset);
+            formData.append('offset',offset)
+            formData.append('jobInterest',this.filterJobInterest);
+            formData.append('city', this.filterCity);
+            formData.append('jobType',this.filterJobType);
+            formData.append('firstName',this.filterFirstName);
+            formData.append('phoneNumber',this.filterPhoneNumber);
+            formData.append('lastName',this.filterLastName);
+            formData.append('suburb',this.filterSuburb);
+            formData.append('email',this.filterEmail);
             var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/getCandidates/<?php echo $fromPage;?>'
             this.$http.post(urllink, formData).then(res => {
                 var result = res.body
-                this.candidatesCopy = [];
-                this.candidates = [];
-                this.candidates = result;
-                for(var i=0; i<this.candidates.length; i++){
-                    
-                    if(this.candidates[i].Asthma == 'true' || this.candidates[i].BlackOut == 'true' || 
-                        this.candidates[i].Diabetes == 'true' || this.candidates[i].Bronchitis == 'true' ||
-                        this.candidates[i].BackInjury == 'true' || this.candidates[i].Deafness == 'true' ||
-                        this.candidates[i].Dermatitis == 'true' || this.candidates[i].SkinInfection == 'true' ||
-                        this.candidates[i].Allergies == 'true' || this.candidates[i].Hernia == 'true' ||
-                        this.candidates[i].HighBloodPressure == 'true' || this.candidates[i].HeartProblems == 'true' ||
-                        this.candidates[i].UsingDrugs == 'true' ||
-                        this.candidates[i].RSI == 'true'){
-                        this.candidates[i].healthProblem = 'YES';
-                    } else {
-                        this.candidates[i].healthProblem = 'NO';
-                    }
-                    let jobInterest = this.candidates[i].JobInterest.toLowerCase();
-                    let jobType = this.candidates[i].JobType.toLowerCase();
-                    let firstName = this.candidates[i].FirstName.toLowerCase();
-                    let city = this.candidates[i].City.toLowerCase();
-                    let lastName = this.candidates[i].LastName.toLowerCase();
-                    let suburb = this.candidates[i].Suburb.toLowerCase();
-                    let phoneNumber = this.candidates[i].PhoneNumber.toLowerCase();
-                    let email = this.candidates[i].Email.toLowerCase();
-
-                    if(jobInterest.search(this.filterJobInterest.toLowerCase()) >= 0
-                    && jobType.search(this.filterJobType.toLowerCase()) >= 0
-                    && firstName.search(this.filterFirstName.toLowerCase()) >= 0
-                    && city.search(this.filterCity.toLowerCase()) >= 0
-                    && lastName.search(this.filterLastName.toLowerCase()) >= 0
-                    && suburb.search(this.filterSuburb.toLowerCase()) >= 0
-                    && phoneNumber.search(this.filterPhoneNumber.toLowerCase()) >= 0
-                    && email.search(this.filterEmail.toLowerCase()) >= 0){
-                    this.candidatesCopy.push(this.candidates[i]);
-                    }
-                }
-               
-                //this.candidatesCopy = this.candidates;
+                this.candidatesCopy = result
+                for(var i=0; i<this.candidatesCopy.length; i++){
+            if(this.candidatesCopy[i].Asthma == 'true' || this.candidatesCopy[i].BlackOut == 'true' || 
+                this.candidatesCopy[i].Diabetes == 'true' || this.candidatesCopy[i].Bronchitis == 'true' ||
+                this.candidatesCopy[i].BackInjury == 'true' || this.candidatesCopy[i].Deafness == 'true' ||
+                this.candidatesCopy[i].Dermatitis == 'true' || this.candidatesCopy[i].SkinInfection == 'true' ||
+                this.candidatesCopy[i].Allergies == 'true' || this.candidatesCopy[i].Hernia == 'true' ||
+                this.candidatesCopy[i].HighBloodPressure == 'true' || this.candidatesCopy[i].HeartProblems == 'true' ||
+                this.candidatesCopy[i].UsingDrugs == 'true' ||
+                this.candidatesCopy[i].RSI == 'true'){
+                this.candidatesCopy[i].healthProblem = 'YES';
+            } else {
+                this.candidatesCopy[i].healthProblem = 'NO';
+            }
+            
+        }
             }, res => {
-                // error callback
-                
             })
         },
         updateNotes: function(candidateID){
@@ -536,14 +540,13 @@ var app = new Vue({
         // inite pageNums
         this.pageNums = [];
         for(var i=0; i<this.candidateNum; i=i+10){
-            
             this.pageNums.push({id: i, isActive: false});
         }
         this.pageNums[0].isActive = true;
+        
         this.filterJobType = "<?php echo $job['JobType']?>";
-        //this.filterJobInterest = "<?php echo $job['JobTitle']?>";
-        //this.filterCity = "<?php echo $job['City']?>";
-        this.applyFilters();
+        
+        this.filterCity = "<?php echo $job['City']?>";
     }
 
 })
