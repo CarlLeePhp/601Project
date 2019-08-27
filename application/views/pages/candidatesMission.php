@@ -218,8 +218,8 @@ var app = new Vue({
             })
 
             // upload the cv
-            var candidateCV = document.getElementById("jobCVID");
-
+            var candidateCV = document.getElementById("JobCVID");
+            
             var formData = new FormData()
 
             formData.append('JobCV', candidateCV.files[0]);
@@ -236,23 +236,7 @@ var app = new Vue({
             })
 
         },
-        testCV: function(){
-            console.log("you got me")
-            var candidateCV = document.getElementById("jobCVID");
-
-            var formData = new FormData()
-
-            formData.append('JobCV', candidateCV.files[0]);
-            var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/uploadCV/'
-            this.$http.post(urllink, formData).then(res => {
-                var result = res.body
-                console.log(result)
-                
-            }, res => {
-                // error callback
-                console.log('past failed')
-            })
-        }
+        
         
     }
 });

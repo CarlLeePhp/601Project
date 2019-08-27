@@ -131,7 +131,7 @@ class Jobs extends CI_Controller {
 					if($fileError === 0){
 						if($fileSize < 1000000){
 							$fileNameNew = $paramJobID . $fileName;
-							$fileDestination = 'jobImages/' . $fileNameNew;
+							$fileDestination = constant('JOB_IMAGE_PATH') . $fileNameNew;
 							move_uploaded_file($fileTmpName,$fileDestination);
 						} else {
 							echo 'The file is too big';
