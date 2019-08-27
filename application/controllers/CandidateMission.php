@@ -249,8 +249,8 @@ class CandidateMission extends CI_Controller{
         $candidate = $this->candidate_model->getMaxIDByUserID($userID);
         $maxID=$candidate['MaxID'];
 
-        $config['upload_path'] = '/var/www/candidatesCV/';
-        //$config['upload_path'] = 'C:\\xamppNew2\\htdocs\\candidatesCV';
+        $config['upload_path'] = constant('CV_PATH');
+
         $config['allowed_types'] = 'pdf|png|doc|docx';
         $config['max_size'] = 10000;
         $config['max_width'] = 0;
@@ -273,6 +273,7 @@ class CandidateMission extends CI_Controller{
         $extent = $items[count($items) - 1];
         $downloadName = $config['file_name'].'.'.$extent;
         $this->candidate_model->updateLinkByID($maxID, $downloadName);
+        
     }
 
     public function candidateDetails($candidateID,$jobID=""){
