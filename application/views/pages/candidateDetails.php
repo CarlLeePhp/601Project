@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-4">
                 <div class="row ml-1"><label for="candidateCVID" class="font-weight-bold mt-2">Candidate's CV:</label></div>
-                <div class="row ml-1"><a href="<?php echo base_url()?>index.php/CandidateMission/downloadCV/<?php echo $candidate['CandidateCV'];?>" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
+                <div class="row ml-1"><a href="<?php echo base_url()?>index.php/CandidateMission/downloadCV/<?php echo $candidate['JobCV'];?>" id="candidateCVID" class="btn btn-primary">CandidateCV</a> </div>   
             </div>
         </div>
 

@@ -83,7 +83,11 @@
                     <hr>
                     <!-- CheckSession User == "" -->
                     <?php if($userType != 'anyone') { 
-                        $this->load->view('pages/candidateApplicationForm');
+                        if($userType == 'candidate'){
+                            $this->load->view('pages/candidateApplicationForm');
+                        } else if ($userType=='staff' || $userType == 'admin'){
+                            redirect('CandidateMission/addingNewCandidateStaffOnly');
+                        }
                     } else { ?>
                     <div>
                         <p>You have to Login first before submitting your application form,
@@ -218,7 +222,7 @@ var app = new Vue({
             })
 
             // upload the cv
-            var candidateCV = document.getElementById("jobCVID");
+            var candidateCV = document.getElementById("JobCVID");
 
             var formData = new FormData()
 

@@ -73,7 +73,7 @@ class CandidateMission extends CI_Controller{
     public function downloadCV($fileName){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
-            $path = '/var/www/candidatesCV/'.$fileName;
+            $path = 'C:\\xamppNew2\\htdocs\\' .'candidatesCV\\'.$fileName;
             force_download($path, NULL);
         } else {
             redirect('/');
@@ -161,13 +161,36 @@ class CandidateMission extends CI_Controller{
                 $Suburb = $_POST['Suburb'];
                 $PhoneNumber = $_POST['PhoneNumber'];
                 $gender = $_POST['gender'];
-
+                
+                
                 $userType = 'candidate';
                 $newUserPasswd = do_hash($newUserPasswd, 'sha256');
                 $candidateNotes = $_POST['candidateNotes'];
                 $this->register_model->addUser($firstName, $lastName, $userEmail, $newUserPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, "0000-00-00", $gender);
                 $userData = $this->candidate_model->getUserByData($firstName,$lastName);
                 $userID = $userData['UserID'];
+                if(isset($_FILES['jobCVID'])){
+                    $config['upload_path'] = '/var/www/html/candidatesCV';
+                    //$config['upload_path'] = 'C:\\xamppNew2\\htdocs\\candidatesCV';
+                    $config['allowed_types'] = 'pdf|png|doc|docx';
+                    $config['max_size'] = 10000;
+                    $config['max_width'] = 0;
+                    $config['max_height'] = 0;
+                    $config['file_name'] = $userID;
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('jobCV')) {
+                        echo "Apply Failed";
+                    } else {
+                        echo "Apply Successfully";
+                    }
+
+                    // Update the download link
+                    $uploadName = $_FILES['jobCVID']['name'];
+                    $items = explode(".", $uploadName);
+                    $extent = $items[count($items) - 1];
+                    $downloadName = $config['file_name'] .'.'.$extent;
+                    $this->candidate_model->updateLinkByID($userID, $downloadName);
+                }
         }
         $data = array(
         'JobInterest' => $this->input->post('jobInterest'),
@@ -210,9 +233,10 @@ class CandidateMission extends CI_Controller{
 
         
         $this->candidate_model->applyJob($data);
-        echo "Update successfully";
+        
     }
 
+    
     
     public function uploadCV(){
         if(!isset($_SESSION['userEmail'])){
@@ -226,6 +250,7 @@ class CandidateMission extends CI_Controller{
         $maxID=$candidate['MaxID'];
 
         $config['upload_path'] = '/var/www/candidatesCV/';
+        //$config['upload_path'] = 'C:\\xamppNew2\\htdocs\\candidatesCV';
         $config['allowed_types'] = 'pdf|png|doc|docx';
         $config['max_size'] = 10000;
         $config['max_width'] = 0;

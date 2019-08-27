@@ -39,42 +39,46 @@ class Register extends CI_Controller {
          * Check password and confirm password.
          * If they are different, return an information.
          */
+        $errorIsTrue = false;
+
         if(isset($_POST['Email'])){
             if(preg_match('%^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){
                 $userEmail = $_POST['Email'];
-            } else { echo 'Invalid Email Address';}
+            } else { $errorIsTrue = true; echo 'Invalid Email Address';}
         }
         
         if(isset($_POST['password'])){
             if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['password'])))){
                 $userPasswd = $_POST['password'];
-            } else { echo 'Invalid UserPassword';}
+            } else { $errorIsTrue = true;  echo 'Invalid UserPassword';}
         }
 
         if(isset($_POST['firstName'])){
             if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
                 $firstName = $_POST['firstName'];
-            } else { echo 'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+            } else { $errorIsTrue = true; echo 'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
         }
 
         if(isset($_POST['lastName'])){
             if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
                 $lastName = $_POST['lastName'];
-            } else { echo 'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+            } else { $errorIsTrue = true; echo 'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
         }
         
         if(isset($_POST['DOB'])){
-            if(preg_match('%^\d{2}-\d{2}-\d{4}$%',stripslashes(trim($_POST['DOB'])))){
-                $DOB = $_POST['DOB'];
-            } else { echo 'Invalid format for date, the valid format is, example: dd/mm/yyyy';}
+            if(preg_match('%^[1|2]{1}(9[0-9][0-9]|0[0-9][0-9])-(0[0-9]|1[0|1|2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])$%',stripslashes(trim($_POST['DOB'])))){
+                if($_POST['DOB']<=date("Y-m-d")){
+                    $DOB = $_POST['DOB'];
+                } { $errorIsTrue = true; echo 'The DOB cant be bigger than current Date';}
+            } else { $errorIsTrue = true; echo 'Error The Date is invalid format';}
         }
         
-        if(isset($_POST['Address'])){
-            if(preg_match('%%',stripslashes(trim($_POST['Address'])))){
-                $Address = $_POST['Address'];
-            } else { echo 'Invalid address';}
-        }
-       
+        // if(isset($_POST['Address'])){
+        //     if(preg_match('%%',stripslashes(trim($_POST['Address'])))){
+               
+        //     } else { echo 'Invalid address';}
+        // }
+        $Address = $_POST['Address'];
         $City = $_POST['City'];
         $ZipCode = $_POST['ZipCode'];
         $Suburb = $_POST['Suburb'];

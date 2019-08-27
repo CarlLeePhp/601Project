@@ -284,7 +284,7 @@ class Candidate_model extends CI_Model {
     // update jobCV by ID
     public function updateLinkByID($candidateID, $fileName){
         $data = array(
-            'jobCV' => $fileName
+            'JobCV' => $fileName
         );
         $this->db->where('CandidateID', $candidateID);
         $this->db->update('Candidate', $data);
