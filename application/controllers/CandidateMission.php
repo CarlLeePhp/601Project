@@ -170,8 +170,8 @@ class CandidateMission extends CI_Controller{
                 $userData = $this->candidate_model->getUserByData($firstName,$lastName);
                 $userID = $userData['UserID'];
                 if(isset($_FILES['jobCVID'])){
-                    $config['upload_path'] = '/var/www/html/candidatesCV';
-                    //$config['upload_path'] = 'C:\\xamppNew2\\htdocs\\candidatesCV';
+                    //$config['upload_path'] = '/var/www/html/candidatesCV';
+                    $config['upload_path'] = 'C:\\xamppNew2\\htdocs\\candidatesCV';
                     $config['allowed_types'] = 'pdf|png|doc|docx';
                     $config['max_size'] = 10000;
                     $config['max_width'] = 0;

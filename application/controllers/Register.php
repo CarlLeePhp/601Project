@@ -28,6 +28,7 @@ class Register extends CI_Controller {
 
         $data['users'] = $this->user_model->getUsers();
         $data['cities'] = $this->City_model->get_cities();
+        $data['message'] = array();
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/register', $data);
         $this->load->view('templates/footer');
@@ -40,61 +41,108 @@ class Register extends CI_Controller {
          * If they are different, return an information.
          */
         $errorIsTrue = false;
-
+        $errMessage = array();
         if(isset($_POST['Email'])){
             if(preg_match('%^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){
                 $userEmail = $_POST['Email'];
-            } else { $errorIsTrue = true; echo 'Invalid Email Address';}
+            } else { $errorIsTrue = true; array_push($errMessage,'Invalid Email Address');}
         }
         
         if(isset($_POST['password'])){
             if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['password'])))){
                 $userPasswd = $_POST['password'];
-            } else { $errorIsTrue = true;  echo 'Invalid UserPassword';}
+            } else { $errorIsTrue = true;  array_push($errMessage,'Invalid UserPassword');}
         }
 
         if(isset($_POST['firstName'])){
             if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
                 $firstName = $_POST['firstName'];
-            } else { $errorIsTrue = true; echo 'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+            } else { $errorIsTrue = true; array_push($errMessage,'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
         }
 
         if(isset($_POST['lastName'])){
             if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
                 $lastName = $_POST['lastName'];
-            } else { $errorIsTrue = true; echo 'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User';}
+            } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
         }
         
         if(isset($_POST['DOB'])){
             if(preg_match('%^[1|2]{1}(9[0-9][0-9]|0[0-9][0-9])-(0[0-9]|1[0|1|2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])$%',stripslashes(trim($_POST['DOB'])))){
-                if($_POST['DOB']<=date("Y-m-d")){
+                if($_POST['DOB']<date("Y-m-d")){
                     $DOB = $_POST['DOB'];
-                } { $errorIsTrue = true; echo 'The DOB cant be bigger than current Date';}
-            } else { $errorIsTrue = true; echo 'Error The Date is invalid format';}
+                } else { $errorIsTrue = true; array_push($errMessage,'The Date Of Birth / DOB field cant be bigger than current Date');}
+            } else { $errorIsTrue = true; array_push($errMessage,'Error The Date is invalid format');}
         }
         
         // if(isset($_POST['Address'])){
-        //     if(preg_match('%%',stripslashes(trim($_POST['Address'])))){
-               
-        //     } else { echo 'Invalid address';}
+        //     if(preg_match('%^[#]?[ ]?[\d{1,5}]?[ \(\)a-zA-Z0-9:@&\,\-\.\'/]+[#]?[\d{1,5}]?$%',stripslashes(trim($_POST['Address'])))){
+        //         $Address = $_POST['Address'];
+        //     } else { $errorIsTrue = true; array_push($errMessage,'invalid address, contains unexpected characters');}
         // }
-        $Address = $_POST['Address'];
-        $City = $_POST['City'];
-        $ZipCode = $_POST['ZipCode'];
-        $Suburb = $_POST['Suburb'];
-        $PhoneNumber = $_POST['PhoneNumber'];
-        $gender = $_POST['gender'];
 
+        if(isset($_POST['Address'])){
+            if(preg_match('%\d%',stripslashes(trim($_POST['Address'])))){
+                $Address = $_POST['Address'];
+            } else {
+                $errorIsTrue = true; array_push($errMessage,'invalid address, address must contains numbers');
+            }
+        }
+        $data['cities'] = $this->City_model->get_cities();
+        $cities = array();
+        foreach($data['cities'] as $city){
+            array_push($cities,$city['CityName']);
+        }
+
+        if (in_array($_POST['City'], $cities)) {
+            $City = stripslashes(trim($_POST['City']));
+        } else {
+            $errorIsTrue = true; array_push($errMessage,'invalid city, the city doesnt exists in New Zealand');
+        }
+
+        //4 digits zipcode
+        if(isset($_POST['ZipCode'])){
+            if(preg_match('%^\d{4}$%',stripslashes(trim($_POST['ZipCode'])))){
+                $ZipCode = $_POST['ZipCode'];
+            } else { $ZipCode="0000";}
+        
+        } else { $ZipCode = "0000";}
+
+        if(isset($_POST['Suburb'])){
+            if(preg_match('%^[a-zA-Z\s/\.\'\(\)&:\,\"]+$%',stripslashes(trim($_POST['Suburb'])))){
+                $Suburb = $_POST['Suburb'];
+            } else { $Suburb ="Undefined";}
+        
+        } else { $Suburb = "Undefined";}
+
+        if(isset($_POST['PhoneNumber'])){
+            if(preg_match('%^[\+]?\(?[\+]?[0-9]{2,4}\)?[- .]?\(?[0-9]{2,4}[-. ]?[0-9]{2,4}[-. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['PhoneNumber'])))){
+                $PhoneNumber = $_POST['PhoneNumber'];
+            } else { $errorIsTrue = true; array_push($errMessage,'Invalid Phone number');}
+        }
+
+        if($_POST['gender']=='male' || $_POST['gender'] == 'female')
+        {
+        $gender = $_POST['gender'];
+        } else {$gender = 'undefined';}
+
+        $data['message'] = $errMessage;
         $userType = 'candidate';
         $userPasswd = do_hash($userPasswd, 'sha256');
-
+        if(!$errorIsTrue){
         $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
-        
         $userdata['userType'] = 'anyone';
         $message['wrongInfo'] = 'undefined';
+       
         $this->load->view('templates/header', $userdata);
         $this->load->view('login/main',$message);
         $this->load->view('templates/footer');
+        } else {
+            $userdata['userType'] = 'anyone';
+            $this->load->view('templates/header', $userdata);
+            $this->load->view('pages/register',$data);
+            $this->load->view('templates/footer');
+        }
+        
     }
 
     public function newStaff(){
