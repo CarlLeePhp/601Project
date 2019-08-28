@@ -85,5 +85,5 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 // By Carl Li
-define('CV_PATH', '/var/www/candidateCV/');
+define('CV_PATH', '/var/www/candidatesCV/');
 define('JOB_IMAGE_PATH', '/var/www/jobImages');

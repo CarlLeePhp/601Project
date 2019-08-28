@@ -73,7 +73,7 @@ class CandidateMission extends CI_Controller{
     public function downloadCV($fileName){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
-            $path = 'C:\\xamppNew2\\htdocs\\' .'candidatesCV\\'.$fileName;
+            $path = constant('CV_PATH').$fileName;
             force_download($path, NULL);
         } else {
             redirect('/');
@@ -144,89 +144,54 @@ class CandidateMission extends CI_Controller{
         $candidateNotes = "";
         if($_SESSION['userType']!='admin' && $_SESSION['UserType']!='staff')
         {
+            
             $userID = $_SESSION['userID'];
         }
         else {
-                $userEmail = 'LeeRecruitment:' . $_POST['email'];
-                $userPasswd = rand(10000,99999);
-                $pos = rand(0,4); 
-                $alphabet = $this->getRandomAlphabet();
-                $newUserPasswd = substr_replace($userPasswd, $alphabet, $pos, 1);
-                
-                $firstName = $_POST['firstName'];
-                $lastName = $_POST['lastName'];
-                $Address = $_POST['Address'];
-                $City = $_POST['City'];
-                $ZipCode = $_POST['ZipCode'];
-                $Suburb = $_POST['Suburb'];
-                $PhoneNumber = $_POST['PhoneNumber'];
-                $gender = $_POST['gender'];
-                
-                
-                $userType = 'candidate';
-                $newUserPasswd = do_hash($newUserPasswd, 'sha256');
-                $candidateNotes = $_POST['candidateNotes'];
-                $this->register_model->addUser($firstName, $lastName, $userEmail, $newUserPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, "0000-00-00", $gender);
-                $userData = $this->candidate_model->getUserByData($firstName,$lastName);
-                $userID = $userData['UserID'];
-                if(isset($_FILES['jobCVID'])){
-                    $config['upload_path'] = '/var/www/html/candidatesCV';
-                    //$config['upload_path'] = 'C:\\xamppNew2\\htdocs\\candidatesCV';
-                    $config['allowed_types'] = 'pdf|png|doc|docx';
-                    $config['max_size'] = 10000;
-                    $config['max_width'] = 0;
-                    $config['max_height'] = 0;
-                    $config['file_name'] = $userID;
-                    $this->load->library('upload', $config);
-                    if (!$this->upload->do_upload('jobCV')) {
-                        echo "Apply Failed";
-                    } else {
-                        echo "Apply Successfully";
-                    }
-
-                    // Update the download link
-                    $uploadName = $_FILES['jobCVID']['name'];
-                    $items = explode(".", $uploadName);
-                    $extent = $items[count($items) - 1];
-                    $downloadName = $config['file_name'] .'.'.$extent;
-                    $this->candidate_model->updateLinkByID($userID, $downloadName);
-                }
+            // Staff and Mark Lee won't apply a job for themselves
+            // So this means it comes from the staff only page
+            // So there are three more things: firstName and lastName
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $candidateNotes = $_POST['candidateNotes'];
+            $userData = $this->candidate_model->getUserByData($firstName,$lastName);
+            $userID = $userData['UserID'];
         }
         $data = array(
-        'JobInterest' => $this->input->post('jobInterest'),
-        'JobType' => $this->input->post('jobType'),
-        'Transportation' => $this->input->post('transportation'),
-        'LicenseNumber' => $this->input->post('licenseNumber'),
-        'ClassLicense' => $this->input->post('classLicense'),
-        'Endorsement' => $this->input->post('endorsement'),
-        'Citizenship' => $this->input->post('citizenship'),
-        'Nationality' => $this->input->post('nationality'),
-        'PassportCountry' => $this->input->post('passportCountry'),
-        'PassportNumber' => $this->input->post('passportNumber'),
-        'WorkPermitNumber' => $this->input->post('workPermitNumber'),
+        'JobInterest' => $this->input->post('JobInterest'),
+        'JobType' => $this->input->post('JobType'),
+        'Transportation' => $this->input->post('Transportation'),
+        'LicenseNumber' => $this->input->post('LicenseNumber'),
+        'ClassLicense' => $this->input->post('ClassLicense'),
+        'Endorsement' => $this->input->post('Endorsement'),
+        'Citizenship' => $this->input->post('Citizenship'),
+        'Nationality' => $this->input->post('Nationality'),
+        'PassportCountry' => $this->input->post('PassportCountry'),
+        'PassportNumber' => $this->input->post('PassportNumber'),
+        'WorkPermitNumber' => $this->input->post('WorkPermitNumber'),
         'WorkPermitExpiry' => $this->input->post('workPermitExpiry'),
-        'CompensationInjury' => $this->input->post('compensationInjury'),
-        'CompensationDateFrom' => $this->input->post('compensationDateFrom'),
-        'CompensationDateTo' => $this->input->post('compensationDateTo'),
-        'Asthma' => $this->input->post('asthma'),
-        'BlackOut' => $this->input->post('blackOut'),
-        'Diabetes' => $this->input->post('diabetes'),
-        'Bronchitis' => $this->input->post('bronchitis'),
-        'BackInjury' => $this->input->post('backInjury'),
-        'Deafness' => $this->input->post('deafness'),
-        'Dermatitis' => $this->input->post('dermatitis'),
-        'SkinInfection' => $this->input->post('skinInfection'),
-        'Allergies' => $this->input->post('allergies'),
-        'Hernia' => $this->input->post('hernia'),
-        'HighBloodPressure' => $this->input->post('highBloodPressure'),
-        'HeartProblems' => $this->input->post('heartProblems'),
-        'UsingDrugs' => $this->input->post('usingDrugs'),
-        'UsingContactLenses' => $this->input->post('usingContactLenses'),
+        'CompensationInjury' => $this->input->post('CompensationInjury'),
+        'CompensationDateFrom' => $this->input->post('CompensationDateFrom'),
+        'CompensationDateTo' => $this->input->post('CompensationDateTo'),
+        'Asthma' => $this->input->post('Asthma'),
+        'BlackOut' => $this->input->post('BlackOut'),
+        'Diabetes' => $this->input->post('Diabetes'),
+        'Bronchitis' => $this->input->post('Bronchitis'),
+        'BackInjury' => $this->input->post('BackInjury'),
+        'Deafness' => $this->input->post('Deafness'),
+        'Dermatitis' => $this->input->post('Dermatitis'),
+        'SkinInfection' => $this->input->post('SkinInfection'),
+        'Allergies' => $this->input->post('Allergies'),
+        'Hernia' => $this->input->post('Hernia'),
+        'HighBloodPressure' => $this->input->post('HighBloodPressure'),
+        'HeartProblems' => $this->input->post('HeartProblems'),
+        'UsingDrugs' => $this->input->post('UsingDrugs'),
+        'UsingContactLenses' => $this->input->post('UsingContactLenses'),
         'RSI' => $this->input->post('RSI'),
-        'Dependants' => $this->input->post('dependants'),
-        'Smoke' => $this->input->post('smoke'),
-        'Conviction' => $this->input->post('conviction'),
-        'ConvictionDetails' => $this->input->post('convictionDetails'),
+        'Dependants' => $this->input->post('Dependants'),
+        'Smoke' => $this->input->post('Smoke'),
+        'Conviction' => $this->input->post('Conviction'),
+        'ConvictionDetails' => $this->input->post('ConvictionDetails'),
         'UserID' => $userID,
         'CandidateNotes' => $candidateNotes,
         );
@@ -236,14 +201,28 @@ class CandidateMission extends CI_Controller{
         
     }
 
-    
-    
     public function uploadCV(){
         if(!isset($_SESSION['userEmail'])){
             echo "Please login";
             exit;
         }
-        $userID = $_SESSION['userID'];
+        
+        if($_SESSION['userType']!='admin' && $_SESSION['UserType']!='staff')
+        {
+            
+            $userID = $_SESSION['userID'];
+        }
+        else {
+            // Staff and Mark Lee won't apply a job for themselves
+            // So this means it comes from the staff only page
+            // So there are three more things: firstName and lastName
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $userData = $this->candidate_model->getUserByData($firstName,$lastName);
+            $userID = $userData['UserID'];
+        }
+        
+        
         
         // get max candidate ID
         $candidate = $this->candidate_model->getMaxIDByUserID($userID);
@@ -257,22 +236,24 @@ class CandidateMission extends CI_Controller{
         $config['max_height'] = 0;
         $config['file_name'] = $maxID; // the uploaded file's extension will be applied
 
-       
+
         
         $this->load->library('upload', $config);
         //what is this for?
         if (!$this->upload->do_upload('JobCV')) {
-            echo $maxID."Apply Failed";
+            echo "Apply Failed.";
         } else {
-            echo $maxID."Apply Successfully";
+            echo "Apply Successfully";
         }
 
-         // Update the download link
+        
+        // Update the download link
         $uploadName = $_FILES['JobCV']['name'];
         $items = explode(".", $uploadName);
         $extent = $items[count($items) - 1];
         $downloadName = $config['file_name'].'.'.$extent;
         $this->candidate_model->updateLinkByID($maxID, $downloadName);
+        
         
     }
 
@@ -305,5 +286,31 @@ class CandidateMission extends CI_Controller{
         else {
             redirect('/');
         }
+    }
+
+    public function addUserByStaff(){
+        if(!isset($_SESSION['userEmail'])){
+            //redirect('/personcenter/index');
+            echo "Please login";
+            exit;
+        }
+
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $userAddress = $_POST['userAddress'];
+        $city = $_POST['city'];
+        $zipCode = $_POST['zipCode'];
+        $suburb = $_POST['suburb'];
+        $phoneNumber = $_POST['phoneNumber'];
+        $gender = $_POST['gender'];
+        $userEmail = 'LeeRecruitment:' . $_POST['userEmail'];
+        $userPasswd = rand(10000,99999);
+        $pos = rand(0,4); 
+        $alphabet = $this->getRandomAlphabet();
+        $newUserPasswd = substr_replace($userPasswd, $alphabet, $pos, 1);
+        $userType = 'candidate';
+        $newUserPasswd = do_hash($newUserPasswd, 'sha256');
+        $this->register_model->addUser($firstName, $lastName, $userEmail, $newUserPasswd, $userAddress, $city, $zipCode, $suburb, $userType, $phoneNumber, "0000-00-00", $gender);
+
     }
 }

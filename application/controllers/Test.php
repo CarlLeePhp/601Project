@@ -39,4 +39,10 @@ class Test extends CI_Controller {
     public function testDefine(){
         echo constant('CV_PATH');
     }
+
+    // test update JobCV in CandidateTable
+    public function testUpdateJobCV(){
+
+        $this->candidate_model->updateLinkByID(31, '31.docx');
+    }
 }
