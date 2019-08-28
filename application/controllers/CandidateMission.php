@@ -156,6 +156,7 @@ class CandidateMission extends CI_Controller{
             $candidateNotes = $_POST['candidateNotes'];
             $userData = $this->candidate_model->getUserByData($firstName,$lastName);
             $userID = $userData['UserID'];
+
         }
         $data = array(
         'JobInterest' => $this->input->post('JobInterest'),

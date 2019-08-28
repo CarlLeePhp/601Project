@@ -4,13 +4,19 @@
     <hr>
 
 
-
+    <?php if(sizeof($message)>0){
+        echo '<ul>';
+        foreach($message as $mess){
+            echo '<p class="text-danger"> * ' . $mess . '</p>';
+        }
+        echo '</ul>';
+    };?>
     <form action="<?php echo base_url()?>index.php/Register/newUser/" class="m-md-5" method="POST" @submit="checkForm">
         <h3 class="text-warning ml-0 my-3"> Log-in Information</h3>
         <div class="col-12 mb-5">
             <div class="row">
                 <div class="col-md-4 p-0">
-                    <label for="EmailID" class="font-weight-bold">E-mail</label>
+                    <label for="EmailID" class="font-weight-bold"><span class="text-danger">* </span>E-mail</label>
                     <input type="email" class="form-control" placeholder="Enter Email" name="Email" id="EmailID" @change="checkEmail" v-model="email"/>
                 </div>
             </div>
@@ -19,7 +25,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md-4 px-1 p-0">
-                    <label for="passwordID" class="font-weight-bold">Password:</label>
+                    <label for="passwordID" class="font-weight-bold"><span class="text-danger">* </span>Password:</label>
                     <input type="password" placeholder="Enter Password" class="form-control" name="password"
                         id="passwordID" v-model="password">
                         <div class="">
@@ -30,7 +36,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md-4 px-1 p-0">
-                    <label for="confirmPasswordID" class="font-weight-bold">Confirm Password:</label>
+                    <label for="confirmPasswordID" class="font-weight-bold"><span class="text-danger">* </span>Confirm Password:</label>
                     <input type="password" placeholder="Re-Enter password" class="form-control" name="confirmPassword"
                         id="confirmpasswordID" v-model="confirmPasswd">
                 </div>
@@ -45,31 +51,31 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-md-4 pr-md-3 p-0">
-                    <label for="firstNameID" class="font-weight-bold">First Name:</label>
+                    <label for="firstNameID" class="font-weight-bold"><span class="text-danger">* </span>First Name:</label>
                     <input type="text" class="form-control" placeholder="Enter firstName" name="firstName"
                         id="firstNameID" required />
                 </div>
 
                 <div class="col-md-4 px-md-3 p-0">
-                    <label for="lastNameID" class="font-weight-bold">Last Name:</label>
+                    <label for="lastNameID" class="font-weight-bold"><span class="text-danger">* </span>Last Name:</label>
                     <input type="text" placeholder="Enter lastName" class="form-control" name="lastName" id="lastNameID"
                         required>
                 </div>
                 <div class="col-md-4 px-md-3 p-0">
-                    <label for="DOBID" class="font-weight-bold">Date of Birth:</label>
+                    <label for="DOBID" class="font-weight-bold"><span class="text-danger">* </span>Date of Birth:</label>
                     <input type="date" placeholder="Enter DOB" class="form-control" name="DOB" id="DOBID" required>
                 </div>
             </div>
             <div class="row mt-md-3">
                 <div class="col-md-4 pr-md-3 p-0 mt-2 mt-md-0">
-                    <label for="AddressID" class="font-weight-bold">Address and street number:</label>
+                    <label for="AddressID" class="font-weight-bold"><span class="text-danger">* </span>Address and street number:</label>
                     <input type="text" placeholder="Enter Address" class="form-control" name="Address" id="AddressID"
                         required />
                 </div>
                 <div class="col-md-3 px-md-3 col-9 p-0 mt-2 mt-md-0 pr-2">
-                    <label for="CityID" class="font-weight-bold">City:</label>
+                    <label for="CityID" class="font-weight-bold"><span class="text-danger">* </span>City:</label>
                     <select class="form-control" type="text" name="City" id="CityID" required >
-                    <option selected>Enter City</option>
+                    <option selected></option>
                     <?php foreach($cities as $city): ?>
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                     <?php endforeach; ?>
@@ -86,7 +92,7 @@
             </div>
             <div class="row mt-md-3">
                 <div class="col-md-4 pr-md-3 p-0 mt-2 mt-md-0">
-                    <label for="PhoneNumberID" class="font-weight-bold">PhoneNumber:</label>
+                    <label for="PhoneNumberID" class="font-weight-bold"><span class="text-danger">* </span>PhoneNumber:</label>
                     <input type="text" placeholder="Enter PhoneNumber" class="form-control" name="PhoneNumber"
                         id="PhoneNumberID" required />
                 </div>

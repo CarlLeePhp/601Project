@@ -284,7 +284,6 @@
         <button @click="newCandidate" class="btn btn-warning font-weight-bold col-md-3 col-9">Register New Candidate</button>
     </div>
 
-    <button @click="checkCV" class="btn btn-primary">Check File</button>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -470,33 +469,7 @@ var app = new Vue ({
             
 
         },
-        checkCV: function(){
-            var candidateCV = document.getElementById("JobCVID");
-            if(candidateCV.files.length > 0){
-                // upload the cv
-                var candidateCV = document.getElementById("JobCVID");
-                
-                var formData = new FormData()
-                // firstName and lastName for getting the user ID
-                formData.append('firstName', this.firstName);
-                formData.append('lastName', this.lastName);
-                formData.append('JobCV', candidateCV.files[0]);
-                var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/uploadCV/'
-                this.$http.post(urllink, formData).then(res => {
-                    var result = res.body
-                    this.message=result;
-                    $('#myModal').modal('show');
-                    
-                }, res => {
-                    // error callback
-                    this.message="CV upload was failed, please try it later.";
-                    $('#myModal').modal('show');
-                })
-            } else {
-                this.message="No file";
-                $('#myModal').modal('show');
-            }
-        }
+        
         
     }
 });
