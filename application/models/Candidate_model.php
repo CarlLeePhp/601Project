@@ -204,7 +204,7 @@ class Candidate_model extends CI_Model {
             $this->db->where('Suburb',$suburb);
         }
         if(!empty($jobType)){
-            $this->db->like('Email',$email);
+            $this->db->where('Email',$email);
         }
         if(!empty($jobType)){
             $this->db->like('PhoneNumber',$phoneNumber);
