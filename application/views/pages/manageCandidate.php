@@ -354,7 +354,7 @@ var app = new Vue({
         candidateNum: <?php echo $candidateNum; ?>,
         fromPage: "<?php echo $fromPage;?>",
         // filters
-        filterJobInterest: "",
+        filterJobInterest: "<?php if(!empty($job['JobTitle'])){echo $job['JobTitle'];}?>",
         filterJobType: "<?php if(!empty($job['JobType'])){echo $job['JobType'];}?>",
         filterFirstName: "",
         filterCity: "<?php if(!empty($job['City'])){echo $job['City'];}?>",

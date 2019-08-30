@@ -129,7 +129,31 @@ class Candidate_model extends CI_Model {
         $this->db->where('Candidate.JobType',$jobType);
         }
         if(!empty($jobInterest)){
-            $this->db->like('Candidate.JobInterest',$jobInterest);
+            $this->db->group_start();
+                $this->db->like('Candidate.JobInterest',$jobInterest);
+                
+                if(strpos($jobInterest,' ')!==false){
+                    $parts = explode(' ',$jobInterest);
+                    foreach($parts as $jobPart){
+                        if(strlen($jobPart)>2){
+                            if(substr($jobPart,-2)=='er' || substr($jobPart,-2)=='or'){
+                                $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-2));
+                            } else if(substr($jobPart,-3)=='ers' || substr($jobPart,-3)=='ing'){
+                                $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-3));
+                            } 
+                            $this->db->or_like('JobInterest',$jobPart);
+                        }
+                    }
+                } else {
+                    if(substr($jobInterest,-3)=='ers' || substr($jobInterest,-3)=='ing'){
+                        $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-3));
+                    } else if(substr($jobInterest,-2)=='er' || substr($jobInterest,-2)=='or'){
+                        $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-2));
+                    } else if(substr($jobInterest,-1)=='s'){
+                        $this->db->or_like('JobInterest',$jobInterest);
+                    } 
+                }
+            $this->db->group_end();
         }
         if(!empty($firstName)){
             $this->db->like('User.FirstName',$firstName);
@@ -191,22 +215,50 @@ class Candidate_model extends CI_Model {
         if(!empty($jobType)){
             $this->db->where('JobType',$jobType);
         }
-        if(!empty($jobType)){
-            $this->db->like('JobInterest',$jobInterest);
+        if(!empty($jobInterest)){
+            if($page=="jobDetails"){
+                $this->db->group_start();
+                $this->db->like('Candidate.JobInterest',$jobInterest);
+                
+                if(strpos($jobInterest,' ')!==false){
+                    $parts = explode(' ',$jobInterest);
+                    foreach($parts as $jobPart){
+                        if(strlen($jobPart)>2){
+                            if(substr($jobPart,-2)=='er' || substr($jobPart,-2)=='or'){
+                                $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-2));
+                            } else if(substr($jobPart,-3)=='ers' || substr($jobPart,-3)=='ing'){
+                                $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-3));
+                            } 
+                            $this->db->or_like('JobInterest',$jobPart);
+                        }
+                    }
+                } else {
+                    if(substr($jobInterest,-3)=='ers' || substr($jobInterest,-3)=='ing'){
+                        $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-3));
+                    } else if(substr($jobInterest,-2)=='er' || substr($jobInterest,-2)=='or'){
+                        $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-2));
+                    } else if(substr($jobInterest,-1)=='s'){
+                        $this->db->or_like('JobInterest',$jobInterest);
+                    }  
+                }
+            $this->db->group_end();
+            } else {
+                $this->db->like('JobInterest',$jobInterest);
+            }
         }
-        if(!empty($jobType)){
+        if(!empty($firstName)){
             $this->db->where('FirstName',$firstName);
         }
-        if(!empty($jobType)){
+        if(!empty($lastName)){
             $this->db->where('LastName',$lastName);
         }
-        if(!empty($jobType)){
+        if(!empty($suburb)){
             $this->db->where('Suburb',$suburb);
         }
-        if(!empty($jobType)){
+        if(!empty($email)){
             $this->db->where('Email',$email);
         }
-        if(!empty($jobType)){
+        if(!empty($phoneNumber)){
             $this->db->like('PhoneNumber',$phoneNumber);
         }
         return $this->db->count_all_results();
@@ -287,6 +339,6 @@ class Candidate_model extends CI_Model {
             'JobCV' => $fileName
         );
         $this->db->where('CandidateID', $candidateID);
-        $this->db->update('Candidate', $data);
+        $this->db->update('candidate', $data);
     }
 }

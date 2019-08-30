@@ -40,53 +40,50 @@ class Register extends CI_Controller {
          * Check password and confirm password.
          * If they are different, return an information.
          */
+    if(isset($_POST['submittedForm'])){
         $errorIsTrue = false;
         $errMessage = array();
         if(isset($_POST['Email'])){
-            if(preg_match('%^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){
-                $userEmail = $_POST['Email'];
+            if(preg_match('%^[a-zA-Z0-9\._\+\-]+@[a-zA-Z0-9\.\-]+\.[A-Za-z]{2,}$%',stripslashes(trim($_POST['Email'])))){
+                $userEmail = $this->security->xss_clean($_POST['Email']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Email Address');}
-        }
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter an email address');}
         
         if(isset($_POST['password'])){
             if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['password'])))){
-                $userPasswd = $_POST['password'];
+                $userPasswd = $this->security->xss_clean($_POST['password']);
             } else { $errorIsTrue = true;  array_push($errMessage,'Invalid UserPassword');}
-        }
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter a password');}
 
         if(isset($_POST['firstName'])){
-            if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
-                $firstName = $_POST['firstName'];
-            } else { $errorIsTrue = true; array_push($errMessage,'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
-        }
+            if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
+                $firstName = $this->security->xss_clean($_POST['firstName']);
+            } else { $errorIsTrue = true; array_push($errMessage,'Error The firstname you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter First Name');}
 
         if(isset($_POST['lastName'])){
-            if(preg_match('%^[a-zA-Z0-9\.\'-:"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
-                $lastName = $_POST['lastName'];
+            if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
+                $lastName = $this->security->xss_clean($_POST['lastName']);
             } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
-        }
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter Last Name');}
         
         if(isset($_POST['DOB'])){
             if(preg_match('%^[1|2]{1}(9[0-9][0-9]|0[0-9][0-9])-(0[0-9]|1[0|1|2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])$%',stripslashes(trim($_POST['DOB'])))){
                 if($_POST['DOB']<date("Y-m-d")){
-                    $DOB = $_POST['DOB'];
+                    $DOB = $this->security->xss_clean($_POST['DOB']);
                 } else { $errorIsTrue = true; array_push($errMessage,'The Date Of Birth / DOB field cant be bigger than current Date');}
             } else { $errorIsTrue = true; array_push($errMessage,'Error The Date is invalid format');}
-        }
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter Date of birth');}
         
-        // if(isset($_POST['Address'])){
-        //     if(preg_match('%^[#]?[ ]?[\d{1,5}]?[ \(\)a-zA-Z0-9:@&\,\-\.\'/]+[#]?[\d{1,5}]?$%',stripslashes(trim($_POST['Address'])))){
-        //         $Address = $_POST['Address'];
-        //     } else { $errorIsTrue = true; array_push($errMessage,'invalid address, contains unexpected characters');}
-        // }
 
         if(isset($_POST['Address'])){
             if(preg_match('%\d%',stripslashes(trim($_POST['Address'])))){
-                $Address = $_POST['Address'];
+                $Address = $this->security->xss_clean($_POST['Address']);
             } else {
                 $errorIsTrue = true; array_push($errMessage,'invalid address, address must contains numbers');
             }
-        }
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter An address');}
+        
         $data['cities'] = $this->City_model->get_cities();
         $cities = array();
         foreach($data['cities'] as $city){
@@ -94,7 +91,7 @@ class Register extends CI_Controller {
         }
 
         if (in_array($_POST['City'], $cities)) {
-            $City = stripslashes(trim($_POST['City']));
+            $City = $this->security->xss_clean(stripslashes(trim($_POST['City'])));
         } else {
             $errorIsTrue = true; array_push($errMessage,'invalid city, the city doesnt exists in New Zealand');
         }
@@ -102,27 +99,27 @@ class Register extends CI_Controller {
         //4 digits zipcode
         if(isset($_POST['ZipCode'])){
             if(preg_match('%^\d{4}$%',stripslashes(trim($_POST['ZipCode'])))){
-                $ZipCode = $_POST['ZipCode'];
+                $ZipCode = $this->security->xss_clean($_POST['ZipCode']);
             } else { $ZipCode="0000";}
         
         } else { $ZipCode = "0000";}
 
         if(isset($_POST['Suburb'])){
             if(preg_match('%^[a-zA-Z\s/\.\'\(\)&:\,\"]+$%',stripslashes(trim($_POST['Suburb'])))){
-                $Suburb = $_POST['Suburb'];
+                $Suburb = $this->security->xss_clean($_POST['Suburb']);
             } else { $Suburb ="Undefined";}
         
         } else { $Suburb = "Undefined";}
 
         if(isset($_POST['PhoneNumber'])){
-            if(preg_match('%^[\+]?\(?[\+]?[0-9]{2,4}\)?[- .]?\(?[0-9]{2,4}[-. ]?[0-9]{2,4}[-. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['PhoneNumber'])))){
-                $PhoneNumber = $_POST['PhoneNumber'];
+            if(preg_match('%^[\+]?\(?[\+]?[0-9]{2,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['PhoneNumber'])))){
+                $PhoneNumber = $this->security->xss_clean($_POST['PhoneNumber']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Phone number');}
-        }
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter a phone number');}
 
         if($_POST['gender']=='male' || $_POST['gender'] == 'female')
         {
-        $gender = $_POST['gender'];
+        $gender = $this->security->xss_clean(stripslashes($_POST['gender']));
         } else {$gender = 'undefined';}
 
         $data['message'] = $errMessage;
@@ -142,18 +139,37 @@ class Register extends CI_Controller {
             $this->load->view('pages/register',$data);
             $this->load->view('templates/footer');
         }
+    }
         
     }
 
     public function newStaff(){
         if($_SESSION['userType']=='admin'){
-
-            // if(preg_match("",$_POST['email']))
-            $userEmail = $_POST['email'];
-            $userPasswd = $_POST['password'];
-            $confirmPassword= $_POST['confirmPassword'];
-            $firstName = $_POST['firstName'];
-            $lastName = $_POST['lastName'];
+         if(isset($_POST['submittedFormStaffing'])){
+            $errorIsTrue = false;
+            $errMessage = array();
+            if(isset($_POST['email'])){
+                if(preg_match('%^[a-zA-Z0-9\._\-\+]+@[a-zA-Z0-9\.\-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['email'])))){
+                    $userEmail = $_POST['email'];
+                } else { $errorIsTrue = true; array_push($errMessage,'Invalid Email Address');}
+            } else { $errorIsTrue = true; array_push($errMessage,'Please enter an email');}
+            
+            if(isset($_POST['password'])){
+                if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['password'])))){
+                    $userPasswd = $_POST['password'];
+                } else { $errorIsTrue = true;  array_push($errMessage,'Invalid UserPassword');}
+            } else { $errorIsTrue = true; array_push($errMessage,'Please enter a password');}
+            if(isset($_POST['firstName'])){
+                if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
+                    $firstName = $_POST['firstName'];
+                } else { $errorIsTrue = true; array_push($errMessage,'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
+            } else { $errorIsTrue = true; array_push($errMessage,'Please enter first name');}
+    
+            if(isset($_POST['lastName'])){
+                if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
+                    $lastName = $_POST['lastName'];
+                } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
+            } else { $errorIsTrue = true; array_push($errMessage,'Please enter last name');}
             $DOB = '';
             $Address = '';
             $City = '';
@@ -165,15 +181,18 @@ class Register extends CI_Controller {
             $userType = 'staff';
             $userPasswd = do_hash($userPasswd, 'sha256');
             $data['message'] = "";
-            
+            if(!$errorIsTrue){
             $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
-        
+            } else {
+                $data['message'] = $errMessage;
+            }
             $userdata['userType'] = $_SESSION['userType'];
             $data['title'] = "Manage Staff";
             $data['staffs'] = $this->user_model->getAllStaff();
             $this->load->view('templates/header',$userdata);
             $this->load->view('pages/manageStaff',$data);
             $this->load->view('templates/footer');
+         }
         } else {
             redirect('/');
         }
@@ -191,7 +210,12 @@ class Register extends CI_Controller {
      * AJAX
      */
     public function sendPasswd(){
-        $userEmail = $_POST['email'];
+        if(isset($_POST['email'])){
+            if(preg_match('%^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){
+                $userEmail = $_POST['Email'];
+            } 
+        }
+
 
         // Random a string
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -217,7 +241,9 @@ class Register extends CI_Controller {
             $config['smtp_user'] = 'kunhuilearners1@gmail.com';
             $config['smtp_pass'] = 'diligence';
             $config['smtp_port'] = '587';
+            
             $config['smtp_crypto'] = 'tls';
+            
             $this->email->from('kunhuilearners1@gmail.com', 'Carl Lee');
             $this->email->to($userEmail);
 

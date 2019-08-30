@@ -27,14 +27,14 @@ class Jobs extends CI_Controller {
 			$userdata['userType'] = $_SESSION['userType'];
 		};
 		if(isset($_POST['jobTitle'])){
-			$jobTitle = $_POST['jobTitle'];
+			$jobTitle = $this->security->xss_clean($_POST['jobTitle']);
 			
 		};
 		if(isset($_POST['jobType'])){
-			$jobType = $_POST['jobType'];
+			$jobType = $this->security->xss_clean($_POST['jobType']);
 			};
 		if(isset($_POST['location'])){
-			$location = $_POST['location'];
+			$location = $this->security->xss_clean($_POST['location']);
 		};
 
 		// get all jobs for the table status=published
@@ -104,7 +104,7 @@ class Jobs extends CI_Controller {
 			$data['title'] = "Job Details";
 			$data['job'] = $this->job_model->get_specificJob($paramJobID);
 			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
-			
+			$data['message'] = "";
 			$this->load->view('templates/header',$userdata);
 			$this->load->view('pages/jobDetails',$data);
 			$this->load->view('templates/footer');
@@ -135,7 +135,7 @@ class Jobs extends CI_Controller {
 			$job = $this->job_model->get_specificJob($paramJobID);
 			$userdata['userType'] = $_SESSION['userType'];
 			$data['title'] = "Job Details";
-
+			$errMessage = array();
 			//content
 			$publishTitle = $_POST['publishTitle'];
 			if($publishTitle == NULL) {
@@ -165,16 +165,17 @@ class Jobs extends CI_Controller {
 					if($fileError === 0){
 						if($fileSize < 1000000){
 							$fileNameNew = $paramJobID . $fileName;
+							echo $fileNameNew;
 							$fileDestination = constant('JOB_IMAGE_PATH') . $fileNameNew;
 							move_uploaded_file($fileTmpName,$fileDestination);
 						} else {
-							echo 'The file is too big';
+							array_push($errMessage,'The file is too big');
 						}
 					} else {
-						echo 'There was an error uploading the file';
+						array_push($errMessage,'There was an error uploading the file');
 					}
 				} else {
-					echo 'You cannot upload the file of this type';
+					array_push($errMessage,'You cannot upload the file of this type');
 				}
 			}
 			//4digitsYear-2digitsMonth-2digitsDay Format to match sql
@@ -184,7 +185,7 @@ class Jobs extends CI_Controller {
 			//select the job 
 			$data['job'] = $this->job_model->get_specificJob($paramJobID);
 			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
-
+			$data['message'] = $errMessage;
 			$this->load->view('templates/header',$userdata);
 			$this->load->view('pages/jobDetails',$data);
 			$this->load->view('templates/footer');

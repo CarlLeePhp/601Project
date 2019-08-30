@@ -121,23 +121,29 @@ class Personcenter extends CI_Controller {
 	}
 
 	public function updatePassword(){
-		$userdata['userType'] = $_SESSION['userType'];
-		$userID = $_SESSION['userID'];
-		$newPassword = $_POST['newPassword'];
 		if(!(isset($_SESSION['userType']))){
 			redirect('/');
 		}
+
+		$userdata['userType'] = $_SESSION['userType'];
+		$userID = $_SESSION['userID'];
+		
 		$encryptPass = do_hash( $_POST['oldPassword'], 'sha256');
 		$data['message'] = "";
-
-		if($_SESSION['userPassword'] != $encryptPass){
-			$data['message'] = "The password you entered in Current Password input box is not the same as your current password, failed to update password";
-		} else {
-			$this->User_model->update_personalPassword($userID,$newPassword);
-			$data['message'] = "Success! Your password has been changed";
-			$_SESSION['userPassword'] = $encryptPass;
-		}
-
+		
+		if(isset($_POST['newPassword'])){
+            if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['newPassword'])))){
+				$newPassword = $this->security->xss_clean($_POST['newPassword']);
+				if(($_SESSION['userPassword'] != $encryptPass)){
+					$data['message'] = "The password you entered in Current Password input box is not the same as your current password, failed to update password";
+				} else {
+					$this->User_model->update_personalPassword($userID,$newPassword);
+					$data['message'] = "Success! Your password has been changed";
+					$_SESSION['userPassword'] = do_hash($newPassword,'sha256');
+				}
+            } else {  $data['message']='Invalid UserPassword length is too short or the usage of unallowed special characters';}
+        } else {$data['message']='Please enter a new password';}
+		
 		$data['userID'] = $_SESSION['userID'];
 		$data['title'] = "Personal Information";
 		$data['userEmail'] = $_SESSION['userEmail'];
@@ -162,6 +168,7 @@ class Personcenter extends CI_Controller {
 		if(!(isset($_SESSION['userType']))){
 			redirect('/');
 		}
+		
 		
 		$data['lastName'] = $_POST['lastName'];
 		$data['firstName'] = $_POST['firstName'];

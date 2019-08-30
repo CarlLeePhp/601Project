@@ -10,6 +10,7 @@ var app = new Vue({
         message: "",
         bookmarkID: "",
         toggle: false,
+        
         jobs: [
             <?php foreach ($jobs as $job): ?> {
                 id: "<?php echo $job['JobID']; ?>",
@@ -27,9 +28,11 @@ var app = new Vue({
                 dateSubmitted: "<?php echo $job['JobSubmittedDate']?>",
                 ref: "<?php echo base_url()?>index.php/Jobs/jobDetails/<?php echo $job['JobID'];?>",
                 checked: "<?php if($job['Checked']=="true"){ echo true; } else { echo false;};?>",
+                
             },
             <?php endforeach; ?>
         ],
+        uncheckedJobsCount: 0,
         jobsCopy: [],
         showClientCheck: true,
         showDetails: true,
@@ -54,6 +57,7 @@ var app = new Vue({
 
         candidates: <?php echo json_encode($candidates); ?>,
         candidatesCopy: [],
+        uncheckedCandidateCount: 0,
         showCandidateCheck: true,
         showFirstName: true,
         showLastName: true,
@@ -186,6 +190,7 @@ var app = new Vue({
                     }
                 }
                 this.jobsCopy = this.jobs;
+                this.uncheckedJobsCount = this.uncheckedJobsCount-1;
             }, res => {
                 // error callback
                 this.message = 'Post was failed, please try it later.';
@@ -206,6 +211,7 @@ var app = new Vue({
                     }
                 }
                 this.candidates = this.candidatesCopy;
+                this.uncheckedCandidateCount = this.uncheckedCandidateCount-1;
             }, res => {
                 // error callback
                 this.message = 'Post was failed, please try it later.';
@@ -216,7 +222,7 @@ var app = new Vue({
     },
     mounted: function(){
         this.jobsCopy = this.jobs;
-
+        this.uncheckedJobsCount = this.jobsCopy.length;
         for(var i=0; i<this.candidates.length; i++){
             if(this.candidates[i].Asthma == 'true' || this.candidates[i].BlackOut == 'true' || 
                 this.candidates[i].Diabetes == 'true' || this.candidates[i].Bronchitis == 'true' ||
@@ -230,7 +236,8 @@ var app = new Vue({
             } else {
                 this.candidates[i].healthProblem = 'NO';
             }
-            
+           
+            this.uncheckedCandidateCount+=1;
         }
         this.candidatesCopy = this.candidates;
     }

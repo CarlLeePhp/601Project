@@ -22,6 +22,7 @@
         
         <a href="<?php echo base_url() ?>index.php/Register" class="btn btn-outline-dark form-control mt-3"> Register</a>
         
+        <input type="hidden" name="submittedLoginForm" value="TRUE" />
         <div class="mt-2 align-self-center">
         <a href="<?php echo base_url() ?>index.php/Login/forgotPassword" class="text-dark" ><img src="<?php echo base_url() ?>lib/images/lock.png" style="width:8px; height:12px"> Forgot password</a>
         </div>
