@@ -114,6 +114,8 @@ class Personcenter extends CI_Controller {
 		$data['suburb'] = $_SESSION['suburb'];
 		$data['phoneNumber'] = $_SESSION['phoneNumber'];
 		$data['message'] = '';
+		$data['errMess'] = $this->session->flashdata('errMessage');
+		
 		$data['cities'] = $this->city_model->get_cities();
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/personalInfo',$data);
@@ -163,22 +165,73 @@ class Personcenter extends CI_Controller {
 	}
 
 	public function updateDetails(){
+		$errorIsTrue = false;
+		$errMessage = array();
 		$userdata['userType'] = $_SESSION['userType'];
 		$userID = $_SESSION['userID'];
 		if(!(isset($_SESSION['userType']))){
 			redirect('/');
 		}
 		
-		
-		$data['lastName'] = $_POST['lastName'];
-		$data['firstName'] = $_POST['firstName'];
-		$data['DOB'] = $_POST['DOB'];
-		$data['address'] = $_POST['address'];
-		$data['city'] = $_POST['city'];
-		$data['zipcode'] = $_POST['zip'];
-		$data['suburb'] = $_POST['suburb'];
-		$data['phoneNumber'] = $_POST['phoneNumber'];
+		if(isset($_POST['firstName'])){
+            if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
+                $data['firstName'] = $this->security->xss_clean($_POST['firstName']);
+            } else { $errorIsTrue = true; array_push($errMessage,'Error The firstname you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to update user data');}
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter First Name');}
 
+		if(isset($_POST['lastName'])){
+            if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
+				$data['lastName'] = $this->security->xss_clean($_POST['lastName']);
+            } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to update user data');}
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter Last Name');}
+		
+		if(isset($_POST['DOB'])){
+            if(preg_match('%^[1|2]{1}(9[0-9][0-9]|0[0-9][0-9])-(0[0-9]|1[0|1|2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])$%',stripslashes(trim($_POST['DOB'])))){
+                if($_POST['DOB']<date("Y-m-d")){
+                    $data['DOB'] = $this->security->xss_clean($_POST['DOB']);
+                } else { $errorIsTrue = true; array_push($errMessage,'The Date Of Birth / DOB field cant be bigger than current Date');}
+            } else { $errorIsTrue = true; array_push($errMessage,'Error The Date is invalid format');}
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter Date of birth');}
+		
+		if(isset($_POST['address'])){
+            if(preg_match('%\d%',stripslashes(trim($_POST['address'])))){
+                $data['address'] = $this->security->xss_clean($_POST['address']);
+            } else {
+                $errorIsTrue = true; array_push($errMessage,'invalid address, address must contains numbers');
+            }
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter An address');}
+		
+		$data['cities'] = $this->city_model->get_cities();
+        $cities = array();
+        foreach($data['cities'] as $city){
+            array_push($cities,$city['CityName']);
+        }
+
+        if (in_array($_POST['city'], $cities)) {
+            $data['city']  = $this->security->xss_clean(stripslashes(trim($_POST['city'])));
+        } else {
+            $errorIsTrue = true; array_push($errMessage,'invalid city, the city doesnt exists in New Zealand');
+		}
+		
+		if(isset($_POST['zip'])){
+            if(preg_match('%^\d{4}$%',stripslashes(trim($_POST['zip'])))){
+                $data['zipcode'] = $this->security->xss_clean($_POST['zip']);
+            } else { $errorIsTrue = true; array_push($errMessage,'invalid zip code, zip should contains 4 digits'); }
+		} 
+		
+		if(isset($_POST['suburb'])){
+            if(preg_match('%^[a-zA-Z\s/\.\'\(\)&:\,\"]+$%',stripslashes(trim($_POST['suburb'])))){
+                $data['suburb'] = $this->security->xss_clean($_POST['suburb']);
+            } else { $errorIsTrue = true; array_push($errMessage,'Invalid Suburb');}
+		}
+		
+		if(isset($_POST['phoneNumber'])){
+            if(preg_match('%^[\+]?\(?[\+]?[0-9]{2,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['phoneNumber'])))){
+				$data['phoneNumber'] = $this->security->xss_clean($_POST['phoneNumber']);
+            } else { $errorIsTrue = true; array_push($errMessage,'Invalid Phone number');}
+        } else { $errorIsTrue = true; array_push($errMessage,'Please enter a phone number');}
+		
+		if(!$errorIsTrue){
 		$_SESSION['lastName'] = $_POST['lastName'];
 		$_SESSION['firstName'] = $_POST['firstName'];
 		$_SESSION['DOB'] = $_POST['DOB'];
@@ -187,7 +240,7 @@ class Personcenter extends CI_Controller {
 		$_SESSION['zipcode'] = $_POST['zip'];
 		$_SESSION['suburb'] = $_POST['suburb'];
 		$_SESSION['phoneNumber'] = $_POST['phoneNumber'];
-		
+		unset($data['cities']);
 		$this->User_model->update_personalDetails($userID,$data);
 		
 		$data['message'] = "Your data has been updated successfully!";
@@ -197,5 +250,9 @@ class Personcenter extends CI_Controller {
 		$this->load->view('templates/header',$userdata);
 		$this->load->view('pages/personalInfo',$data);
 		$this->load->view('templates/footer');
+		} else {
+			$this->session->set_flashdata('errMessage', $errMessage);
+			redirect('/Personcenter/personalInfo');
+		}
 	}
 }

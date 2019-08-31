@@ -45,14 +45,14 @@ class EmployerMission extends CI_Controller{
     public function addJob(){
         $errMessage = array();
         $errorIsTrue = false;
-        // $clientTitle = "-";
-        // if(isset($_POST['clientTitle'])){
-        //     if(preg_match('%^(m|d|-)[ris]{0,3}[\.]?$%',stripslashes(trim($_POST['clientTitle'])))){
-        //         
-        //     } else { $errorIsTrue = true; array_push($errMessage,'Please choose your title from dropdown list'); }
-        // } 
+       
+        if(isset($_POST['clientTitle'])){
+            if(preg_match('%^(m|d|-)[ris]{0,3}[\.]?$%',stripslashes(trim($_POST['clientTitle'])))){
+                $clientTitle = $this->security->xss_clean(stripslashes($_POST['clientTitle']));
+            } else { $errorIsTrue = true; array_push($errMessage,'Please choose your title from dropdown list'); }
+        } else { $clientTitle = "-";}
 
-        $clientTitle = $this->security->xss_clean(stripslashes($_POST['clientTitle']));
+        //$clientTitle = $this->security->xss_clean(stripslashes($_POST['clientTitle']));
 
         if(isset($_POST['clientName'])){
             if(preg_match('%^[a-zA-Z\.\'\-:\"\, ]{2,}$%',stripslashes(trim($_POST['clientName'])))){
