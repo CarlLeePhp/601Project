@@ -25,9 +25,11 @@ class Login extends CI_Controller {
 
     public function login(){
         // When someone enter this link without login, it should be redirecte to login/index
+        if(isset($_POST['submittedLoginForm'])){
         if(isset($_POST['Email'])){
-            $userEmail = $_POST['Email'];
-            $userPasswd = $_POST['Password'];
+            
+            $userEmail = $this->security->xss_clean(stripslashes(trim($_POST['Email'])));
+            $userPasswd = $this->security->xss_clean(stripslashes(trim($_POST['Password'])));
             $userPasswd = do_hash($userPasswd, 'sha256');
             // get the user's information from database
             $data['user'] = $this->user_model->getUserByEmail($userEmail);
@@ -45,6 +47,7 @@ class Login extends CI_Controller {
                     'zip' => $data['user']['ZipCode'],
                     'suburb' => $data['user']['Suburb'],
                     'phoneNumber' => $data['user']['PhoneNumber'],
+                    
                 );
                 $this->session->set_userdata($newdata);
 
@@ -58,10 +61,11 @@ class Login extends CI_Controller {
                 $this->load->view('login/main',$message);
                 $this->load->view('templates/footer');
             }
-
+        
         } else {
             redirect('/login/index');
         }
+        } else {redirect('/login/index');}
     }
 
     public function logout(){

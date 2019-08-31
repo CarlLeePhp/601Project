@@ -53,9 +53,9 @@ class CandidateMission extends CI_Controller{
                 $data['job'] = $this->job_model->get_specificJob($jobID);
             }
             $data['jobID'] = $jobID;
-            $data['candidateNum'] = $this->candidate_model->countAll($page,$data['job']['City'],$data['job']['JobType']);
+            $data['candidateNum'] = $this->candidate_model->countAll($page,$data['job']['City'],$data['job']['JobType'],$data['job']['JobTitle']);
             // $data['candidateNum'] = 30;
-            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page,$data['job']['City'],$data['job']['JobType']);
+            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page,$data['job']['City'],$data['job']['JobType'],$data['job']['JobTitle']);
             
             //is it a good idea to match the interest from candidate / job?
             
@@ -74,6 +74,7 @@ class CandidateMission extends CI_Controller{
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
             $path = constant('CV_PATH').$fileName;
+            
             force_download($path, NULL);
         } else {
             redirect('/');
@@ -159,40 +160,40 @@ class CandidateMission extends CI_Controller{
 
         }
         $data = array(
-        'JobInterest' => $this->input->post('JobInterest'),
-        'JobType' => $this->input->post('JobType'),
-        'Transportation' => $this->input->post('Transportation'),
-        'LicenseNumber' => $this->input->post('LicenseNumber'),
-        'ClassLicense' => $this->input->post('ClassLicense'),
-        'Endorsement' => $this->input->post('Endorsement'),
-        'Citizenship' => $this->input->post('Citizenship'),
-        'Nationality' => $this->input->post('Nationality'),
-        'PassportCountry' => $this->input->post('PassportCountry'),
-        'PassportNumber' => $this->input->post('PassportNumber'),
-        'WorkPermitNumber' => $this->input->post('WorkPermitNumber'),
-        'WorkPermitExpiry' => $this->input->post('workPermitExpiry'),
-        'CompensationInjury' => $this->input->post('CompensationInjury'),
-        'CompensationDateFrom' => $this->input->post('CompensationDateFrom'),
-        'CompensationDateTo' => $this->input->post('CompensationDateTo'),
-        'Asthma' => $this->input->post('Asthma'),
-        'BlackOut' => $this->input->post('BlackOut'),
-        'Diabetes' => $this->input->post('Diabetes'),
-        'Bronchitis' => $this->input->post('Bronchitis'),
-        'BackInjury' => $this->input->post('BackInjury'),
-        'Deafness' => $this->input->post('Deafness'),
-        'Dermatitis' => $this->input->post('Dermatitis'),
-        'SkinInfection' => $this->input->post('SkinInfection'),
-        'Allergies' => $this->input->post('Allergies'),
-        'Hernia' => $this->input->post('Hernia'),
-        'HighBloodPressure' => $this->input->post('HighBloodPressure'),
-        'HeartProblems' => $this->input->post('HeartProblems'),
-        'UsingDrugs' => $this->input->post('UsingDrugs'),
-        'UsingContactLenses' => $this->input->post('UsingContactLenses'),
-        'RSI' => $this->input->post('RSI'),
-        'Dependants' => $this->input->post('Dependants'),
-        'Smoke' => $this->input->post('Smoke'),
-        'Conviction' => $this->input->post('Conviction'),
-        'ConvictionDetails' => $this->input->post('ConvictionDetails'),
+        'JobInterest' => $this->security->xss_clean($this->input->post('JobInterest')),
+        'JobType' => $this->security->xss_clean($this->input->post('JobType')),
+        'Transportation' => $this->security->xss_clean($this->input->post('Transportation')),
+        'LicenseNumber' => $this->security->xss_clean($this->input->post('LicenseNumber')),
+        'ClassLicense' => $this->security->xss_clean($this->input->post('ClassLicense')),
+        'Endorsement' => $this->security->xss_clean($this->input->post('Endorsement')),
+        'Citizenship' => $this->security->xss_clean($this->input->post('Citizenship')),
+        'Nationality' => $this->security->xss_clean($this->input->post('Nationality')),
+        'PassportCountry' => $this->security->xss_clean($this->input->post('PassportCountry')),
+        'PassportNumber' => $this->security->xss_clean($this->input->post('PassportNumber')),
+        'WorkPermitNumber' => $this->security->xss_clean($this->input->post('WorkPermitNumber')),
+        'WorkPermitExpiry' => $this->security->xss_clean($this->input->post('workPermitExpiry')),
+        'CompensationInjury' => $this->security->xss_clean($this->input->post('CompensationInjury')),
+        'CompensationDateFrom' => $this->security->xss_clean($this->input->post('CompensationDateFrom')),
+        'CompensationDateTo' => $this->security->xss_clean($this->input->post('CompensationDateTo')),
+        'Asthma' => $this->security->xss_clean($this->input->post('Asthma')),
+        'BlackOut' => $this->security->xss_clean($this->input->post('BlackOut')),
+        'Diabetes' => $this->security->xss_clean($this->input->post('Diabetes')),
+        'Bronchitis' => $this->security->xss_clean($this->input->post('Bronchitis')),
+        'BackInjury' => $this->security->xss_clean($this->input->post('BackInjury')),
+        'Deafness' => $this->security->xss_clean($this->input->post('Deafness')),
+        'Dermatitis' => $this->security->xss_clean($this->input->post('Dermatitis')),
+        'SkinInfection' => $this->security->xss_clean($this->input->post('SkinInfection')),
+        'Allergies' => $this->security->xss_clean($this->input->post('Allergies')),
+        'Hernia' => $this->security->xss_clean($this->input->post('Hernia')),
+        'HighBloodPressure' => $this->security->xss_clean($this->input->post('HighBloodPressure')),
+        'HeartProblems' => $this->security->xss_clean($this->input->post('HeartProblems')),
+        'UsingDrugs' => $this->security->xss_clean($this->input->post('UsingDrugs')),
+        'UsingContactLenses' => $this->security->xss_clean($this->input->post('UsingContactLenses')),
+        'RSI' => $this->security->xss_clean($this->input->post('RSI')),
+        'Dependants' => $this->security->xss_clean($this->input->post('Dependants')),
+        'Smoke' => $this->security->xss_clean($this->input->post('Smoke')),
+        'Conviction' => $this->security->xss_clean($this->input->post('Conviction')),
+        'ConvictionDetails' => $this->security->xss_clean($this->input->post('ConvictionDetails')),
         'UserID' => $userID,
         'CandidateNotes' => $candidateNotes,
         );
@@ -217,8 +218,8 @@ class CandidateMission extends CI_Controller{
             // Staff and Mark Lee won't apply a job for themselves
             // So this means it comes from the staff only page
             // So there are three more things: firstName and lastName
-            $firstName = $_POST['firstName'];
-            $lastName = $_POST['lastName'];
+            $firstName = $this->input->post('firstName');
+            $lastName = $this->input->post('lastName');
             $userData = $this->candidate_model->getUserByData($firstName,$lastName);
             $userID = $userData['UserID'];
         }
@@ -237,8 +238,10 @@ class CandidateMission extends CI_Controller{
         $config['max_height'] = 0;
         $config['file_name'] = $maxID; // the uploaded file's extension will be applied
 
-
-        
+        if ($this->security->xss_clean($_FILES, TRUE) === FALSE)
+        {
+            echo 'upload failed';
+        } else {
         $this->load->library('upload', $config);
         //what is this for?
         if (!$this->upload->do_upload('JobCV')) {
@@ -254,7 +257,7 @@ class CandidateMission extends CI_Controller{
         $extent = $items[count($items) - 1];
         $downloadName = $config['file_name'].'.'.$extent;
         $this->candidate_model->updateLinkByID($maxID, $downloadName);
-        
+        }
         
     }
 

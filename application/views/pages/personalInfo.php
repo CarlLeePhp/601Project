@@ -2,8 +2,17 @@
 <div style="height: 50px;"></div>
 
 
+
+
 <h2 class="text-center"><?php echo $title; ?></h2>
 <hr />
+    <?php if(!empty($errMess)){
+        echo '<ul>';
+        foreach($errMess as $mess){
+            echo '<p class="text-danger"> * ' . $mess . '</p>';
+        }
+        echo '</ul>';
+    };?>
     <div class="container justify-content-center rounded mt-5 mb-5">
         <form action="<?php echo base_url()?>index.php/PersonCenter/updatePassword" class="m-md-5" method="POST" @submit="checkForm">
            <h3 style="color: darkslategray">Change My Password</h3>

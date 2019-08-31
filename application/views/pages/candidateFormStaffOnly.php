@@ -12,13 +12,11 @@
                 <input type="text" class="form-control" placeholder="Enter firstName" name="firstName" id="firstNameID"
                     required v-model="firstName" />
             </div>
-
             <div class="col-md-4 pr-md-3 p-0">
                 <label for="lastNameID" class="font-weight-bold">Last Name:</label>
                 <input type="text" placeholder="Enter lastName" class="form-control" name="lastName" id="lastNameID"
                     required v-model="lastName" />
             </div>
-
         </div>
         <div class="row mt-md-3">
             <div class="col-md-4 pr-md-3 p-0 mt-2 mt-md-0">
@@ -89,7 +87,7 @@
             </select>
         </div>
         <div class="col-md-4">
-            <label for="JobCVID" class="font-weight-bold">Drop your CV here:</label>
+            <label class="font-weight-bold">Drop your CV here:</label>
             <input type="file" id="JobCVID" name="jobCV">
         </div>
     </div>

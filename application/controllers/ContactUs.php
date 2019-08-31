@@ -28,10 +28,10 @@ class ContactUS extends CI_Controller{
      */
 
     public function sendMessage(){
-        $userName = $_POST['userName'];
-        $userEmail = $_POST['userEmail'];
-        $userContact = $_POST['userContact'];
-        $userMessage = $_POST['userMessage'];
+        $userName = $this->security->xss_clean($this->input->post('userName'));
+        $userEmail = $this->security->xss_clean($this->input->post('userEmail'));
+        $userContact = $this->security->xss_clean($this->input->post('userContact'));
+        $userMessage = $this->security->xss_clean($this->input->post('userMessage'));
 
         /**
          * Email config

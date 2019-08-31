@@ -80,16 +80,16 @@
   <div class="row mt-5">
       <?php foreach($jobs as $job):?>
         <div class="col-md-4 mt-4">
-          <a class="text-dark" href="<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>">
+          <a class="text-dark" style="text-decoration: none;" href="<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>">
             <div class="card" style="width: 18rem;">
               <?php if(!empty($job['JobImage'])): ?>
-                <img src="<?php echo base_url() . constant('JOB_IMAGE_PATH') . $job['JobImage']?>" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
+                <img src="<?php echo base_url() . 'jobImages/' .$job['JobImage']?>" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
               <?php else : ?>
                 <img src="<?php echo base_url()?>lib/images/facebook.jpg" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
                 <?php endif;?>
                 <div class="card-body">
                 <p class="font-weight-bold p-0 mb-1"> <?php echo $job['PublishTitle'];?></p>
-                 <p class="text-justify text-decoration-none">   <?php echo $job['ThumbnailText'];?></p>
+                 <p class="text-justify">   <?php echo $job['ThumbnailText'];?></p>
                 </div>
             </div>
           </a>

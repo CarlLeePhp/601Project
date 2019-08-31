@@ -1,3 +1,4 @@
+
 <div id="app" class="m-md-5">
 <div class="container">
     <span class="display-4">Register a new account</span>
@@ -114,6 +115,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="submittedForm" value="TRUE" />
             <div class="row my-4 justify-content-md-start justify-content-center">
                 <input type="submit" value="Register" class="btn btn-primary m-0 " :disabled="isButton">
             </div>

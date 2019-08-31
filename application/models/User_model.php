@@ -69,12 +69,13 @@ class User_model extends CI_Model {
     }
 
     public function update_staffPassword($staffID, $newpassword){
+
         $password = do_hash($newpassword, 'sha256');
         $data = array(
             'UserID' => $staffID,
             'UserPasswd' => $password
         );
-       
+        $this->db->where('UserType','staff');
         $this->db->where('UserID', $staffID);
         $this->db->update('User', $data);
     }

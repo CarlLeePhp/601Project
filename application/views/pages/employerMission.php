@@ -92,6 +92,13 @@
 </div> <!--endOfPane-->
 
 <div class="tab-pane fade show <?php echo $active3?>" id="v-pills-submitVacancy" role="tabpanel" aria-labelledby="v-pills-submitVacancy-tab">
+    <?php if(sizeof($message)>0){
+        echo '<ul>';
+        foreach($message as $mess){
+            echo '<p class="text-danger"> * ' . $mess . '</p>';
+        }
+        echo '</ul>';
+    };?>
     <div class="container m-md-5" id="app">
             <span class="display-4">SubmitVacancy</span>
             <hr>
@@ -103,7 +110,7 @@
                 <label for="clientTitleID" class="font-weight-bold">Title</label>
 
                 <select class="form-control p-2" type="text" name="clientTitle" id="clientTitleID" >
-                    <option selected>-</option>
+                    <option value="-" selected>-</option>
                     <option value="Mr.">Mr.</option>
                     <option value="Mrs.">Mrs.</option>
                     <option value="Miss">Miss</option>
@@ -231,7 +238,7 @@
                 }
             },
             validContact: function(contact){
-                var regex = /^[\+]?\(?[\+]?[0-9]{2,4}\)?[- .]?(?[0-9]{2,4}[-. ]?[0-9]{2,4}[-. ]?[0-9]{0,6}?)?$/;
+                var regex = /^[\+]?\(?[\+]?[0-9]{2,4}\)?[- \.]?\(?[0-9]{2,4}[-\. ]?[0-9]{2,4}[-\. ]?[0-9]{0,6}?\)?$/;
                 return regex.test(contact)
             }
         },

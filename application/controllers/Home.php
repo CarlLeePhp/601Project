@@ -25,14 +25,14 @@ class Home extends CI_Controller {
 		$location="";
 		$page="home";
 		if(isset($_POST['jobTitle'])){
-			$jobTitle = $_POST['jobTitle'];
+			$jobTitle = $this->security->xss_clean($_POST['jobTitle']);
 			
 		};
 		if(isset($_POST['jobType'])){
-			$jobType = $_POST['jobType'];
+			$jobType = $this->security->xss_clean($_POST['jobType']);
 		};
 		if(isset($_POST['location'])){
-			$location = $_POST['location'];
+			$location = $this->security->xss_clean($_POST['location']);
 		};
 		$data['cities'] = $this->city_model->get_cities();
 		$data['jobs'] = $this->job_model->get_publishedjobs($page,$jobTitle,$jobType,$location);

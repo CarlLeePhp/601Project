@@ -41,7 +41,7 @@
                 </div>
         </div>
     </div>
-    
+    <input type="hidden" name="submittedFormStaffing" value="TRUE" />
     <div v-if="passwordError.length" class="row">
     <span class="text-danger pl-0" v-text="passwordError"></span>
     </div>

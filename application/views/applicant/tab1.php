@@ -124,7 +124,7 @@
            
                 <thead>
                     <tr>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showClientCheck }"><a href="#"  @click.stop.prevent="sortBy('bookmark')" class="text-dark "><img src="<?php echo base_url();?>lib/images/Bookmark1.png" style="height: 16px; width:16px;"></a></th>
+                        <th scope="col" class="pl-1" v-bind:class="{ 'd-none': ! showClientCheck }"><a href="#"  @click.stop.prevent="sortBy('bookmark')" class="text-dark "><i style="font-size:22px;" class="icon ion-md-checkbox-outline ml-2"></i></a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDetails }"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('clientTitle')">Title</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('clientName')">Name</a></th>

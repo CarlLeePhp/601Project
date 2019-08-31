@@ -115,9 +115,9 @@ class Job_model extends CI_Model {
         $data = array(
             'JobStatus' => 'published',
             'Editor1' => $textEditor,
-            'ThumbnailText' => $thumbnailText,
-            'PublishTitle' => $publishTitle,
-            'PublishDate' => $publishDate,
+            'ThumbnailText' =>$thumbnailText,
+            'PublishTitle' =>$publishTitle,
+            'PublishDate' =>$publishDate,
         );
         if(!empty($fileDestination)){
             $data['JobImage'] = $fileDestination;

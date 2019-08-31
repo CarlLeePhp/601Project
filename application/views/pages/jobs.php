@@ -47,12 +47,12 @@
        
          <div  v-for="job in jobs">
             <div class="col m-3">
-                <a :href="job.ref" class="text-dark">
+                <a :href="job.ref" style="text-decoration: none;" class="text-dark">
                 <div class="card" style="width: 18rem;">
                  <img :src="job.imgSrc" class="card-img-top image img-fluid" style="height:157px;" :alt="job.altSrc">
                 <div class="card-body">
                         <p class="font-weight-bold mb-1" v-text="job.publishTitle"></p>
-                        <span class="card-text mt-0 text-decoration-none" v-text="job.jobThumbnailText">
+                        <span class="card-text mt-0" v-text="job.jobThumbnailText">
                         </span>
                     </div>
                 </div>
