@@ -217,7 +217,7 @@
                                 <td><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
                                 <td v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></td>
                                 <td v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></td>
-                                <td><a class="text-dark" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.jobCV" target="_blank">CV</a></td>
+                                <td><a class="text-dark" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.JobCV" target="_blank">CV</a></td>
                                 <td v-text="candidate.PhoneNumber" v-bind:class="{ 'd-none': ! showPhoneNumber }"></td>
                                 <td v-text="candidate.DOB" v-bind:class="{ 'd-none': ! showDOB }"></td>
                                 <td v-text="candidate.Email" v-bind:class="{ 'd-none': ! showEmail }"></td>
