@@ -42,35 +42,6 @@ class Applicant extends CI_Controller{
         }
     }
 
-    // show candidate table
-	public function manageCandidate(){
-        if( $_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
-            $userdata['userType'] = $_SESSION['userType'];
-            $data['title'] = "Manage Candidate";
-            $data['message'] ="";
-            $data['candidateNum'] = $this->candidate_model->countAll();
-            // $data['candidateNum'] = 30;
-            $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0);
-            $this->load->view('templates/header',$userdata);
-            $this->load->view('pages/manageCandidate',$data);
-            $this->load->view('templates/footer');
-        }
-        else {
-            redirect('/');
-        }
-		
-    }
-
-    // download CV
-    public function downloadCV($fileName){
-        if( $_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
-            $path = '/var/www/candidatesCV/'.$fileName;
-            force_download($path, NULL);
-        } else {
-            redirect('/');
-        }
-    }
-    
     
     /**
      * AJAX Methods

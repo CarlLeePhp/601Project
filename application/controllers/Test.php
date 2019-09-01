@@ -45,4 +45,10 @@ class Test extends CI_Controller {
 
         $this->candidate_model->updateLinkByID(31, '31.docx');
     }
+
+    public function testArray(){
+        $str = 'php';
+        $str['name'] = array('apple');
+        echo var_dump($str['name']);
+    }
 }
