@@ -30,11 +30,13 @@
             <div class="col-md-5 text-left text-md-right">
             <?php if(isset($_SESSION['userType'])):?>
                 <?php if($_SESSION['userType']=="admin" || $_SESSION['userType']=="staff"):?>
+                <!-- load the database and use function to count how many unchecked job and candidate -->
                 <?php $ci =& get_instance();
                 $ci->load->model('Candidate_model');
                 $ci->load->model('Job_model');
                 $numUncheckedJob = $ci->Job_model->countNumberUncheckedJob();
                 $numUncheckedCandidate = $ci->Candidate_model->countNumberUncheckedCandidate();?>
+                <!-- icon for notification and the number -->
                 <a href="<?php echo base_url()?>index.php/Applicant" class="notification">
                     <span><i style="font-size:30px;" class="icon ion-md-notifications-outline"></i></span>
                     <span class="text-primary"><?php echo $numUncheckedCandidate+$numUncheckedJob?></span>

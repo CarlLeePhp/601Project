@@ -13,7 +13,11 @@ class Candidate_model extends CI_Model {
         return $query->result_array();
     }
 
-    
+    // called from: Controller->Jobs->jobDetails(), 
+    // Controller->Jobs->updateJobToArchive(), 
+    // Controller->Jobs->jobPublish(), 
+    // Controller->Jobs->jobUnpublish()
+    // Controller->Jobs->removeAssignedCandidate()
     // get all candidates data that matches jobid for jobDetails
     public function getCandidatesJobDetails($jobID){
         $mySql = "SELECT Candidate.CandidateID,User.FirstName, User.LastName, User.PhoneNumber, User.Email,User.Address, Candidate.JobType,Candidate.CandidateHoursWorked,Candidate.CandidateNotes,Candidate.CandidateEarnings,Candidate.JobRate,Candidate.CandidateNotes FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID WHERE Candidate.JobID=" . $jobID ;
@@ -21,6 +25,7 @@ class Candidate_model extends CI_Model {
         return $query->result_array(); 
     }
 
+    //called from: Controller->Jobs->updateJobRate()
     //updateCandidateHoursWorking in jobDetails
     public function updateCandidateHoursWorking($candidateID,$hoursWorked,$candidateEarnings){
         $this->db->where('CandidateID',$candidateID);
@@ -31,6 +36,8 @@ class Candidate_model extends CI_Model {
         $this->db->update('Candidate',$data);
     }
 
+    //called from: Controller->Jobs->resetCandidateData()
+    //set the value to 0 for jobRate,candidateEarnings,Hoursworked for specific candidate
     public function resetCandidateJobDetailsData($candidateID){
         $this->db->where('CandidateID',$candidateID);
         $data = array (
@@ -40,6 +47,8 @@ class Candidate_model extends CI_Model {
         );
         $this->db->update('Candidate',$data);
     }
+    
+    //called from: Controller->Jobs->updateJobRate()
     //updateCandidateJobRate in jobDetails
     public function updateJobRate($candidateID,$jobRate){
         $this->db->where('CandidateID',$candidateID);
@@ -49,6 +58,8 @@ class Candidate_model extends CI_Model {
         $this->db->update('Candidate',$data);
     }
 
+    //called from: Controller->Jobs->updateCandidateNotes()
+    //update the notes that describe information about this candidate
     public function updateCandidateNotes($candidateID,$candidateNotes){
         $this->db->where('CandidateID',$candidateID);
         $data = array (
@@ -57,6 +68,10 @@ class Candidate_model extends CI_Model {
         $this->db->update('Candidate',$data);
     }
 
+    //called from: Controller->Jobs->updateHoursWorked(), 
+    //Controller->Jobs->updateJobRate(), 
+    //Controller->Jobs->updateCandidateNotes(),
+    //Controller->Jobs->resetCandidateData(),
     //get candidate based on ID return inner joined table between candidate and user, so far it has been only used on jobdetails table
     public function getCandidateByID($candidateID){
         $mySql = "SELECT Candidate.CandidateID,User.FirstName, User.LastName, User.PhoneNumber, User.Email,User.Address, Candidate.JobType,Candidate.CandidateHoursWorked,Candidate.CandidateNotes,Candidate.CandidateEarnings,Candidate.JobRate,Candidate.CandidateNotes FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID WHERE Candidate.CandidateID=" . $candidateID ;
@@ -64,12 +79,15 @@ class Candidate_model extends CI_Model {
         return $query->row_array();
     }
 
+    //called from: Controller->CandidateMission->candidateDetails()
+    //return the userInformation and candidateInformation singlerow
     public function getCandidateFullInfo($candidateID){
         $mySql = "SELECT User.FirstName, User.LastName, User.PhoneNumber,User.City, User.Suburb, User.DOB, User.Gender,User.ZipCode, User.Email,User.Address, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID WHERE Candidate.CandidateID=" . $candidateID ;
         $query = $this->db->query($mySql);
         return $query->row_array();
     }
 
+    //called from: Controller->Jobs->assignCandidate()
     //assign jobID to candidate
     public function assignCandidateJobID($candidateID,$jobID){
         $this->db->where('CandidateID',$candidateID);
@@ -79,6 +97,7 @@ class Candidate_model extends CI_Model {
         $this->db->update('Candidate',$data);
     }
 
+    //called from: Controller->Jobs->removeAssignedCandidate()
     //remove Candidate From table in job Details
     public function removeAssignedCandidate($candidateID){
         $this->db->where('CandidateID',$candidateID);
@@ -100,21 +119,22 @@ class Candidate_model extends CI_Model {
         return $query->result_array();
     }
 
-    //only getting the ID of the user
+    //called from: Controller->CandidateMission->applyJob() , Controller->CandidateMission->uploadCV()
+    //only getting the ID of the user, last records
     public function getUserByData($firstName,$lastName){
         $mySql = 'SELECT User.UserID From User WHERE User.UserID = (SELECT MAX(User.UserID) FROM User WHERE User.FirstName="'.$firstName . '" AND User.LastName="'. $lastName .'")';
         $query = $this->db->query($mySql);
         return $query->row_array();
     }
 
+    // called from Controller->CandidateMission->manageCandidate() or Controller->CandidateMission->getCandidates()
     // get all candidate with the firstname and lastname of the user
     public function getCandidatesWithName($limitNum, $offsetNum,$page="",$city="",$jobType="",$jobInterest="",$firstName="",$lastName="",$suburb="",$phoneNumber="",$email=""){
-        //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
-        //$query = $this->db->query($mySql);
         $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
         if($page == "jobDetails"){
+            //get the candidate that hasnt been assigned to anyjob
             $this->db->group_start();
                 $this->db->where('Candidate.JobID',NULL);
                 $this->db->or_where('Candidate.JobID',"");
@@ -129,23 +149,30 @@ class Candidate_model extends CI_Model {
         $this->db->where('Candidate.JobType',$jobType);
         }
         if(!empty($jobInterest)){
+            //get the closest match by jobInterest
             $this->db->group_start();
                 $this->db->like('Candidate.JobInterest',$jobInterest);
-                
+                //if it contains space split them up and compare each words with the jobInterest request from job
                 if(strpos($jobInterest,' ')!==false){
                     $parts = explode(' ',$jobInterest);
                     foreach($parts as $jobPart){
                         if(strlen($jobPart)>2){
+                            //remove suffix -er -or -ers -ing -man -person and compare again
                             if(substr($jobPart,-2)=='er' || substr($jobPart,-2)=='or'){
                                 $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-2));
-                            } else if(substr($jobPart,-3)=='ers' || substr($jobPart,-3)=='ing'){
+                            } else if(substr($jobPart,-3)=='ers' || substr($jobPart,-3)=='ing' || substr($jobPart,-3)=='man'){
                                 $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-3));
-                            } 
+                            } else if(substr($jobPart,-6)=='person'){
+                                $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-6));
+                            }
                             $this->db->or_like('JobInterest',$jobPart);
                         }
                     }
                 } else {
-                    if(substr($jobInterest,-3)=='ers' || substr($jobInterest,-3)=='ing'){
+                    //remove suffix -er -or -ers -ing -man -person and compare again
+                    if(substr($jobInterest,-6)=='person'){
+                        $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobInterest)-6));
+                    } else if(substr($jobInterest,-3)=='ers' || substr($jobInterest,-3)=='ing' || substr($jobInterest,-3)=='man'){
                         $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-3));
                     } else if(substr($jobInterest,-2)=='er' || substr($jobInterest,-2)=='or'){
                         $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-2));
@@ -174,7 +201,9 @@ class Candidate_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
-    // get all unchecked candidate with the firstname and lastname
+
+    // get all unchecked candidate
+    // called from : Controller->Applicant->index
     public function getUnchecked(){
         //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
         //$query = $this->db->query($mySql);
@@ -185,7 +214,9 @@ class Candidate_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+
     // get all citizenships
+    // called from: Controller->CandidateMission->index() , Controller->CandidateMission->addingNewCandidateStaffOnly()
     public function get_citizenships(){
         $query = $this->db->get('Citizenship');
         return $query->result_array();
@@ -197,12 +228,15 @@ class Candidate_model extends CI_Model {
         return $query->row_array();
     }
 
-    // return how many candidates
+    // called from: Controller->CandidateMission->manageCandidate() 
+    // return the numbers of candidates // extra parameter is just for criteria to match with the other methods in this page
     public function countAll($page="",$city="",$jobType="",$jobInterest="",$firstName="",$lastName="",$suburb="",$email="",$phoneNumber=""){
         $this->db->select('User.City,User.FirstName,User.LastName,User.Suburb,User.Email,User.PhoneNumber,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
         if($page == "jobDetails"){
+            //if this function is called because of the staff is looking for someone to take the job
+            //filter it by the candidate that still hasnt get any job yet
             $this->db->group_start();
                 $this->db->where('JobID',NULL);
                 $this->db->or_where('JobID',"");
@@ -217,23 +251,31 @@ class Candidate_model extends CI_Model {
         }
         if(!empty($jobInterest)){
             if($page=="jobDetails"){
+                 //get the closest match by jobInterest
                 $this->db->group_start();
                 $this->db->like('Candidate.JobInterest',$jobInterest);
-                
+                 //if it contains space split them up and compare each words with the jobInterest request from job
                 if(strpos($jobInterest,' ')!==false){
                     $parts = explode(' ',$jobInterest);
                     foreach($parts as $jobPart){
+                        
                         if(strlen($jobPart)>2){
+                            //remove suffix -er -or -ers -ing -man -person and compare again
                             if(substr($jobPart,-2)=='er' || substr($jobPart,-2)=='or'){
                                 $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-2));
-                            } else if(substr($jobPart,-3)=='ers' || substr($jobPart,-3)=='ing'){
+                            } else if(substr($jobPart,-3)=='ers' || substr($jobPart,-3)=='ing' || substr($jobPart,-3)=='man'){
                                 $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-3));
-                            } 
+                            } else if(substr($jobPart,-6)=='person'){
+                                $this->db->or_like('JobInterest',substr($jobPart,0,strlen($jobPart)-6));
+                            }
                             $this->db->or_like('JobInterest',$jobPart);
                         }
                     }
                 } else {
-                    if(substr($jobInterest,-3)=='ers' || substr($jobInterest,-3)=='ing'){
+                    if(substr($jobInterest,-6)=='person'){
+                        //remove suffix -er -or -ers -ing -man -person
+                        $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-6));
+                    } else if(substr($jobInterest,-3)=='ers' || substr($jobInterest,-3)=='ing'|| substr($jobInterest,-3)=='man'){
                         $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-3));
                     } else if(substr($jobInterest,-2)=='er' || substr($jobInterest,-2)=='or'){
                         $this->db->or_like('JobInterest',substr($jobInterest,0,strlen($jobInterest)-2));
@@ -264,6 +306,8 @@ class Candidate_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
+    // called from: Controller->CandidateMission->applyFilterCandidate()
+    // filter function
     public function getFilterCandidate($page="",$city="",$jobType="",$jobInterest="",$firstName="",$lastName="",$suburb="",$phoneNumber="",$email=""){
         //$mySql = "SELECT User.FirstName, User.LastName, Candidate.* FROM Candidate INNER JOIN User ON Candidate.UserID=User.UserID";
         //$query = $this->db->query($mySql);
@@ -309,14 +353,17 @@ class Candidate_model extends CI_Model {
     /**
      * Insert functions
      */
+    // called from: Controller->CandidateMission->applyJob()
+    //insert the candidate data to database
     public function applyJob($data) {
-       
         $this->db->insert('Candidate', $data);
     }
 
     /**
      * Update Functions
      */
+    //called from: Controller->Applicant->checkCandidate
+    //update the check status to be true
     public function checkCandidate($candidateID){
         $data = array(
             'Checked' => 'true'
@@ -333,7 +380,8 @@ class Candidate_model extends CI_Model {
         $this->db->update('User', $data);
     }
 
-    // update jobCV by ID
+    // called from: Controller->CandidateMission->uploadCV()
+    // update jobCV by ID, storing the downloadInformation by filename.extension
     public function updateLinkByID($candidateID, $fileName){
         $data = array(
             'JobCV' => $fileName
@@ -342,6 +390,8 @@ class Candidate_model extends CI_Model {
         $this->db->update('candidate', $data);
     }
 
+    //called from: view->templates->header
+    //return the number of unchecked job as notification
     public function countNumberUncheckedCandidate(){
         $mySql = "SELECT Checked FROM Candidate WHERE Checked IS NULL";
         $query = $this->db->query($mySql);

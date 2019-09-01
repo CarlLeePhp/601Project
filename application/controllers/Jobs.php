@@ -15,6 +15,7 @@ class Jobs extends CI_Controller {
 		$this->load->model('city_model');
 		$this->load->model('candidate_model');
 	}
+	//loads the jobs page
 	public function index()
 	{	
 		$userdata['userType'] = 'anyone';
@@ -26,9 +27,9 @@ class Jobs extends CI_Controller {
             $userdata['userEmail'] = $_SESSION['userEmail'];
 			$userdata['userType'] = $_SESSION['userType'];
 		};
+		//filtering function
 		if(isset($_POST['jobTitle'])){
 			$jobTitle = $this->security->xss_clean($_POST['jobTitle']);
-			
 		};
 		if(isset($_POST['jobType'])){
 			$jobType = $this->security->xss_clean($_POST['jobType']);
@@ -36,6 +37,7 @@ class Jobs extends CI_Controller {
 		if(isset($_POST['location'])){
 			$location = $this->security->xss_clean($_POST['location']);
 		};
+		//filter end
 
 		// get all jobs for the table status=published
 		$data['jobs'] = $this->job_model->get_publishedjobs($page,$jobTitle,$jobType,$location);
@@ -46,7 +48,7 @@ class Jobs extends CI_Controller {
         $this->load->view('templates/footer');
 	}
 
-	
+	// called from view->personcenter->adminPanel , view->personcenter->staffPanel
 	// show client tables
 	public function manageClient(){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -55,10 +57,12 @@ class Jobs extends CI_Controller {
 			$data['message'] ="";
 			$data['jobs'] = $this->job_model->get_jobs();
 			$bookmarkStat= "";
+			//adding 3 more field into jobs ref,bookmarkStat,bookmarkUrl
             for($i=0;$i<sizeof($data['jobs']);$i++){
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
                 if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
-                $bookmarkUrl= "Bookmark". $data['jobs'][$i]['JobID'];
+				$bookmarkUrl= "Bookmark". $data['jobs'][$i]['JobID'];
+				//update the value of jobstatus if it's null "" or 0, to NoAction
                 if(empty($data['jobs'][$i]['JobStatus'])){ $data['jobs'][$i]['JobStatus']="NoAction"; }
                 $data['jobs'][$i]['ref'] = $ref;
                 $data['jobs'][$i]['bookmarkStat'] = $bookmarkStat;
@@ -73,17 +77,22 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from view->pages->manageClient
+	//AJAX method
+	//get the next 10 records for next page for manageClient page
 	public function getActiveJob(){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
             $offset=$_POST['offset'];
             $page="";
             $jobsResult = $this->job_model->get_jobs($page,$offset);
-            $bookmarkStat= "";
+			$bookmarkStat= "";
+			//adding 3 more extra field ref,bookmarkStat,bookmarkUrl
             for($i=0;$i<sizeof($jobsResult);$i++){
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $jobsResult[$i]['JobID'];
                 if($jobsResult[$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
-                $bookmarkUrl= "Bookmark". $jobsResult[$i]['JobID'];
+				$bookmarkUrl= "Bookmark". $jobsResult[$i]['JobID'];
+				//if jobStatus is null, "" or 0 , return the string of NoAction as the value in jobstatus for specific job
                 if(empty($jobsResult[$i]['JobStatus'])){ $jobsResult[$i]['JobStatus']="NoAction"; }
                 $jobsResult[$i]['ref'] = $ref;
                 $jobsResult[$i]['bookmarkStat'] = $bookmarkStat;
@@ -96,13 +105,17 @@ class Jobs extends CI_Controller {
         }
 	}
 
+	//called from: View->page->manageClient
+	//detailed information of the job
 	public function jobDetails($paramJobID){
 		
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 			
 			$userdata['userType'] = $_SESSION['userType'];
 			$data['title'] = "Job Details";
+			//get all info
 			$data['job'] = $this->job_model->get_specificJob($paramJobID);
+			//if a candidate is assigned load it as well
 			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
 			$data['message'] = "";
 			$this->load->view('templates/header',$userdata);
@@ -113,12 +126,15 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from: View->pages->jobdetails
+	//update the job status to completed and send it to archive if the button is clicked
 	public function updateJobToArchive($paramJobID){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 			$userdata['userType'] = $_SESSION['userType'];
 			$data['title'] = "Job Details";
 
 			$this->job_model->updateJobStatusToComplete($paramJobID);
+			//get the new refreshed data
 			$data['job'] = $this->job_model->get_specificJob($paramJobID);
 			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
 			$this->load->view('templates/header',$userdata);
@@ -129,6 +145,8 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from: View->pages->jobdetails
+	//publish the jobs so it's available for everyone to see in homepage and jobs page
 	public function jobPublish($paramJobID){
 		
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -138,6 +156,8 @@ class Jobs extends CI_Controller {
 			$errMessage = array();
 			//content
 			$publishTitle = $_POST['publishTitle'];
+			//if the published post info is empty change it to this default value
+			//DEFAULT VALUE START
 			if($publishTitle == NULL) {
 				$publishTitle = $job['JobType'] . ' ' . $job['JobTitle'] . ' worker needed in ' . $job['City'];
 			}
@@ -149,6 +169,7 @@ class Jobs extends CI_Controller {
 			if($textEditor == NULL || strrpos($textEditor,'Enter the text for job')){
 				$textEditor = 'For further information please contact us or email us at <a href="mailto:mark@leerecruitment.co.nz"><strong>mark@leerecruitment.co.nz</strong></a>';
 			}
+			//DEFAULT VALUE END
 			
 			if(isset($_FILES['jobImage'])){
 				$file =  $_FILES['jobImage'];
@@ -183,6 +204,7 @@ class Jobs extends CI_Controller {
 			//update the job
 			$this->job_model->publishJob($paramJobID,$textEditor,$thumbnailText,$publishTitle,$publishDate,$fileNameNew);
 			//select the job 
+			//refresh the value
 			$data['job'] = $this->job_model->get_specificJob($paramJobID);
 			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
 			$data['message'] = $errMessage;
@@ -194,6 +216,8 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from: View->pages->jobdetails
+	//unpublish the jobs, change status to either active is there is atleast 1 candidate or null if there is no candidate currently assigned to this job
 	public function jobUnpublish($paramJobID){
 		
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -202,7 +226,7 @@ class Jobs extends CI_Controller {
 			$data['title'] = "Job Details";
 			$status="";
 			$data['candidatesData'] = $this->candidate_model->getCandidatesJobDetails($paramJobID);
-			//update the jobstatus to null
+			//update the jobstatus to active if it has a candidate assigned
 			if(sizeof($data['candidatesData'])>0){
 				$status = "active";
 			}
@@ -221,15 +245,18 @@ class Jobs extends CI_Controller {
 	/**
 	 * AJAX Methods for staff and Admin
 	 */
+	//called from: View->pages->jobdetails
+	//update hours worked for specific candidate
 	public function updateHoursWorked($candidateID){
 		
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
 			$hoursWorked = $_POST['hoursWorked'];
-			
+			//get difference in hours worked
 			$diffhoursWorked = $hoursWorked - $candidateData['CandidateHoursWorked'];
 			$currentEarnings = $candidateData['CandidateEarnings'];
 			$jobRate = $candidateData['JobRate'];
+			//calculation
 			$currentEarnings = $diffhoursWorked * $jobRate + $currentEarnings; 
 			$this->candidate_model->updateCandidateHoursWorking($candidateID,$hoursWorked,$currentEarnings);
 			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
@@ -240,6 +267,10 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from: this->removeAssignedCandidate()
+	//AJAX
+	//entire candidate table in View->pages->jobDetails page
+	//only refreshed if the candidate is removed from the table
 	public function loadJobDetailsTable($candidatesData){
 		echo '<table class="table border-bottom border-dark"><thead>
         <tr>
@@ -266,6 +297,9 @@ class Jobs extends CI_Controller {
 		</table>';
 	}
 
+	//AJAX
+	//called from: this->updateHoursWorked(), this->updateJobRate(), this->updateCandidateNotes(), this->resetCandidateData()
+	//the row in View->Pages->jobDetails refreshed if there is an update in hoursworked,jobRate or candidateNotes
 	public function loadJobDetailsRow($candidateData,$savedHoursWorked){
 		echo '<th><div class="textInfoPos"><span class="textInfo">Remove Candidate</span><a onclick="removeAssignedCandidate(' .  $candidateData['CandidateID'] . ')" class="text-danger"><i style="font-size:25px" class="icon ion-md-close-circle"></i> </a></div></th>';
 		echo '<td><div class="textInfoPos"><span class="textInfo font-weight-bold" style="left:-50px;">Reset Data to 0</span><a onclick="resetCandidateData(' . $candidateData['CandidateID'] .',' . $savedHoursWorked . ')" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></div></td>';
@@ -280,6 +314,8 @@ class Jobs extends CI_Controller {
 		echo '<td><input onclick="targetThisBox(\'candidateNotes' .  $candidateData['CandidateID'] . '\')" type="text" id="candidateNotes' . $candidateData['CandidateID'] . '" onchange="updateCandidateNotes(' . $candidateData['CandidateID'] . ',' . $savedHoursWorked . ')" placeholder="' . $candidateData['CandidateNotes'] . '"></td></tr>';
 	}
 
+	//called from view->pages->manageCandidate, view->pages->candidateDetails
+	//assign the candidate to this job
 	public function assignCandidate($candidateID,$jobID){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -299,13 +335,17 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//Called from: View->Pages->jobDetails
+	//AJAX method
+	//removing the JobID from the candidate so it wont appear in the table in job details anymore
 	public function removeAssignedCandidate($candidateID,$jobID){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
 			$this->candidate_model->removeAssignedCandidate($candidateID);
-			
+			//refresh it
 			$candidatesData = $this->candidate_model->getCandidatesJobDetails($jobID);
 			
+			//if there are no more candidate in the jobDetails table after the removal of candidate set jobStatus of the job to null/NoAction
 			if(sizeof($candidatesData)==0){
 				$this->job_model->updateJobDetailsStatusNull($jobID);
 			}
@@ -315,13 +355,17 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from: view->pages->jobDetails
+	//AJAX method
+	//update the jobRate of the candidate
 	public function updateJobRate($candidateID){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
-
+			//get the previous value
 			$candidateData = $this->candidate_model->getCandidateByID($candidateID);
 
 			$jobRate = $_POST['jobRate'];
 			$workingHoursSaved = $_POST['workingHoursSaved'];
+			//calculate it normally if it starts from 0, after that keep the data
 			if(empty($workingHoursSaved) || $candidateData['JobRate'] == 0){
 				$candidateEarnings = $jobRate * $candidateData['CandidateHoursWorked'];
 				$this->candidate_model->updateCandidateHoursWorking($candidateID,$candidateData['CandidateHoursWorked'],$candidateEarnings);
@@ -335,6 +379,9 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//AJAX method
+	//called from: view->pages->jobDetails
+	//update the notes for specific candidate
 	public function updateCandidateNotes($candidateID,$page){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 			$candidateNotes = $_POST['candidateNotes'];
@@ -352,6 +399,9 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//Called from: view->pages->JobDetails
+	//AJAX Method
+	//set the value of jobRates, hoursworked and candidateEarnings to 0
 	public function resetCandidateData($candidateID){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -365,7 +415,8 @@ class Jobs extends CI_Controller {
 		}
 	}
 
-
+	//called from: view->pages->jobs
+	//get detailed information that is accessible by everyone , when the job is published
 	public function jobInfo($jobID){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -380,6 +431,10 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from: view->pages->manageClient
+	//AJAX Method
+	//update the bookmark status so the USERS:staff and admin can either sort or filter and find the job easily
+	//for monitoring purposes
 	public function updateBookmark($jobID){
 		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -391,6 +446,8 @@ class Jobs extends CI_Controller {
 		}
 	}
 
+	//called from: view->pages->manageClient
+	//filter function for the job that are not in archive(status is not completed)
 	public function applyFilterActiveJob(){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -403,7 +460,8 @@ class Jobs extends CI_Controller {
 			$jobStatus = $_POST['jobStatus'];
 			$page = "manageClient";
             $data['jobs'] = $this->job_model->applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus);
-            $bookmarkStat= "";
+			$bookmarkStat= "";
+			//add 3 more field ref,bookmarkStat,bookmarkUrl
             for($i=0;$i<sizeof($data['jobs']);$i++){
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
                 if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};

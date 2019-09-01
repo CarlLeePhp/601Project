@@ -37,6 +37,7 @@ class Archive extends CI_Controller{
                 $data['jobs'][$i]['bookmarkStat'] = $bookmarkStat;
                 $data['jobs'][$i]['bookmarkUrl'] = $bookmarkUrl;
             }
+            //return the number of job so it could be used as paging
             $data['archiveJobNum'] = $this->job_model->countAllArchive();
             $this->load->view('templates/header',$userdata);
             $this->load->view('pages/archive',$data);
@@ -60,6 +61,7 @@ class Archive extends CI_Controller{
             $contactPerson = $_POST['contactPersonName'];
             $jobStatus = "completed";
             $page="archive";
+            //return filtered job based on criteria as array of results
             $data['jobs'] = $this->job_model->applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus);
             $bookmarkStat= "";
             //adding 3 more key value pair of ref ,bookmarkStat and bookmarkUrl
@@ -88,6 +90,7 @@ class Archive extends CI_Controller{
 
             $offset=$_POST['offset'];
             $page="archive";
+            //get the next records
             $jobsResult = $this->job_model->get_jobs($page,$offset);
             $bookmarkStat= "";
             //adding 3 more key value pair of ref ,bookmarkStat and bookmarkUrl

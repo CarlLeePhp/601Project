@@ -21,10 +21,10 @@ class Register extends CI_Controller {
         $this->load->model('City_model');
     }
 
+    //loading the register page
     public function index(){
                 
         $userdata['userType'] = 'anyone';
-        
 
         $data['users'] = $this->user_model->getUsers();
         $data['cities'] = $this->City_model->get_cities();
@@ -32,19 +32,18 @@ class Register extends CI_Controller {
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/register', $data);
         $this->load->view('templates/footer');
-        
     }
 
+    //called from: view->pages->register
+    //method when the user submit the form, in register page
     public function newUser(){
-        /**
-         * Check password and confirm password.
-         * If they are different, return an information.
-         */
+       
     if(isset($_POST['submittedForm'])){
         $errorIsTrue = false;
         $errMessage = array();
+        //form validation start
         if(isset($_POST['Email'])){
-            if(preg_match('%^[a-zA-Z0-9\._\+\-]+@[a-zA-Z0-9\.\-]+\.[A-Za-z]{2,}$%',stripslashes(trim($_POST['Email'])))){
+            if(preg_match('%^[a-zA-Z0-9\._\+\-]+@[a-zA-Z0-9\.\-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){
                 $userEmail = $this->security->xss_clean($_POST['Email']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Email Address');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter an email address');}
@@ -75,7 +74,7 @@ class Register extends CI_Controller {
             } else { $errorIsTrue = true; array_push($errMessage,'Error The Date is invalid format');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter Date of birth');}
         
-
+        //address must contains number
         if(isset($_POST['Address'])){
             if(preg_match('%\d+%',stripslashes(trim($_POST['Address'])))){
                 $Address = $this->security->xss_clean($_POST['Address']);
@@ -84,6 +83,7 @@ class Register extends CI_Controller {
             }
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter An address');}
         
+        //check whether the city is entered correctly, based on database
         $data['cities'] = $this->City_model->get_cities();
         $cities = array();
         foreach($data['cities'] as $city){
@@ -121,11 +121,15 @@ class Register extends CI_Controller {
         {
         $gender = $this->security->xss_clean(stripslashes($_POST['gender']));
         } else {$gender = 'undefined';}
+        //form validation end
 
         $data['message'] = $errMessage;
+        
+        //if there is no error in form validation enter it into database else print the error out
+        if(!$errorIsTrue){
         $userType = 'candidate';
         $userPasswd = do_hash($userPasswd, 'sha256');
-        if(!$errorIsTrue){
+
         $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
         $userdata['userType'] = 'anyone';
         $message['wrongInfo'] = 'undefined';
@@ -143,11 +147,14 @@ class Register extends CI_Controller {
         
     }
 
+    //called from: view->staffManager->addStaff
+    //method when admin add a new user himself as a staff
     public function newStaff(){
         if($_SESSION['userType']=='admin'){
          if(isset($_POST['submittedFormStaffing'])){
             $errorIsTrue = false;
             $errMessage = array();
+            //form validation start
             if(isset($_POST['email'])){
                 if(preg_match('%^[a-zA-Z0-9\._\-\+]+@[a-zA-Z0-9\.\-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['email'])))){
                     $userEmail = $_POST['email'];
@@ -171,6 +178,7 @@ class Register extends CI_Controller {
                     $lastName = $_POST['lastName'];
                 } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
             } else { $errorIsTrue = true; array_push($errMessage,'Please enter last name');}
+            //form validation end
             $DOB = '';
             $Address = '';
             $City = '';
@@ -182,6 +190,7 @@ class Register extends CI_Controller {
             $userType = 'staff';
             $userPasswd = do_hash($userPasswd, 'sha256');
             $data['message'] = "";
+            //if error is encountered give a warning else insert the data into database
             if(!$errorIsTrue){
             $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
             } else {
@@ -200,16 +209,12 @@ class Register extends CI_Controller {
     }
 
     
-    public function forgotPasswd(){
-        $userdata['userType'] = 'anyone';
-        $this->load->view('templates/header', $userdata);
-        $this->load->view('login/forgot');
-        $this->load->view('templates/footer');
-    }
-    
     /**
      * AJAX
      */
+    //called from: view->login->forgotPassword
+    //AJAX Method
+    //send password by email if the user is requested it
     public function sendPasswd(){
         if(isset($_POST['email'])){
             if(preg_match('%^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['Email'])))){

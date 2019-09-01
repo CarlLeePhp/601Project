@@ -14,11 +14,10 @@ class Personcenter extends CI_Controller {
 	}
 	
 	//the page where the user are redirected when they login
-	//loading view->personcenter/main
 	//inside personcenter/main it loads different view based on userType
-	//admin view->personcenter->adminPanel
-	//staff view->personcenter->staffPanel
-	//candidate view->personcenter->personalPanel
+	//admin:view->personcenter->adminPanel
+	//staff:view->personcenter->staffPanel
+	//candidate:view->personcenter->personalPanel
 	public function index()
 	{	
         // Check username and the passwd
@@ -39,7 +38,10 @@ class Personcenter extends CI_Controller {
 	
 
 	//load the page that are only accessible by UserType admin
-	//3 functions that are available in this page : Personcenter->newStaffPassword,Personcenter->removeStaff, Register->newStaff
+	//3 functions that are available in this page : 
+	//Personcenter->newStaffPassword
+	//Personcenter->removeStaff
+	//Register->newStaff
 	public function manageStaff(){
 		
 		$userdata['userType'] = $_SESSION['userType'];
@@ -57,9 +59,9 @@ class Personcenter extends CI_Controller {
 		}
 	}
 
+	//called from: view->staffManager->changeStaffPassword
 	//a function that is called from manageStaff that are only accessible by userType admin
 	//updating the password of the staff based on the staff ID
-	//after the update, load the page of manage staff
 	//calling the model of user_model->update_staffPassword($staffID,$password);
 	public function newStaffPassword(){
 
@@ -81,9 +83,9 @@ class Personcenter extends CI_Controller {
 		}
 	}
 
+	//called from: view->staffManager->removeStaff
 	//a function that is called from manageStaff that are only accessible by userType admin
 	//removing staff based on the staff ID
-	//after removing load the page of manageStaff again
 	//calling the model of user_model->delete_staff($staffID);
 	public function removeStaff(){
 		$userdata['userType'] = $_SESSION['userType'];
@@ -93,6 +95,7 @@ class Personcenter extends CI_Controller {
 			$encryptPass = do_hash( $_POST['adminPassword'], 'sha256');
 			$staffID = $_POST['staffID'];
 			$data['message'] = "";
+			//validate the administrator password, so no one could come and update it except for the one that know the password
 			if($_SESSION['userPassword'] != $encryptPass){
 				$data['message'] = "wrong administrator password failure in removing staff";
 			} else {
@@ -108,7 +111,7 @@ class Personcenter extends CI_Controller {
 		}
 	}
 
-	//loading the page of personalInfo
+	//called from: view->personcenter->main --- view->personcenter->adminPanel , view->personcenter->personalPanel , view->personcenter->staffPanel
 	//in this page , the users could see their information or update it if they wishes for it
 	//with data saved from session
 	public function personalInfo(){
@@ -131,7 +134,7 @@ class Personcenter extends CI_Controller {
 		$data['suburb'] = $_SESSION['suburb'];
 		$data['phoneNumber'] = $_SESSION['phoneNumber'];
 		$data['message'] = '';
-		//temporary item to hold the err message
+		//temporary session to hold the err message
 		$data['errMess'] = $this->session->flashdata('errMessage');
 		
 		$data['cities'] = $this->city_model->get_cities();
@@ -140,6 +143,7 @@ class Personcenter extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	//called from: view->pages->personalInfo
 	//update details function that are available from the personalInfo Page
 	//updating a user password calling a user_model->update_personalPassword($userID,$newPassword);
 	public function updatePassword(){
@@ -158,9 +162,11 @@ class Personcenter extends CI_Controller {
 			//allowed character allAlphabets,digits, !@#$%^&*()-+._
             if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['newPassword'])))){
 				$newPassword = $this->security->xss_clean($_POST['newPassword']);
+				//check the authenticity
 				if(($_SESSION['userPassword'] != $encryptPass)){
 					$data['message'] = "The password you entered in Current Password input box is not the same as your current password, failed to update password";
 				} else {
+					//update it into newone
 					$this->User_model->update_personalPassword($userID,$newPassword);
 					$data['message'] = "Success! Your password has been changed";
 					$_SESSION['userPassword'] = do_hash($newPassword,'sha256');
@@ -186,6 +192,7 @@ class Personcenter extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	//called from: view->pages->personalInfo
 	//update details function that are available from the personalInfo Page
 	//updating a user details calling a user_model->update_personalDetails($userID,$data);
 	public function updateDetails(){
@@ -269,6 +276,7 @@ class Personcenter extends CI_Controller {
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Phone number');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter a phone number');}
 		
+		//if any of the grep match is not fulfilled redirect and print message
 		if(!$errorIsTrue){
 		$_SESSION['lastName'] = $_POST['lastName'];
 		$_SESSION['firstName'] = $_POST['firstName'];
@@ -278,6 +286,7 @@ class Personcenter extends CI_Controller {
 		$_SESSION['zipcode'] = $_POST['zip'];
 		$_SESSION['suburb'] = $_POST['suburb'];
 		$_SESSION['phoneNumber'] = $_POST['phoneNumber'];
+		//remove cities var from data so it wont be send into the model
 		unset($data['cities']);
 		$this->User_model->update_personalDetails($userID,$data);
 		

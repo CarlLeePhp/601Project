@@ -24,7 +24,8 @@ class Register_model extends CI_Model {
     /**
      * Insert functions
      */
-    // Insert a check list item
+    // called from: Controller->CandidateMission->addUserByStaff(), Controller->Register->newUser(), Controller->Register->newStaff()
+    // Insert a new user into user table
     public function addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender) {
         $data = array(
             'FirstName' => $firstName,

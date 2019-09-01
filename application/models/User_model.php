@@ -7,36 +7,23 @@ class User_model extends CI_Model {
     /**
      * Select Functions
     */
-    // get an user by user name
+    // called from: Controller->Login->login(), Controller->Register->sendPasswd()
+    // get the data based on email
     public function getUserByEmail($userEmail){
         $this->db->where('Email', $userEmail);
         $query = $this->db->get('User');
         return $query->row_array();
     }
 
-    // get all users
+    // called from: Controller->Register->index()
+    // get all users so we can compare the email when the user tried to register an email with that alrdy exists
     public function getUsers(){
         $query = $this->db->get('User');
         return $query->result_array();
     }
     
-
-    public function get_sale_id($sale_id){
-        $this->db->where('SALE_ID', $sale_id);
-        $query = $this->db->get('SALE');
-        
-        return $query->row_array();
-    }
-
-    /**
-     * Insert functions
-     */
-   
-
-    /**
-     * Update Functions
-     */
-
+    // called from: Controller->Register->updatePasswdByEmail()
+    // update password from reset
     public function updatePasswdByEmail($email, $userPasswd){
         $data = array(
             'UserPasswd' => $userPasswd
@@ -45,29 +32,19 @@ class User_model extends CI_Model {
         $this->db->update('User', $data);
     }
 
-    public function update_sale($sale_id, $sale_name, $sale_email){
-        $data = array(
-            'SALE_NAME' => $sale_name,
-            'SALE_EMAIL' => $sale_email
-        );
-        $this->db->where('SALE_ID', $sale_id);
-        $this->db->update('SALE', $data);
-    }
-
-    public function remove_sale($sale_id){
-        $data = array(
-            'AVAILABLE' => 'no'
-        );
-        $this->db->where('SALE_ID', $sale_id);
-        $this->db->update('SALE', $data);
-    }
-
+    //called from: Controller->Personcenter->manageStaff(), 
+    //Controller->Personcenter->newStaffPassword(),
+    //Controller->Personcenter->removeStaff(),
+    //Controller->Register->newStaff(),
+    //show all the staff in database
     public function getAllStaff(){
         $this->db->where('UserType', 'staff');
         $query = $this->db->get('User');
         return $query->result_array();
     }
 
+    //called from: Controller->Personcenter->newStaffPassword()
+    //change the password of the staff based on id
     public function update_staffPassword($staffID, $newpassword){
 
         $password = do_hash($newpassword, 'sha256');
@@ -80,7 +57,8 @@ class User_model extends CI_Model {
         $this->db->update('User', $data);
     }
 
-    
+    //called from: Controller->personcenter->removeStaff()
+    //remove staff from database
     public function delete_staff($staffID) {
         $data = array(
             'UserID' => $staffID
@@ -89,6 +67,8 @@ class User_model extends CI_Model {
         $this->db->delete('User',$data);
     }
 
+    //called from: Controller->Personcenter->updatePassword()
+    //update the user own password
     public function update_personalPassword($userID, $newpassword){
         $password = do_hash($newpassword, 'sha256');
         $data = array(
@@ -100,6 +80,8 @@ class User_model extends CI_Model {
         $this->db->update('User', $data);
     }
 
+    //called from: Controller->Personcenter->updateDetails()
+    //updating the user information: firstname,lastname,city,address,DOB,zip,suburb,phone
     public function update_personalDetails($userID,$data){
         $this->db->where('UserID', $userID);
         $this->db->update('User', $data);

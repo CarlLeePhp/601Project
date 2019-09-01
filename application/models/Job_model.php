@@ -8,7 +8,10 @@ class Job_model extends CI_Model {
      * Select Functions
     */
     // get all jobs
+    // called from: Controller->Archive->index(), Controller->Archive->getJobsArchive()
+    // Controller->Jobs->manageClient(), Controller->Jobs->getActiveJob()
     public function get_jobs($page="",$offset=0) {
+        //if it's called from archive page get the status of completed only
         if($page=='archive'){
             $this->db->where('JobStatus','completed');
             $this->db->limit(10,$offset);
@@ -23,6 +26,7 @@ class Job_model extends CI_Model {
     }
 
     // get all unchecked jobs
+    // called from : Controller->Applicant->index
     public function getUnchecked(){
         $this->db->where('Checked', NULL);
         $this->db->order_by('JobSubmittedDate', 'DESC');
@@ -30,14 +34,18 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
+    //called from: Controller->Home->index(), Controller->Jobs->index()
+    //get job with status of published
     public function get_publishedjobs($page,$jobTitle,$jobType,$location) {
         $this->db->select('JobID,ThumbnailText,PublishTitle,JobTitle,JobType,City,JobImage');
          
         $this->db->where('JobStatus', 'published');
         if($page=="home"){
+            //if it's called byhomepage sort it by newest to oldest grab 9 records
             $this->db->order_by('PublishDate', 'DESC');
             $this->db->limit(9);
         }
+        //filter functions
         if($jobTitle != ""){
             $this->db->like('JobTitle', $jobTitle);
         }
@@ -52,6 +60,8 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
+    //called from: Controller->Jobs->jobInfo()
+    //return the detailed information for job that are published so anyone can see it
     public function get_specificJobInfo($jobID){
         $this->db->where('JobStatus', 'published');
         $this->db->where('JobID',$jobID);
@@ -60,25 +70,24 @@ class Job_model extends CI_Model {
         return $query->row_array();
     }
 
+    //called from: Controller->CandidateMission->manageCandidate() , 
+    //Controller->CandidateMission->candidateDetails(),
+    //Controller->Jobs->JobDetails(),
+    //Controller->Jobs->updateJobToArchive(),
+    //Controller->Jobs->jobPublish(),
+    //Controller->Jobs->jobUnpublish(),
+    //get the job data, used in jobdetails to assign candidate
     public function get_specificJob($jobID){
         $this->db->where('JobID', $jobID);
         $query = $this->db->get('Job');
         return $query->row_array();
     }
 
-    public function get_boat($dealerID) {
-        $sql = "SELECT BOAT_ID, BOAT_SERIAL, MODEL ";
-        $sql = $sql."FROM BOAT ";
-        $sql = $sql."LEFT JOIN BM ON BOAT.BOAT_MODEL = BM.MODEL_ID ";
-        $sql = $sql."WHERE DEALER_ID = ".$dealerID;
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
     /**
      * Update functions
      */
-
+    //called from Controller: Applicant->checkClient
+    //update the check status to be true
     public function checkJob($jobID){
         $this->db->set('Checked', 'true');
         $this->db->where('JobID', $jobID);
@@ -88,10 +97,8 @@ class Job_model extends CI_Model {
     /**
      * Insert functions
      */
-
-     
-
-    // Insert a new Boat
+    // Called from: Controller->EmployerMission->addJob()
+    // Insert a new Job into database
     public function addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description,$suburb,$dateJobSubmitted) {
         $data = array(
             'ClientTitle' => $clientTitle,
@@ -110,6 +117,8 @@ class Job_model extends CI_Model {
         $this->db->insert('Job', $data);
     }
 
+    //called from: Controller->Jobs->jobPublish()
+    //change the status for the job to be published, update the published text to whatever the values are
     public function publishJob($jobID,$textEditor,$thumbnailText,$publishTitle,$publishDate,$fileDestination=""){
         
         $data = array(
@@ -119,14 +128,17 @@ class Job_model extends CI_Model {
             'PublishTitle' =>$publishTitle,
             'PublishDate' =>$publishDate,
         );
+        //store the path of jobsImage
         if(!empty($fileDestination)){
             $data['JobImage'] = $fileDestination;
         }
         $this->db->where('JobID',$jobID);
         $this->db->update('Job',$data);
     }
-    // Insert a new Sale
+    
 
+    // called from: Controller->Jobs->jobUnpublish()
+    // change the status to whatever the status parameter passed in
     public function unpublishJob($jobID,$status){
 
         $data = array(
@@ -136,6 +148,8 @@ class Job_model extends CI_Model {
         $this->db->update('Job',$data);
     }
 
+    //called from:Controller->Jobs->updateJobToArchive()
+    //set the jobstatus for specific job to completed
     public function updateJobStatusToComplete($jobID){
         $this->db->where('JobID',$jobID);
         $data = array(
@@ -144,6 +158,8 @@ class Job_model extends CI_Model {
         $this->db->update('Job',$data);
     }
 
+    //called from: Controller->Jobs->assignCandidate()
+    //change the status to active only when a staff is assigned to this candidate
     public function updateJobStatusToActive($jobID){
         $this->db->where('JobID',$jobID);
         $data = array(
@@ -152,6 +168,9 @@ class Job_model extends CI_Model {
         $this->db->update('Job',$data);
     }
 
+    //called from: Controller->Jobs->removeAssignedCandidate()
+    //After the removal of candidate if there is no candidate assigned to it update it to NULL
+    //So it wont be Active anymore
     public function updateJobDetailsStatusNull($jobID){
         $this->db->where('JobID',$jobID);
         $data = array(
@@ -160,6 +179,8 @@ class Job_model extends CI_Model {
         $this->db->update('Job',$data);
     }
 
+    //called from: Controller->Jobs->updateBookmark()
+    //update the status of bookmark
     public function updateBookmarkStatus($jobID,$bookmarkValue){
 
         $this->db->where('JobID',$jobID);
@@ -169,6 +190,8 @@ class Job_model extends CI_Model {
         $this->db->update('Job',$data);
     }
 
+    // return the records of jobs that meets the criteria
+    // called from: Controller->Archive->applyFilterArchive(), Controller->Jobs->applyFilterActiveJob()
     public function applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus){
         if($page=="archive")
         {
@@ -206,8 +229,9 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
+    // count the number of Job with 'completed' status so it could return the number, and those number will be used for paging
+    // called from: Controller:Archive->index()
     public function countAllArchive(){
-        
         $this->db->where('JobStatus','completed');
         return $this->db->count_all_results('Job');
     }
@@ -219,6 +243,8 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
+    //called from: Controller->Jobs->manageClient()
+    //get the number of jobs where the status is not completed, for paging purposes
     public function countAllActiveJob(){
         $data = array(
             'JobStatus' => 'completed',
@@ -237,6 +263,8 @@ class Job_model extends CI_Model {
         return $query->result_array();
     }
 
+    //called from: view->templates->header
+    //return the number of unchecked job as notification
     public function countNumberUncheckedJob(){
         $mySql = "SELECT Checked FROM Job WHERE Checked IS NULL";
         $query = $this->db->query($mySql);

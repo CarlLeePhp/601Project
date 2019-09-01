@@ -30,10 +30,10 @@ class ContactUS extends CI_Controller{
     //sending a message by email to marklee
     //a function that is available in ContactUS->index
     public function sendMessage(){
-        $userName = $this->security->xss_clean($this->input->post('userName'));
-        $userEmail = $this->security->xss_clean($this->input->post('userEmail'));
-        $userContact = $this->security->xss_clean($this->input->post('userContact'));
-        $userMessage = $this->security->xss_clean($this->input->post('userMessage'));
+        $userName = $this->security->xss_clean(stripslashes(trim($this->input->post('userName'))));
+        $userEmail = $this->security->xss_clean(stripslashes(trim($this->input->post('userEmail'))));
+        $userContact = $this->security->xss_clean(stripslashes(trim($this->input->post('userContact'))));
+        $userMessage = $this->security->xss_clean(stripslashes(trim($this->input->post('userMessage'))));
 
         /**
          * Email config

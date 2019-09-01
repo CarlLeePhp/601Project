@@ -37,6 +37,7 @@ class CandidateMission extends CI_Controller{
     }
 
     // from view->personcenter->adminPanel or view->personcenter->staffPanel
+    // or from view->pages->jobDetails
     // show the list of candidate that have registered their application in the form of table
 	public function manageCandidate($page="",$jobID= ""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -52,13 +53,15 @@ class CandidateMission extends CI_Controller{
                 'JobTitle' => "",
             );
             if(!empty($jobID)){
+                //this is used to match the candidate with the specific job
                 $data['job'] = $this->job_model->get_specificJob($jobID);
             }
             $data['jobID'] = $jobID;
-            //count the number of candidate, so a page number could be made
+            //count the total number of candidate, so a page number could be made // extra parameters are for, when the staff or admin would like to assign a candidate into the job
             $data['candidateNum'] = $this->candidate_model->countAll($page,$data['job']['City'],$data['job']['JobType'],$data['job']['JobTitle']);
             // $data['candidateNum'] = 30;
-            //when loaded limit the records to be first 10 records
+            //when loaded limit the records to be first 10 records // extra parameters are for, when the staff or admin would like to assign a candidate into the job
+            //matches the cityLocation,JobInterest/JobTitle, and jobType
             $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page,$data['job']['City'],$data['job']['JobType'],$data['job']['JobTitle']);
             
             //is it a good idea to match the interest from candidate / job?
@@ -134,7 +137,7 @@ class CandidateMission extends CI_Controller{
         }
     }
 
-   
+    // called from this page addUserByStaff()
     //initialize a random alphabet used in CandidateMission->addUserByStaff to replace an integer with this alphabet
     public function getRandomAlphabet(){
         $alphabetArray = array( 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j','k', 'l', 'm', 'n', 'o',
@@ -167,46 +170,47 @@ class CandidateMission extends CI_Controller{
             $firstName = $_POST['firstName'];
             $lastName = $_POST['lastName'];
             $candidateNotes = $_POST['candidateNotes'];
+            //get the userID last records that are inserted into database
             $userData = $this->candidate_model->getUserByData($firstName,$lastName);
             $userID = $userData['UserID'];
 
         }
         //KVP K:FieldName in database V:Post value
         $data = array(
-        'JobInterest' => $this->security->xss_clean($this->input->post('JobInterest')),
-        'JobType' => $this->security->xss_clean($this->input->post('JobType')),
-        'Transportation' => $this->security->xss_clean($this->input->post('Transportation')),
-        'LicenseNumber' => $this->security->xss_clean($this->input->post('LicenseNumber')),
-        'ClassLicense' => $this->security->xss_clean($this->input->post('ClassLicense')),
-        'Endorsement' => $this->security->xss_clean($this->input->post('Endorsement')),
-        'Citizenship' => $this->security->xss_clean($this->input->post('Citizenship')),
-        'Nationality' => $this->security->xss_clean($this->input->post('Nationality')),
-        'PassportCountry' => $this->security->xss_clean($this->input->post('PassportCountry')),
-        'PassportNumber' => $this->security->xss_clean($this->input->post('PassportNumber')),
-        'WorkPermitNumber' => $this->security->xss_clean($this->input->post('WorkPermitNumber')),
-        'WorkPermitExpiry' => $this->security->xss_clean($this->input->post('workPermitExpiry')),
-        'CompensationInjury' => $this->security->xss_clean($this->input->post('CompensationInjury')),
-        'CompensationDateFrom' => $this->security->xss_clean($this->input->post('CompensationDateFrom')),
-        'CompensationDateTo' => $this->security->xss_clean($this->input->post('CompensationDateTo')),
-        'Asthma' => $this->security->xss_clean($this->input->post('Asthma')),
-        'BlackOut' => $this->security->xss_clean($this->input->post('BlackOut')),
-        'Diabetes' => $this->security->xss_clean($this->input->post('Diabetes')),
-        'Bronchitis' => $this->security->xss_clean($this->input->post('Bronchitis')),
-        'BackInjury' => $this->security->xss_clean($this->input->post('BackInjury')),
-        'Deafness' => $this->security->xss_clean($this->input->post('Deafness')),
-        'Dermatitis' => $this->security->xss_clean($this->input->post('Dermatitis')),
-        'SkinInfection' => $this->security->xss_clean($this->input->post('SkinInfection')),
-        'Allergies' => $this->security->xss_clean($this->input->post('Allergies')),
-        'Hernia' => $this->security->xss_clean($this->input->post('Hernia')),
-        'HighBloodPressure' => $this->security->xss_clean($this->input->post('HighBloodPressure')),
-        'HeartProblems' => $this->security->xss_clean($this->input->post('HeartProblems')),
-        'UsingDrugs' => $this->security->xss_clean($this->input->post('UsingDrugs')),
-        'UsingContactLenses' => $this->security->xss_clean($this->input->post('UsingContactLenses')),
-        'RSI' => $this->security->xss_clean($this->input->post('RSI')),
-        'Dependants' => $this->security->xss_clean($this->input->post('Dependants')),
-        'Smoke' => $this->security->xss_clean($this->input->post('Smoke')),
-        'Conviction' => $this->security->xss_clean($this->input->post('Conviction')),
-        'ConvictionDetails' => $this->security->xss_clean($this->input->post('ConvictionDetails')),
+        'JobInterest' => $this->security->xss_clean(stripslashes(trim($this->input->post('JobInterest')))),
+        'JobType' => $this->security->xss_clean(stripslashes(trim($this->input->post('JobType')))),
+        'Transportation' => $this->security->xss_clean(stripslashes(trim($this->input->post('Transportation')))),
+        'LicenseNumber' => $this->security->xss_clean(stripslashes(trim($this->input->post('LicenseNumber')))),
+        'ClassLicense' => $this->security->xss_clean(stripslashes(trim($this->input->post('ClassLicense')))),
+        'Endorsement' => $this->security->xss_clean(stripslashes(trim($this->input->post('Endorsement')))),
+        'Citizenship' => $this->security->xss_clean(stripslashes(trim($this->input->post('Citizenship')))),
+        'Nationality' => $this->security->xss_clean(stripslashes(trim($this->input->post('Nationality')))),
+        'PassportCountry' => $this->security->xss_clean(stripslashes(trim($this->input->post('PassportCountry')))),
+        'PassportNumber' => $this->security->xss_clean(stripslashes(trim($this->input->post('PassportNumber')))),
+        'WorkPermitNumber' => $this->security->xss_clean(stripslashes(trim($this->input->post('WorkPermitNumber')))),
+        'WorkPermitExpiry' => $this->security->xss_clean(stripslashes(trim($this->input->post('workPermitExpiry')))),
+        'CompensationInjury' => $this->security->xss_clean(stripslashes(trim($this->input->post('CompensationInjury')))),
+        'CompensationDateFrom' => $this->security->xss_clean(stripslashes(trim($this->input->post('CompensationDateFrom')))),
+        'CompensationDateTo' => $this->security->xss_clean(stripslashes(trim($this->input->post('CompensationDateTo')))),
+        'Asthma' => $this->security->xss_clean(stripslashes(trim($this->input->post('Asthma')))),
+        'BlackOut' => $this->security->xss_clean(stripslashes(trim($this->input->post('BlackOut')))),
+        'Diabetes' => $this->security->xss_clean(stripslashes(trim($this->input->post('Diabetes')))),
+        'Bronchitis' => $this->security->xss_clean(stripslashes(trim($this->input->post('Bronchitis')))),
+        'BackInjury' => $this->security->xss_clean(stripslashes(trim($this->input->post('BackInjury')))),
+        'Deafness' => $this->security->xss_clean(stripslashes(trim($this->input->post('Deafness')))),
+        'Dermatitis' => $this->security->xss_clean(stripslashes(trim($this->input->post('Dermatitis')))),
+        'SkinInfection' => $this->security->xss_clean(stripslashes(trim($this->input->post('SkinInfection')))),
+        'Allergies' => $this->security->xss_clean(stripslashes(trim($this->input->post('Allergies')))),
+        'Hernia' => $this->security->xss_clean(stripslashes(trim($this->input->post('Hernia')))),
+        'HighBloodPressure' => $this->security->xss_clean(stripslashes(trim($this->input->post('HighBloodPressure')))),
+        'HeartProblems' => $this->security->xss_clean(stripslashes(trim($this->input->post('HeartProblems')))),
+        'UsingDrugs' => $this->security->xss_clean(stripslashes(trim($this->input->post('UsingDrugs')))),
+        'UsingContactLenses' => $this->security->xss_clean(stripslashes(trim($this->input->post('UsingContactLenses')))),
+        'RSI' => $this->security->xss_clean(stripslashes(trim($this->input->post('RSI')))),
+        'Dependants' => $this->security->xss_clean(stripslashes(trim($this->input->post('Dependants')))),
+        'Smoke' => $this->security->xss_clean(stripslashes(trim($this->input->post('Smoke')))),
+        'Conviction' => $this->security->xss_clean(stripslashes(trim($this->input->post('Conviction')))),
+        'ConvictionDetails' => $this->security->xss_clean(stripslashes(trim($this->input->post('ConvictionDetails')))),
         'UserID' => $userID,
         'CandidateNotes' => $candidateNotes,
         );
@@ -236,6 +240,7 @@ class CandidateMission extends CI_Controller{
             // So there are three more things: firstName and lastName
             $firstName = $this->input->post('firstName');
             $lastName = $this->input->post('lastName');
+            //get the last ID for database with firstname and lastname criteria
             $userData = $this->candidate_model->getUserByData($firstName,$lastName);
             $userID = $userData['UserID'];
         }
@@ -271,6 +276,7 @@ class CandidateMission extends CI_Controller{
         $items = explode(".", $uploadName);
         $extent = $items[count($items) - 1];
         $downloadName = $config['file_name'].'.'.$extent;
+        //update the filename in database to retrieve data
         $this->candidate_model->updateLinkByID($maxID, $downloadName);
         }
         
@@ -284,6 +290,7 @@ class CandidateMission extends CI_Controller{
             $userdata['userType'] = $_SESSION['userType'];
             $data['candidate'] = $this->candidate_model->getCandidateFullInfo($candidateID);
             if(!empty($jobID)){
+                //if it's under assign candidate function pass in the job ID as well so staff can easily click on a button to assign this candidate
                 $data['job'] = $this->job_model->get_specificJob($jobID);
             }
             $this->load->view('templates/header',$userdata);
@@ -300,6 +307,7 @@ class CandidateMission extends CI_Controller{
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
             $userdata['userType'] = $_SESSION['userType'];
 
+            //used in dropdown list citizenship and cities
             $data['citizenships'] = $this->candidate_model->get_citizenships();
             $data['cities'] = $this->city_model->get_cities();
             $this->load->view('templates/header',$userdata);
@@ -329,7 +337,8 @@ class CandidateMission extends CI_Controller{
         $suburb = $_POST['suburb'];
         $phoneNumber = $_POST['phoneNumber'];
         $gender = $_POST['gender'];
-        //generate an email and password that are almost impossible for the user to login so there is no conflict
+        //generate an email and password that are almost impossible for the user to login so there is no conflict when a staff added a new candidate
+        //because it requires a user as well
         $userEmail = 'LeeRecruitment:' . $_POST['userEmail'];
         $userPasswd = rand(10000,99999);
         $pos = rand(0,4); 

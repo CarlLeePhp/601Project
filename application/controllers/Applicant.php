@@ -25,6 +25,7 @@ class Applicant extends CI_Controller{
 
             $data['title'] = "Manage Client";
             $data['message'] ="";
+            //get unchecked job and candidate
             $data['jobs'] = $this->job_model->getUnchecked();
             $data['candidates'] = $this->candidate_model->getUnchecked();
             
@@ -46,11 +47,11 @@ class Applicant extends CI_Controller{
     /**
      * AJAX Methods
      */
+    //ajax method from applicant page, updating the checked status for respective categories
     public function checkClient(){
         $jobID = $_POST['jobID'];
         // Check the Job
         $this->job_model->checkJob($jobID);
-        
     }
 
     public function checkCandidate(){
