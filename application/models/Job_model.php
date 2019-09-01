@@ -236,4 +236,10 @@ class Job_model extends CI_Model {
         $query = $this->db->get('Job');
         return $query->result_array();
     }
+
+    public function countNumberUncheckedJob(){
+        $mySql = "SELECT Checked FROM Job WHERE Checked IS NULL";
+        $query = $this->db->query($mySql);
+        return $query->num_rows();
+    }
 }

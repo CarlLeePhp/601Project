@@ -14,9 +14,11 @@ class EmployerMission extends CI_Controller{
         // Load Models
         $this->load->model('city_model');
         $this->load->model('job_model');
-	}
+    }
+    //loading the page of employerMission
     public function index($param=''){
 
+        //a variable to tell which tabs to open
         $data['active1'] = '';
         $data['active2'] = '';
         $data['active3'] = '';
@@ -42,11 +44,15 @@ class EmployerMission extends CI_Controller{
 
     }
 
+    //a function to add a job into database
+    //accessible from EmployerMission->index 
     public function addJob(){
         $errMessage = array();
         $errorIsTrue = false;
        
         if(isset($_POST['clientTitle'])){
+            //matched with string that starts with m or d or -
+            //followed by 3 character combinations of r i s with possibility of . at the end
             if(preg_match('%^(m|d|-)[ris]{0,3}[\.]?$%',stripslashes(trim($_POST['clientTitle'])))){
                 $clientTitle = $this->security->xss_clean(stripslashes($_POST['clientTitle']));
             } else { $errorIsTrue = true; array_push($errMessage,'Please choose your title from dropdown list'); }
@@ -55,7 +61,9 @@ class EmployerMission extends CI_Controller{
         //$clientTitle = $this->security->xss_clean(stripslashes($_POST['clientTitle']));
 
         if(isset($_POST['clientName'])){
-            if(preg_match('%^[a-zA-Z\.\'\-:\"\, ]{2,}$%',stripslashes(trim($_POST['clientName'])))){
+            //check client name, the length should be more than 2 characters
+			//allowed character allAlphabets,multipleSpace .'-:",&
+            if(preg_match('%^[a-zA-Z\.\'\-:\"\, /&]{2,}$%',stripslashes(trim($_POST['clientName'])))){
                 $clientName = $this->security->xss_clean($_POST['clientName']);
             } else { $errorIsTrue = true; array_push($errMessage,'Please enter a valid name that doesn\'t contain special character and more than 2 characters in length');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter the name');}
@@ -63,6 +71,8 @@ class EmployerMission extends CI_Controller{
         $clientCompany = $this->security->xss_clean(trim($_POST['clientCompany']));
 
         if(isset($_POST['clientEmail'])){
+            //check clientEmail is it a valid one or not
+            //atleast combination of a single alphabets,numbers,._-+ followed by @ sign and some more stuff
             if(preg_match('%^[a-zA-Z0-9\._\-\+]+@[a-zA-Z0-9\.\-]+\.[A-Za-z]{2,4}$%',stripslashes(trim($_POST['clientEmail'])))){
                 $clientEmail = $this->security->xss_clean($_POST['clientEmail']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Email Address');}
@@ -75,11 +85,13 @@ class EmployerMission extends CI_Controller{
         $data['message'] = '';
         
         if(isset($_POST['clientContact'])){
-            if(preg_match('%^[\+]?\(?[\+]?[0-9]{2,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['clientContact'])))){
+            //check contact is it valid or not
+            if(preg_match('%^[\+]?\(?[\+]?[0-9]{1,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['clientContact'])))){
                 $clientContact = $this->security->xss_clean($_POST['clientContact']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Contact number');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter a contact number');}
 
+        //load all the possible city from database and compare the post with the array returned from model
         $data['cities'] = $this->city_model->get_cities();
         $cities = array();
         foreach($data['cities'] as $city){
@@ -92,6 +104,7 @@ class EmployerMission extends CI_Controller{
             $errorIsTrue = true; array_push($errMessage,'invalid city, the city doesnt exists in New Zealand');
         }
         
+        //address should contains number
         if(isset($_POST['clientAddress'])){
             if(preg_match('%\d%',stripslashes(trim($_POST['clientAddress'])))){
                 $clientAddress = $this->security->xss_clean($_POST['clientAddress']);
@@ -100,6 +113,7 @@ class EmployerMission extends CI_Controller{
             }
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter An address');}
 
+        
         if(isset($_POST['clientSuburb'])){
             $clientSuburb = $this->security->xss_clean(stripslashes(trim($_POST['clientSuburb'])));
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter the suburb'); }
@@ -114,6 +128,7 @@ class EmployerMission extends CI_Controller{
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter the job type');}
 
         $description = $this->security->xss_clean(stripslashes(trim($_POST['description'])));
+        //instantly record the date of when the application is submitted
         $dateJobSubmitted = date('Y-m-d'); 
         
         $userdata['userType'] = 'anyone';
@@ -122,6 +137,7 @@ class EmployerMission extends CI_Controller{
             $userdata['userEmail'] = $_SESSION['userEmail'];
 			$userdata['userType'] = $_SESSION['userType'];
         }
+        //if the error is not detected adding the information to database else return a warning message 
         if(!$errorIsTrue){
             $this->job_model->addJob($clientTitle,$clientName,$clientCompany,$clientEmail,$clientContact,$clientCity,$clientAddress,$clientJobTitle,$clientJobType,$description,$clientSuburb,$dateJobSubmitted);
             $data['title'] = 'Job was added successfully.';

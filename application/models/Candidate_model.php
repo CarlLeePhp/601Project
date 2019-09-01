@@ -341,4 +341,10 @@ class Candidate_model extends CI_Model {
         $this->db->where('CandidateID', $candidateID);
         $this->db->update('candidate', $data);
     }
+
+    public function countNumberUncheckedCandidate(){
+        $mySql = "SELECT Checked FROM Candidate WHERE Checked IS NULL";
+        $query = $this->db->query($mySql);
+        return $query->num_rows();
+    }
 }

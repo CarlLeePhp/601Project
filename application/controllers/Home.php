@@ -13,6 +13,7 @@ class Home extends CI_Controller {
 		$this->load->model('city_model');
 		$this->load->model('job_model');
 	}
+	//load the homepage
 	public function index()
 	{	
 		$userdata['userType'] = 'anyone';
@@ -24,9 +25,9 @@ class Home extends CI_Controller {
 		$jobType="";
 		$location="";
 		$page="home";
+		//filter job that are in homepage
 		if(isset($_POST['jobTitle'])){
 			$jobTitle = $this->security->xss_clean($_POST['jobTitle']);
-			
 		};
 		if(isset($_POST['jobType'])){
 			$jobType = $this->security->xss_clean($_POST['jobType']);
@@ -34,7 +35,9 @@ class Home extends CI_Controller {
 		if(isset($_POST['location'])){
 			$location = $this->security->xss_clean($_POST['location']);
 		};
+
 		$data['cities'] = $this->city_model->get_cities();
+		//only shows the published jobs
 		$data['jobs'] = $this->job_model->get_publishedjobs($page,$jobTitle,$jobType,$location);
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/main',$data);

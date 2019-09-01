@@ -15,10 +15,10 @@ class CandidateMission extends CI_Controller{
         $this->load->model('city_model');
         $this->load->model('register_model');
         $this->load->model('job_model');
-	}
+    }
+    
+    //loading the page of candidateMission together with the form for candidate to register their application into lee recruitment
     public function index($param = ''){
-        
-        
         if($param == 'active'){ $active1='';$active2='active';}
         else {$active1='active';$active2='';}
         $data['active1'] = $active1;
@@ -29,13 +29,15 @@ class CandidateMission extends CI_Controller{
             $userdata['userEmail'] = $_SESSION['userEmail'];
 			$userdata['userType'] = $_SESSION['userType'];
         }
+        //load the list of citizenship from database, to fill into the select option in form
         $data['citizenships'] = $this->candidate_model->get_citizenships();
         $this->load->view('templates/header', $userdata);
         $this->load->view('pages/candidatesMission', $data, $userdata);
         $this->load->view('templates/footer');
     }
 
-    // show candidate table -- this
+    // from view->personcenter->adminPanel or view->personcenter->staffPanel
+    // show the list of candidate that have registered their application in the form of table
 	public function manageCandidate($page="",$jobID= ""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -53,8 +55,10 @@ class CandidateMission extends CI_Controller{
                 $data['job'] = $this->job_model->get_specificJob($jobID);
             }
             $data['jobID'] = $jobID;
+            //count the number of candidate, so a page number could be made
             $data['candidateNum'] = $this->candidate_model->countAll($page,$data['job']['City'],$data['job']['JobType'],$data['job']['JobTitle']);
             // $data['candidateNum'] = 30;
+            //when loaded limit the records to be first 10 records
             $data['candidates'] = $this->candidate_model->getCandidatesWithName(10, 0,$page,$data['job']['City'],$data['job']['JobType'],$data['job']['JobTitle']);
             
             //is it a good idea to match the interest from candidate / job?
@@ -69,7 +73,8 @@ class CandidateMission extends CI_Controller{
 		
     }
 
-    // download CV
+    // function to download CV that are submitted by candidate
+    // accessible from CandidateMission->candidateDetails || CandidateMission->manageCandidate
     public function downloadCV($fileName){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -85,7 +90,9 @@ class CandidateMission extends CI_Controller{
     /**
      * AJAX Methods
      */
-    // get a offset value then return candidates
+    // function that is called when the user click on the next page in manageCandidate
+    // get a offset value then return candidates loads the next 10 records 
+    // AJAX returns it with json format that are replacing the value of candidate variable in vue
     public function getCandidates($page=""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
             $offset = $_POST['offset'];
@@ -106,6 +113,8 @@ class CandidateMission extends CI_Controller{
         }
     }
 
+    //function that are accessible by clicking on filter button in CandidateMission->manageCandidate
+    //AJAX returns it with json format that are replacing the value of candidate variable in vue 
     public function applyFilterCandidate($page=""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
         
@@ -126,7 +135,7 @@ class CandidateMission extends CI_Controller{
     }
 
    
-
+    //initialize a random alphabet used in CandidateMission->addUserByStaff to replace an integer with this alphabet
     public function getRandomAlphabet(){
         $alphabetArray = array( 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j','k', 'l', 'm', 'n', 'o',
         'p', 'q', 'r', 's', 't','u', 'v', 'w', 'x', 'y','z'
@@ -136,6 +145,9 @@ class CandidateMission extends CI_Controller{
         return $alphabet;
     }
 
+    //a function that used to register a candidate that would like to apply their application into lee recruitment
+    //called by ajax in CandidateMission->index and CandidateMission->addingNewCandidateStaffOnly
+    //inserting the data into database table of candidate: candidate_model->applyJob($data);
     public function applyJob(){
         if(!isset($_SESSION['userEmail'])){
             //redirect('/personcenter/index');
@@ -159,6 +171,7 @@ class CandidateMission extends CI_Controller{
             $userID = $userData['UserID'];
 
         }
+        //KVP K:FieldName in database V:Post value
         $data = array(
         'JobInterest' => $this->security->xss_clean($this->input->post('JobInterest')),
         'JobType' => $this->security->xss_clean($this->input->post('JobType')),
@@ -203,6 +216,9 @@ class CandidateMission extends CI_Controller{
         
     }
 
+    //function that manage an upload cv from candidate
+    //called by ajax in CandidateMission->index and CandidateMission->addingNewCandidateStaffOnly
+    //candidate_model->updateLinkByID($maxID, $downloadName); calling this model to update the CV link
     public function uploadCV(){
         if(!isset($_SESSION['userEmail'])){
             echo "Please login";
@@ -243,7 +259,6 @@ class CandidateMission extends CI_Controller{
             echo 'upload failed';
         } else {
         $this->load->library('upload', $config);
-        //what is this for?
         if (!$this->upload->do_upload('JobCV')) {
             echo "Apply Failed.";
         } else {
@@ -261,6 +276,8 @@ class CandidateMission extends CI_Controller{
         
     }
 
+    //accessible from CandidateMission->manageCandidate
+    //a detailed information of candidate based on what data they inserted in the form, when submitting their application
     public function candidateDetails($candidateID,$jobID=""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -277,6 +294,8 @@ class CandidateMission extends CI_Controller{
         }
     }
 
+    //accessible from CandidateMission->manageCandidate
+    //page to allow the staff and admin to add a new candidate themself
     public function addingNewCandidateStaffOnly(){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
             $userdata['userType'] = $_SESSION['userType'];
@@ -292,6 +311,9 @@ class CandidateMission extends CI_Controller{
         }
     }
 
+    //function that are called from CandidateMission->applyJob
+    //only called when staff or admin is adding the staff themself in the view->pages/candidateFormStaffOnly
+    //generate a random 4 digits 1 character password for the user that is added in by this way
     public function addUserByStaff(){
         if(!isset($_SESSION['userEmail'])){
             //redirect('/personcenter/index');
@@ -307,6 +329,7 @@ class CandidateMission extends CI_Controller{
         $suburb = $_POST['suburb'];
         $phoneNumber = $_POST['phoneNumber'];
         $gender = $_POST['gender'];
+        //generate an email and password that are almost impossible for the user to login so there is no conflict
         $userEmail = 'LeeRecruitment:' . $_POST['userEmail'];
         $userPasswd = rand(10000,99999);
         $pos = rand(0,4); 

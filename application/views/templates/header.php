@@ -27,7 +27,21 @@
                 </a>
             </div>
             <!-- space -->
-            <div class="col-md-5"></div>
+            <div class="col-md-5 text-left text-md-right">
+            <?php if(isset($_SESSION['userType'])):?>
+                <?php if($_SESSION['userType']=="admin" || $_SESSION['userType']=="staff"):?>
+                <?php $ci =& get_instance();
+                $ci->load->model('Candidate_model');
+                $ci->load->model('Job_model');
+                $numUncheckedJob = $ci->Job_model->countNumberUncheckedJob();
+                $numUncheckedCandidate = $ci->Candidate_model->countNumberUncheckedCandidate();?>
+                <a href="<?php echo base_url()?>index.php/Applicant" class="notification">
+                    <span><i style="font-size:30px;" class="icon ion-md-notifications-outline"></i></span>
+                    <span class="text-primary"><?php echo $numUncheckedCandidate+$numUncheckedJob?></span>
+                </a>
+                <?php endif;?>
+            <?php endif;?>
+            </div>
             <!-- topmost Right nav -->
             <nav class="col-md-4 navbar navbar-expand-sm justify-content-around">
                 <?php if($userType == 'anyone'): ?>

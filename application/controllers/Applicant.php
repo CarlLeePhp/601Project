@@ -13,7 +13,10 @@ class Applicant extends CI_Controller{
         $this->load->model('job_model');
 		$this->load->model('city_model');
         $this->load->model('candidate_model');
-	}
+    }
+
+    //loading a look for applicants page
+    //accessible only for staff and admin, in there they could see all new candidate and request from client
     public function index(){
         
         

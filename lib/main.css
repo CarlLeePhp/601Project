@@ -43,6 +43,7 @@
  
   
 /* homepage picture */
+/* XL viewport */
 @media only screen and (min-width:1024px) {
   #content {
     background-image:url('./images/bannerlee.png');
@@ -53,7 +54,7 @@
     height: 148vh;
     }
 }
-
+/* LG viewport */
 @media only screen and (max-width: 1024px) {
   #content {
     background-image:url('./images/bannerlee.png');
@@ -64,7 +65,7 @@
     height: 750px;
     }
 }
-
+/* MD viewport */
 @media only screen and (max-width: 768px) {
   #content {
     background-image:url('./images/bannerlee.png');
@@ -75,7 +76,7 @@
     height: 560px;
     }
 }
-
+/* SM viewport */
 @media only screen and (max-width: 460px) {
   #content {
     background-image:url('./images/bannerlee.png');
@@ -127,3 +128,12 @@
     background-color: rgba(141, 155, 141,0.80);
   }
 
+  .notification{
+    color:gray;
+  }
+  
+  .notification:hover {
+    color: royalblue;
+    text-decoration: none;
+  }
+  

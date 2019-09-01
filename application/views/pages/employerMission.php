@@ -92,19 +92,20 @@
 </div> <!--endOfPane-->
 
 <div class="tab-pane fade show <?php echo $active3?>" id="v-pills-submitVacancy" role="tabpanel" aria-labelledby="v-pills-submitVacancy-tab">
-    <?php if(sizeof($message)>0){
-        echo '<ul>';
-        foreach($message as $mess){
-            echo '<p class="text-danger"> * ' . $mess . '</p>';
-        }
-        echo '</ul>';
-    };?>
+    
     <div class="container m-md-5" id="app">
             <span class="display-4">SubmitVacancy</span>
             <hr>
+            <?php if(sizeof($message)>0){
+                echo '<ul>';
+                foreach($message as $mess){
+                    echo '<p class="text-danger"> * ' . $mess . '</p>';
+                }
+                echo '</ul>';
+            };?>
             <div class="col-12">
             
-            <form action="<?php echo base_url()?>index.php/EmployerMission/addJob/" class="m-md-5" method="POST">
+            <form action="<?php echo base_url()?>index.php/EmployerMission/addJob/" class="m-md-5" method="POST" @submit="checkForm">
             <div class="row">
                 <div class="col-2 p-0">
                 <label for="clientTitleID" class="font-weight-bold">Title</label>
@@ -149,19 +150,26 @@
             <div class="row mt-3">
              <div class="col-6 col-md-3 pl-0">
                  <label for="clientCityID" class="font-weight-bold"><small class="text-danger mr-1">*</small>City:</label>
-                 <select class="form-control" type="text" name="clientCity" id="clientCityID" required>
+                 <select class="form-control" type="text" v-model="city" name="clientCity" id="clientCityID" required>
                     <option selected>Enter City</option>
                     <?php foreach($cities as $city): ?>
                     <option value="<?php echo $city['CityName']; ?>"><?php echo $city['CityName']; ?></option>
                     <?php endforeach; ?>
-                </select></div>
+                </select>
+                <div class="container mt-3" v-if="cityError.length">
+                    <span class="text-danger" v-text="cityError"></span>
+                </div>
+            </div>
                 <div class="col-md-3 col-6 pr-md-3 pr-0 pl-0">
                  <label for="SuburbID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Suburb:</label>
                  <input type="text" placeholder="Enter Suburb Name" class="form-control" name="clientSuburb" id="Suburb" required/>
                 </div>
                 <div class="col-md-6 col-12 pr-0 pl-md-3 pl-0 mt-md-0 mt-3">
                  <label for="clientAddressID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Address Number:</label>
-                 <input type="text" placeholder="Enter Address Number" class="form-control" name="clientAddress" id="clientAddress" required/>
+                 <input type="text" placeholder="Enter Address Number" @change="checkAddress" v-model="address" class="form-control" name="clientAddress" id="clientAddress" required/>
+                 <div class="mt-3" v-if="addressError.length">
+                        <p class="text-danger" v-text="addressError"></p>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -171,11 +179,15 @@
                 </div>
                 <div class="col-6 pr-0">
                 <label for="clientJobTypeID" class="font-weight-bold"><small class="text-danger mr-1">*</small>Job Type:</label>
-                 <select class="form-control " type="text" name="clientJobType" id="clientJobTypeID" required>
+                 <select class="form-control" v-model="jobType" type="text" name="clientJobType" id="clientJobTypeID" required>
                     <option selected>Enter Job Type</option>
                     <option value="PartTime">Part Time</option>
                     <option value="FullTime">Full Time</option>
-                </select> </div>
+                </select> 
+                    <div class="mt-3" v-if="jobTypeError.length">
+                        <p class="text-danger" v-text="jobTypeError"></p>
+                    </div>
+            </div>
                 
             </div>
             <div class="row mt-3">
@@ -207,6 +219,12 @@
     var app = new Vue({
         el: '#app',
         data: {
+            city: "",
+            cityError: "",
+            jobType: "",
+            jobTypeError: "",
+            address: "",
+            addressError: "",
             contactError: "",
             contact: "",
             emailError: "",
@@ -214,6 +232,19 @@
             isButton: false
         },
         methods: {
+            checkForm: function(e){
+                if(this.city=="Enter City" || this.city.length<1){
+                    this.cityError="Please enter the city",
+                    e.preventDefault()
+                } else {
+                    if(this.jobType!="FullTime"||this.jobType!="PartTime"){
+                        this.jobTypeError="Please enter the job Type"
+                        e.preventDefault()
+                    } else {
+                        return true
+                    }
+                }
+            },
             checkEmail: function(){
                     if(!this.validEmail(this.email)){
                         this.emailError = "Invalid Email Address"
@@ -240,7 +271,22 @@
             validContact: function(contact){
                 var regex = /^[\+]?\(?[\+]?[0-9]{2,4}\)?[- \.]?\(?[0-9]{2,4}[-\. ]?[0-9]{2,4}[-\. ]?[0-9]{0,6}?\)?$/;
                 return regex.test(contact)
-            }
+            },
+            checkAddress: function(){
+                if(this.address.length>0){
+                    var re = /\d+/;
+                    if(re.test(this.address)){
+                        this.addressError = ""
+                        this.isButton = false
+                    } else {
+                        this.addressError = "Missing the address number"
+                        this.isButton = true
+                    }
+                } else { 
+                    this.addressError = "Please fill the Last address input box"
+                    this.isButton = true
+                }
+            },
         },
         
     })

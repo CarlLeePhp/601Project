@@ -77,7 +77,7 @@ class Register extends CI_Controller {
         
 
         if(isset($_POST['Address'])){
-            if(preg_match('%\d%',stripslashes(trim($_POST['Address'])))){
+            if(preg_match('%\d+%',stripslashes(trim($_POST['Address'])))){
                 $Address = $this->security->xss_clean($_POST['Address']);
             } else {
                 $errorIsTrue = true; array_push($errMessage,'invalid address, address must contains numbers');
@@ -105,14 +105,14 @@ class Register extends CI_Controller {
         } else { $ZipCode = "0000";}
 
         if(isset($_POST['Suburb'])){
-            if(preg_match('%^[a-zA-Z\s/\.\'\(\)&:\,\"]+$%',stripslashes(trim($_POST['Suburb'])))){
+            if(preg_match('%^[a-zA-Z\s/\.\'\(\)&:\,\"\-]+$%',stripslashes(trim($_POST['Suburb'])))){
                 $Suburb = $this->security->xss_clean($_POST['Suburb']);
             } else { $Suburb ="Undefined";}
         
         } else { $Suburb = "Undefined";}
 
         if(isset($_POST['PhoneNumber'])){
-            if(preg_match('%^[\+]?\(?[\+]?[0-9]{2,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['PhoneNumber'])))){
+            if(preg_match('%^[\+]?\(?[\+]?[0-9]{1,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['PhoneNumber'])))){
                 $PhoneNumber = $this->security->xss_clean($_POST['PhoneNumber']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Phone number');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter a phone number');}
@@ -159,6 +159,7 @@ class Register extends CI_Controller {
                     $userPasswd = $_POST['password'];
                 } else { $errorIsTrue = true;  array_push($errMessage,'Invalid UserPassword');}
             } else { $errorIsTrue = true; array_push($errMessage,'Please enter a password');}
+
             if(isset($_POST['firstName'])){
                 if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
                     $firstName = $_POST['firstName'];

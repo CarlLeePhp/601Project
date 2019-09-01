@@ -10,6 +10,7 @@ class ContactUS extends CI_Controller{
 		$this->load->library('session');
 	}
 
+    //loading the page of contactUS
     public function index(){
 
         $userdata['userType'] = 'anyone';
@@ -26,7 +27,8 @@ class ContactUS extends CI_Controller{
     /**
      * Methods for AJAX
      */
-
+    //sending a message by email to marklee
+    //a function that is available in ContactUS->index
     public function sendMessage(){
         $userName = $this->security->xss_clean($this->input->post('userName'));
         $userEmail = $this->security->xss_clean($this->input->post('userEmail'));

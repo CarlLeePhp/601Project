@@ -16,6 +16,8 @@ class Archive extends CI_Controller{
 		$this->load->model('job_model');
 	}
 
+    //load the archive page
+    //by using this : job_model->get_jobs('archive'); it will return all job which status is completed
     public function index(){
         
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -25,6 +27,7 @@ class Archive extends CI_Controller{
             $data['message'] ="";
             $data['jobs'] = $this->job_model->get_jobs('archive');
             $bookmarkStat= "";
+            //adding 3 more key value pair of ref ,bookmarkStat and bookmarkUrl
             for($i=0;$i<sizeof($data['jobs']);$i++){
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
                 if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
@@ -43,6 +46,8 @@ class Archive extends CI_Controller{
         }
     }
 
+    //filter function from archive page
+    //using AJAX to return the data of job format: json
     public function applyFilterArchive(){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -57,6 +62,7 @@ class Archive extends CI_Controller{
             $page="archive";
             $data['jobs'] = $this->job_model->applyFilterJob($page,$company,$city,$jobTitle,$contactNumber,$contactPerson,$jobStatus);
             $bookmarkStat= "";
+            //adding 3 more key value pair of ref ,bookmarkStat and bookmarkUrl
             for($i=0;$i<sizeof($data['jobs']);$i++){
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
                 if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
@@ -74,6 +80,9 @@ class Archive extends CI_Controller{
         }
     }
 
+    //function from archive page
+    //when clicking on next page it will load the next 10 records
+    //AJAX will return the jobs data in format of json
     public function getJobsArchive(){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -81,6 +90,7 @@ class Archive extends CI_Controller{
             $page="archive";
             $jobsResult = $this->job_model->get_jobs($page,$offset);
             $bookmarkStat= "";
+            //adding 3 more key value pair of ref ,bookmarkStat and bookmarkUrl
             for($i=0;$i<sizeof($jobsResult);$i++){
                 $ref = base_url() . 'index.php/Jobs/jobDetails/' . $jobsResult[$i]['JobID'];
                 if($jobsResult[$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};

@@ -13,6 +13,12 @@ class Personcenter extends CI_Controller {
 		$this->load->model('city_model');
 	}
 	
+	//the page where the user are redirected when they login
+	//loading view->personcenter/main
+	//inside personcenter/main it loads different view based on userType
+	//admin view->personcenter->adminPanel
+	//staff view->personcenter->staffPanel
+	//candidate view->personcenter->personalPanel
 	public function index()
 	{	
         // Check username and the passwd
@@ -31,7 +37,9 @@ class Personcenter extends CI_Controller {
         $this->load->view('templates/footer');
 	}
 	
-	//checkThis
+
+	//load the page that are only accessible by UserType admin
+	//3 functions that are available in this page : Personcenter->newStaffPassword,Personcenter->removeStaff, Register->newStaff
 	public function manageStaff(){
 		
 		$userdata['userType'] = $_SESSION['userType'];
@@ -49,7 +57,10 @@ class Personcenter extends CI_Controller {
 		}
 	}
 
-	//checkThis
+	//a function that is called from manageStaff that are only accessible by userType admin
+	//updating the password of the staff based on the staff ID
+	//after the update, load the page of manage staff
+	//calling the model of user_model->update_staffPassword($staffID,$password);
 	public function newStaffPassword(){
 
 		$userdata['userType'] = $_SESSION['userType'];
@@ -70,7 +81,10 @@ class Personcenter extends CI_Controller {
 		}
 	}
 
-	//checkThis
+	//a function that is called from manageStaff that are only accessible by userType admin
+	//removing staff based on the staff ID
+	//after removing load the page of manageStaff again
+	//calling the model of user_model->delete_staff($staffID);
 	public function removeStaff(){
 		$userdata['userType'] = $_SESSION['userType'];
 		
@@ -94,6 +108,9 @@ class Personcenter extends CI_Controller {
 		}
 	}
 
+	//loading the page of personalInfo
+	//in this page , the users could see their information or update it if they wishes for it
+	//with data saved from session
 	public function personalInfo(){
 		
 		$userdata['userType'] = $_SESSION['userType'];
@@ -114,6 +131,7 @@ class Personcenter extends CI_Controller {
 		$data['suburb'] = $_SESSION['suburb'];
 		$data['phoneNumber'] = $_SESSION['phoneNumber'];
 		$data['message'] = '';
+		//temporary item to hold the err message
 		$data['errMess'] = $this->session->flashdata('errMessage');
 		
 		$data['cities'] = $this->city_model->get_cities();
@@ -122,6 +140,8 @@ class Personcenter extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	//update details function that are available from the personalInfo Page
+	//updating a user password calling a user_model->update_personalPassword($userID,$newPassword);
 	public function updatePassword(){
 		if(!(isset($_SESSION['userType']))){
 			redirect('/');
@@ -134,6 +154,8 @@ class Personcenter extends CI_Controller {
 		$data['message'] = "";
 		
 		if(isset($_POST['newPassword'])){
+			//check user new password, the length should be atleast 6 digits
+			//allowed character allAlphabets,digits, !@#$%^&*()-+._
             if(preg_match('%^[a-zA-Z0-9!@#\$\%\^&\*\(\)\-\+\.\?_]{6,}$%',stripslashes(trim($_POST['newPassword'])))){
 				$newPassword = $this->security->xss_clean($_POST['newPassword']);
 				if(($_SESSION['userPassword'] != $encryptPass)){
@@ -164,6 +186,8 @@ class Personcenter extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	//update details function that are available from the personalInfo Page
+	//updating a user details calling a user_model->update_personalDetails($userID,$data);
 	public function updateDetails(){
 		$errorIsTrue = false;
 		$errMessage = array();
@@ -174,18 +198,23 @@ class Personcenter extends CI_Controller {
 		}
 		
 		if(isset($_POST['firstName'])){
-            if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
+			//match all alphabets, the only special characters that are allowed are: .'-",
+			//minimum length 2
+            if(preg_match('%^[a-zA-Z\.\'\-"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
                 $data['firstName'] = $this->security->xss_clean($_POST['firstName']);
             } else { $errorIsTrue = true; array_push($errMessage,'Error The firstname you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to update user data');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter First Name');}
 
 		if(isset($_POST['lastName'])){
-            if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
+			//match all alphabets, the only special characters that are allowed are: .'-",
+			//minimum length 2
+            if(preg_match('%^[a-zA-Z\.\'\-"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
 				$data['lastName'] = $this->security->xss_clean($_POST['lastName']);
             } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to update user data');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter Last Name');}
 		
 		if(isset($_POST['DOB'])){
+			//match the date YYYY-MM-DD
             if(preg_match('%^[1|2]{1}(9[0-9][0-9]|0[0-9][0-9])-(0[0-9]|1[0|1|2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])$%',stripslashes(trim($_POST['DOB'])))){
                 if($_POST['DOB']<date("Y-m-d")){
                     $data['DOB'] = $this->security->xss_clean($_POST['DOB']);
@@ -194,6 +223,7 @@ class Personcenter extends CI_Controller {
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter Date of birth');}
 		
 		if(isset($_POST['address'])){
+			//check if the address contains number
             if(preg_match('%\d%',stripslashes(trim($_POST['address'])))){
                 $data['address'] = $this->security->xss_clean($_POST['address']);
             } else {
@@ -201,12 +231,14 @@ class Personcenter extends CI_Controller {
             }
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter An address');}
 		
+		//load the city from database
 		$data['cities'] = $this->city_model->get_cities();
-        $cities = array();
+		$cities = array();
+		//insert it into array
         foreach($data['cities'] as $city){
             array_push($cities,$city['CityName']);
         }
-
+		//check if the post value is a match with items in city array
         if (in_array($_POST['city'], $cities)) {
             $data['city']  = $this->security->xss_clean(stripslashes(trim($_POST['city'])));
         } else {
@@ -214,19 +246,25 @@ class Personcenter extends CI_Controller {
 		}
 		
 		if(isset($_POST['zip'])){
+			//zip code is 4 digits
             if(preg_match('%^\d{4}$%',stripslashes(trim($_POST['zip'])))){
                 $data['zipcode'] = $this->security->xss_clean($_POST['zip']);
             } else { $errorIsTrue = true; array_push($errMessage,'invalid zip code, zip should contains 4 digits'); }
 		} 
 		
 		if(isset($_POST['suburb'])){
-            if(preg_match('%^[a-zA-Z\s/\.\'\(\)&:\,\"]+$%',stripslashes(trim($_POST['suburb'])))){
+			//any alphabets special characters that are allowed: multiple space,/.'()&:,"
+			//length 3-18
+            if(preg_match('%^[a-zA-Z\s/\.\'\(\)&:\,"]{3,18}$%',stripslashes(trim($_POST['suburb'])))){
                 $data['suburb'] = $this->security->xss_clean($_POST['suburb']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Suburb');}
 		}
 		
 		if(isset($_POST['phoneNumber'])){
-            if(preg_match('%^[\+]?\(?[\+]?[0-9]{2,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['phoneNumber'])))){
+			//match with a string that possibly start with + or (+ then a number suffix possibly a closing)
+			//followed by a possibility of the user entered delimiter then numbers from 2-4 digits a possibility of delimiter 2-4digits and another possible delimiter and possibility of 0-6 digits
+			//min length 5 , max length 18
+            if(preg_match('%^[\+]?\(?[\+]?[0-9]{1,4}\)?[\- \.]?\(?[0-9]{2,4}[\-\. ]?[0-9]{2,4}[\-\. ]?[0-9]{0,6}?\)?$%',stripslashes(trim($_POST['phoneNumber'])))){
 				$data['phoneNumber'] = $this->security->xss_clean($_POST['phoneNumber']);
             } else { $errorIsTrue = true; array_push($errMessage,'Invalid Phone number');}
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter a phone number');}
