@@ -88,7 +88,10 @@
         </div>
         <div class="col-md-4">
             <label class="font-weight-bold">Drop your CV here:</label>
-            <input type="file" id="JobCVID" name="jobCV">
+            <input type="file" id="JobCVID" @change="checkJobCV" v-model="jobCV" name="jobCV">
+            <div class="mt-3" v-if="jobCVError.length">
+                <p class="text-danger" v-text="jobCVError"></p>
+            </div>
         </div>
     </div>
     <label for="candidateNotesID" class="mt-3 font-weight-bold">Notes for this candidate:</label>
@@ -279,7 +282,7 @@
     </div>
 
     <div class="row justify-content-center mt-3">
-        <button @click="newCandidate" class="btn btn-warning font-weight-bold col-md-3 col-9">Register New Candidate</button>
+        <button @click="newCandidate" class="btn btn-warning font-weight-bold col-md-3 col-9" :disabled="isButton">Register New Candidate</button>
     </div>
 
 
@@ -326,10 +329,13 @@ var app = new Vue ({
         phoneNumber: "",
         userEmail: "",
         gender: "",
+        isButton: false,
 
         // condidate
         jobInterest : "",
         jobType : "",
+        jobCV: "",
+        jobCVError: "",
         candidateNotes: "",
         transportation : "",
         licenseNumber : "",
@@ -466,9 +472,22 @@ var app = new Vue ({
             }
             
 
-        },
-        
-        
+        },checkJobCV: function(){
+            if(this.jobCV.length>0){
+                if(this.jobCV.indexOf(".")>-1){
+                    var res = this.jobCV.split(".");
+                    //pdf|png|doc|docx
+                    if(res[res.length-1].toLowerCase()=="pdf" || res[res.length-1].toLowerCase()=="png" ||
+                    res[res.length-1].toLowerCase()=="doc" || res[res.length-1].toLowerCase()=="docx" ){
+                        this.isButton=false;
+                        this.jobCVError="";
+                    } else {this.isButton = true; this.jobCVError="Invalid file format, only accepts pdf,doc,png or docx"}
+                } else {
+                    this.isButton = true;
+                    this.jobCVError = "Invalid File Format"
+                }
+            }
+        }
     }
 });
 </script>

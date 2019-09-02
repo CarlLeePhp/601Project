@@ -477,5 +477,33 @@ class Jobs extends CI_Controller {
         } else {
             redirect('/');
         }
-    }
+	}
+	
+	//called from: View->pages->manageClient
+	//look for bookmarked job;
+	public function applyFilterBookmark(){
+		if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
+
+            $data['title'] = "Manage Client";
+            $bookmark = $_POST['bookmark'];
+			$page = "manageClient";
+            $data['jobs'] = $this->job_model->applyFilterBookmark($bookmark);
+			$bookmarkStat= "";
+			//add 3 more field ref,bookmarkStat,bookmarkUrl
+            for($i=0;$i<sizeof($data['jobs']);$i++){
+                $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
+                if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
+                $bookmarkUrl= "Bookmark". $data['jobs'][$i]['JobID'];
+                
+                $data['jobs'][$i]['ref'] = $ref;
+                $data['jobs'][$i]['bookmarkStat'] = $bookmarkStat;
+                $data['jobs'][$i]['bookmarkUrl'] = $bookmarkUrl;
+            }
+
+            echo json_encode($data['jobs']);
+            
+        } else {
+            redirect('/');
+        }
+	}
 }

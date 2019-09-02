@@ -136,6 +136,8 @@ var app = new Vue({
         messages: "",
         jobInterest : "",
         jobType : "",
+        jobCV: "",
+        jobCVError: "",
         transportation : "",
         licenseNumber : "",
         classLicense : "",
@@ -168,7 +170,9 @@ var app = new Vue({
         smoke : false,
         conviction : false,
         convictionDetails : "",
-        confirm: false
+        confirm: false,
+        isButton: false,
+        isGood: true,
     },
     methods: {
         submitJob: function(){
@@ -239,7 +243,28 @@ var app = new Vue({
                 $('#myModal').modal('show');
             })
 
-        },
+        },checkJobCV: function(){
+            if(this.jobCV.length>0){
+                if(this.jobCV.indexOf(".")>-1){
+                    var res = this.jobCV.split(".");
+                    //pdf|png|doc|docx
+                    if(res[res.length-1].toLowerCase()=="pdf" || res[res.length-1].toLowerCase()=="png" ||
+                    res[res.length-1].toLowerCase()=="doc" || res[res.length-1].toLowerCase()=="docx" ){
+                        this.isButton=false;
+                        this.jobCVError="";
+                    } else {this.isButton = true; this.jobCVError="Invalid file format, only accepts pdf,doc,png or docx"}
+                } else {
+                    this.isButton = true;
+                    this.jobCVError = "Invalid File Format"
+                }
+            }
+        }, allGood: function(){
+            if(!this.confirm || this.isButton){
+                return true;
+            } else {
+                return false;
+            }
+        }
         
         
     }

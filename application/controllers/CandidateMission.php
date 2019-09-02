@@ -77,7 +77,7 @@ class CandidateMission extends CI_Controller{
     }
 
     // function to download CV that are submitted by candidate
-    // accessible from CandidateMission->candidateDetails || CandidateMission->manageCandidate
+    // accessible from view->pages->candidateDetails || view->pages->manageCandidate
     public function downloadCV($fileName){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
 
@@ -97,6 +97,7 @@ class CandidateMission extends CI_Controller{
     // get a offset value then return candidates loads the next 10 records 
     // AJAX returns it with json format that are replacing the value of candidate variable in vue
     public function getCandidates($page=""){
+        
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
             $offset = $_POST['offset'];
             $jobInterest = $_POST['jobInterest'];
@@ -116,7 +117,7 @@ class CandidateMission extends CI_Controller{
         }
     }
 
-    //function that are accessible by clicking on filter button in CandidateMission->manageCandidate
+    //function that are accessible by clicking on filter button in view->pages->manageCandidate
     //AJAX returns it with json format that are replacing the value of candidate variable in vue 
     public function applyFilterCandidate($page=""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -132,6 +133,7 @@ class CandidateMission extends CI_Controller{
             
             $data['candidates'] = $this->candidate_model->getFilterCandidate($page,$city,$jobType,$jobInterest,$firstName,$lastName,$suburb,$phoneNumber,$email);
             echo json_encode($data['candidates']);
+        
         } else {
             redirect('/');
         }
@@ -176,6 +178,7 @@ class CandidateMission extends CI_Controller{
 
         }
         //KVP K:FieldName in database V:Post value
+        $applyDate = date('Y-m-d');
         $data = array(
         'JobInterest' => $this->security->xss_clean(stripslashes(trim($this->input->post('JobInterest')))),
         'JobType' => $this->security->xss_clean(stripslashes(trim($this->input->post('JobType')))),
@@ -213,6 +216,7 @@ class CandidateMission extends CI_Controller{
         'ConvictionDetails' => $this->security->xss_clean(stripslashes(trim($this->input->post('ConvictionDetails')))),
         'UserID' => $userID,
         'CandidateNotes' => $candidateNotes,
+        'ApplyDate' => $applyDate,
         );
 
         
@@ -282,7 +286,7 @@ class CandidateMission extends CI_Controller{
         
     }
 
-    //accessible from CandidateMission->manageCandidate
+    //accessible from View->pages->manageCandidate
     //a detailed information of candidate based on what data they inserted in the form, when submitting their application
     public function candidateDetails($candidateID,$jobID=""){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -301,7 +305,7 @@ class CandidateMission extends CI_Controller{
         }
     }
 
-    //accessible from CandidateMission->manageCandidate
+    //accessible from view->pages->manageCandidate
     //page to allow the staff and admin to add a new candidate themself
     public function addingNewCandidateStaffOnly(){
         if($_SESSION['userType']=='admin' || $_SESSION['userType'] =='staff'){
@@ -329,17 +333,17 @@ class CandidateMission extends CI_Controller{
             exit;
         }
 
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $userAddress = $_POST['userAddress'];
-        $city = $_POST['city'];
-        $zipCode = $_POST['zipCode'];
-        $suburb = $_POST['suburb'];
-        $phoneNumber = $_POST['phoneNumber'];
-        $gender = $_POST['gender'];
+        $firstName = xss_clean(stripslashes(trim($this->input->post('firstName'))));
+        $lastName = xss_clean(stripslashes(trim($this->input->post('lastName'))));
+        $userAddress = xss_clean(stripslashes(trim($this->input->post('userAddress'))));
+        $city = xss_clean(stripslashes(trim($this->input->post('city'))));
+        $zipCode = xss_clean(stripslashes(trim($this->input->post('zipCode'))));
+        $suburb = xss_clean(stripslashes(trim($this->input->post('suburb'))));
+        $phoneNumber = xss_clean(stripslashes(trim($this->input->post('phoneNumber'))));
+        $gender = xss_clean(stripslashes(trim($this->input->post('gender'))));
         //generate an email and password that are almost impossible for the user to login so there is no conflict when a staff added a new candidate
         //because it requires a user as well
-        $userEmail = 'LeeRecruitment:' . $_POST['userEmail'];
+        $userEmail = 'LeeRecruitment:' . xss_clean(stripslashes(trim($this->input->post('userEmail'))));
         $userPasswd = rand(10000,99999);
         $pos = rand(0,4); 
         $alphabet = $this->getRandomAlphabet();

@@ -165,6 +165,7 @@
     CKEDITOR.replace( 'editor1' );
 </script>
 <script>
+    //to be able to select the input box inside the table and edit it // without this it wont work because we implement scrollable
         function targetThisBox(elementID){
             const input = document.getElementById(elementID);
             input.focus();

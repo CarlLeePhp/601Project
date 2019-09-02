@@ -237,7 +237,7 @@
                     this.cityError="Please enter the city",
                     e.preventDefault()
                 } else {
-                    if(this.jobType!="FullTime"||this.jobType!="PartTime"){
+                    if(this.jobType!="FullTime" && this.jobType!="PartTime"){
                         this.jobTypeError="Please enter the job Type"
                         e.preventDefault()
                     } else {

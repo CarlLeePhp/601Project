@@ -297,16 +297,29 @@ var app = new Vue({
             let jobsTemp = this.jobs
             this.jobs = [];
             if(this.filterBookmark){
-                for(var i = 0; i<jobsTemp.length;i++){
-                    if(jobsTemp[i].bookmarkStat){
-                        this.jobs.push(jobsTemp[i]);
+                // for(var i = 0; i<jobsTemp.length;i++){
+                //     if(jobsTemp[i].bookmarkStat){
+                //         this.jobs.push(jobsTemp[i]);
+                //     }
+                // }
+                // this.pageNums = [];
+                // for(var i=0; i<this.jobs.length; i=i+10){
+                //     this.pageNums.push({id: i, isActive: false});
+                // }
+                // this.pageNums[0].isActive = true;
+                var formData = new FormData()
+                formData.append('bookmark',"true");
+                var urllink = "<?php echo base_Url(); ?>" + 'index.php/Jobs/applyFilterBookmark'
+                this.$http.post(urllink, formData).then(res => {
+                    var result = res.body
+                    this.jobs = result
+                    this.pageNums = [];
+                    for(var i=0; i<this.jobs.length; i=i+10){
+                        this.pageNums.push({id: i, isActive: false});
                     }
-                }
-                this.pageNums = [];
-                for(var i=0; i<this.jobs.length; i=i+10){
-                    this.pageNums.push({id: i, isActive: false});
-                }
-                this.pageNums[0].isActive = true;
+                    this.pageNums[0].isActive = true;
+                }, res => {
+                })
             } else {
                 document.getElementById('clearBtn').click();
             }

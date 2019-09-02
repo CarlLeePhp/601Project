@@ -270,4 +270,12 @@ class Job_model extends CI_Model {
         $query = $this->db->query($mySql);
         return $query->num_rows();
     }
+
+    //called from: Controller->Jobs->applyFilterBookmark()
+    //return bookmarked job
+    public function applyFilterBookmark($bookmark){
+        $this->db->where('Bookmark',$bookmark);
+        $query = $this->db->get('Job');
+        return $query->result_array();
+    }
 }

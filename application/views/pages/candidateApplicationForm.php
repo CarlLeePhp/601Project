@@ -21,7 +21,10 @@
             </div>
             <div class="col-md-4">
                 <label for="JobCVID" class="font-weight-bold">Drop your CV here:</label>
-                <input type="file" id="JobCVID" name="jobCV">
+                <input type="file" id="JobCVID" @change="checkJobCV" v-model="jobCV" name="jobCV">
+                <div class="mt-3" v-if="jobCVError.length">
+                    <p class="text-danger" v-text="jobCVError"></p>
+                </div>
             </div>
         </div>
         <h3 class="text-warning mt-3"> Transportation </h3>
@@ -232,6 +235,6 @@
         <input type="checkbox" v-model="confirm" class="form-check-inline ml-md-1 mt-3" required> Please tick this box to confirm the
         above statements.<br>
         <div class="mt-3">
-            <button class="btn btn-warning" :disabled="! confirm" @click="submitJob">Register</button>
+            <button class="btn btn-warning" :disabled="allGood()" @click="submitJob">Register</button>
         </div>
 </div>
