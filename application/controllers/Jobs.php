@@ -155,17 +155,17 @@ class Jobs extends CI_Controller {
 			$data['title'] = "Job Details";
 			$errMessage = array();
 			//content
-			$publishTitle = $_POST['publishTitle'];
+			$publishTitle = xss_clean(stripslashes(trim($this->input->post('publishTitle'))));
 			//if the published post info is empty change it to this default value
 			//DEFAULT VALUE START
 			if($publishTitle == NULL) {
 				$publishTitle = $job['JobType'] . ' ' . $job['JobTitle'] . ' worker needed in ' . $job['City'];
 			}
-			$thumbnailText = $_POST['thumbnailText'];
+			$thumbnailText = xss_clean(stripslashes(trim($this->input->post('thumbnailText'))));
 			if($thumbnailText == NULL || strcasecmp($thumbnailText,'Enter text for thumbnail')==0){
 				$thumbnailText = "";
 			}
-			$textEditor = $_POST['editor1'];
+			$textEditor = xss_clean(stripslashes(trim($this->input->post('editor1'))));
 			if($textEditor == NULL || strrpos($textEditor,'Enter the text for job')){
 				$textEditor = 'For further information please contact us or email us at <a href="mailto:mark@leerecruitment.co.nz"><strong>mark@leerecruitment.co.nz</strong></a>';
 			}
@@ -186,7 +186,6 @@ class Jobs extends CI_Controller {
 					if($fileError === 0){
 						if($fileSize < 1000000){
 							$fileNameNew = $paramJobID . $fileName;
-							echo $fileNameNew;
 							$fileDestination = constant('JOB_IMAGE_PATH') . $fileNameNew;
 							move_uploaded_file($fileTmpName,$fileDestination);
 						} else {

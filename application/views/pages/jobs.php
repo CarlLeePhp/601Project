@@ -44,21 +44,23 @@
     <div class="container">
       <hr />
       <div class="row mt-5">
-       
-         <div  v-for="job in jobs">
-            <div class="col m-3">
-                <a :href="job.ref" style="text-decoration: none;" class="text-dark">
-                <div class="card" style="width: 18rem;">
-                 <img :src="job.imgSrc" class="card-img-top image img-fluid" style="height:157px;" :alt="job.altSrc">
+        <?php foreach($jobs as $job):?>
+        <div class="col-md-4 mt-4">
+          <a class="text-dark" style="text-decoration: none;" href="<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>">
+            <div class="card" style="width: 18rem;">
+              <?php if(!empty($job['JobImage'])): ?>
+                <img src="<?php echo base_url() . 'jobImages/' .$job['JobImage']?>" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
+              <?php else : ?>
+                <img src="<?php echo base_url()?>lib/images/facebook.jpg" class="card-img-top image img-fluid" style="height:157px;" alt="<?php echo $job['JobTitle']. $job['City'];?>">
+                <?php endif;?>
                 <div class="card-body">
-                        <p class="font-weight-bold mb-1" v-text="job.publishTitle"></p>
-                        <span class="card-text mt-0" v-text="job.jobThumbnailText">
-                        </span>
-                    </div>
+                <p class="font-weight-bold p-0 mb-1"> <?php echo $job['PublishTitle'];?></p>
+                 <p class="text-justify">   <?php echo $job['ThumbnailText'];?></p>
                 </div>
-                </a>
             </div>
+          </a>
         </div>
+        <?php endforeach ?>
         
       </div>  <!--end row-->
       
@@ -86,20 +88,7 @@
             location: "",
             jobThumbnailText: "",
             publishTitle: "",
-            jobs: [
-                <?php foreach ($jobs as $job): ?> {
-                id: "<?php echo $job['JobID']; ?>",
-                jobTitle: '<?php echo $job['JobTitle']; ?>',
-                jobType: "<?php echo $job['JobType']; ?>",
-                location: "<?php echo $job['City']; ?>",
-                jobThumbnailText: '<?php echo $job['ThumbnailText']; ?>',
-                publishTitle: "<?php echo $job['PublishTitle'];?>",
-                ref: "<?php echo base_url()?>index.php/Jobs/jobInfo/<?php echo $job['JobID'];?>",
-                imgSrc: "<?php if(!empty($job['JobImage'])){ echo base_url() . 'jobImages/' . $job['JobImage']; } else { echo base_url() . 'lib/images/facebook.jpg';} ?>",
-                altSrc: "<?php echo $job['JobTitle'] . ' ' . $job['City'] . $job['JobID'];?>",
-            },
-            <?php endforeach; ?>
-            ],
+            
         },
         methods: {
             
