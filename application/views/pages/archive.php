@@ -243,6 +243,7 @@ var app = new Vue({
         
     },
     methods: {
+        //sort function by clicking on table header
         sortBy: function(sortKey) {
             this.toggle = !this.toggle;
             if(this.toggle){
@@ -255,6 +256,7 @@ var app = new Vue({
                 })
             }
         },
+        //get next page
         getJobs: function(offset){
             for(var i=0; i<this.pageNums.length; i++){
                 if(this.pageNums[i].id == offset){
@@ -286,6 +288,7 @@ var app = new Vue({
             this.$http.post(urllink, formData).then(res => {
                 var result = res.body
                 this.jobs = result
+                //initialize new pagenum
                 this.pageNums = [];
                 for(var i=0; i<this.jobs.length; i=i+10){
                     this.pageNums.push({id: i, isActive: false});
