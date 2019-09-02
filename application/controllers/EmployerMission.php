@@ -52,8 +52,9 @@ class EmployerMission extends CI_Controller{
        
         if(isset($_POST['clientTitle'])){
             //matched with string that starts with m or d or -
+            
             //followed by 3 character combinations of r i s with possibility of . at the end
-            if(preg_match('%^(m|d|-)[ris]{0,3}[\.]?$%',stripslashes(trim($_POST['clientTitle'])))){
+            if(preg_match('%^[MD\-][ris]{1,3}[\.]?$%',stripslashes(trim($_POST['clientTitle'])))){
                 $clientTitle = $this->security->xss_clean(stripslashes($_POST['clientTitle']));
             } else { $errorIsTrue = true; array_push($errMessage,'Please choose your title from dropdown list'); }
         } else { $clientTitle = "-";}
@@ -106,10 +107,10 @@ class EmployerMission extends CI_Controller{
         
         //address should contains number
         if(isset($_POST['clientAddress'])){
-            if(preg_match('%\d%',stripslashes(trim($_POST['clientAddress'])))){
+            if(preg_match('%^([a-zA-Z\.\,\'"&:/\- ]+[ ]?[#]?[0-9][a-zA-Z0-9 ]*|[#]?[ ]?[0-9]+[ ]?[a-zA-Z][ a-zA-Z0-9\.\,\'"&:/\-]*)$%',stripslashes(trim($_POST['clientAddress'])))){
                 $clientAddress = $this->security->xss_clean($_POST['clientAddress']);
             } else {
-                $errorIsTrue = true; array_push($errMessage,'invalid address, address must contains numbers');
+                $errorIsTrue = true; array_push($errMessage,'invalid address, contains unallowed special characters or it\'s incomplete');
             }
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter An address');}
 

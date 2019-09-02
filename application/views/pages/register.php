@@ -270,12 +270,12 @@
             },
             checkAddress: function(){
                 if(this.address.length>0){
-                    var re = /\d+/;
+                    var re = /^([a-zA-Z\.\,\'"&:/\- ]+[ ]?[#]?[0-9][a-zA-Z0-9 ]*|[#]?[ ]?[0-9]+[ ]?[a-zA-Z][ a-zA-Z0-9\.\,\'"&:/\-]*)$/;
                     if(re.test(this.address)){
                         this.addressError = ""
                         this.isButton = false
                     } else {
-                        this.addressError = "Missing the address number"
+                        this.addressError = "Invalid address, contains unallowed special characters or it\'s incomplete"
                         this.isButton = true
                     }
                 } else { 

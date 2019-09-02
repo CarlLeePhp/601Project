@@ -1,6 +1,6 @@
 <?php
 
-$randomArray = array('#123 s.','123 mai123nst queen\'s drive','main st. 123');
+$randomArray = array('123s','123 mai123nst queen\'s drive','main st. 123');
 //allowed char for password a-z  A-Z 0-9 !@#$%^&*()-+_?.
 //allowed char for name a-z A-Z 0-9 . ' - : , \s
 
@@ -16,7 +16,7 @@ would be 0-9 else if the first digit for month is 1 it could only be either 0 1 
 //allowed char for suburb a-z A-Z \s / . ' " : & , : 
  //   ^(?=[# \.a-zA-Z0-9]*?[A-Z])(?=[ \.\'"\-#a-zA-Z0-9]*?[a-z])(?=[ \.\'"\-#a-zA-Z0-9]*?[0-9])
  //(#?(\d{0,5})[ -.]?(?=[a-zA-Z ]+[\.\'" ]?[a-zA-Z]{0,6}[\.\'" ]?))|([a-zA-Z ]+[\.\-\'" ]?#?\d{0,5})
-$matchName = preg_grep('%^$%',$randomArray);
+$matchName = preg_grep('%^([a-zA-Z\.\,\'"&:/\- ]+[ ]?[#]?[0-9][a-zA-Z0-9 ]*|[#]?[ ]?[0-9]+[ ]?[a-zA-Z][ a-zA-Z0-9\.\,\'"&:/\-]*)$%',$randomArray);
 
 foreach($matchName as $res){
     echo $res  . '<br />' . '<br />';

@@ -76,10 +76,10 @@ class Register extends CI_Controller {
         
         //address must contains number
         if(isset($_POST['Address'])){
-            if(preg_match('%\d+%',stripslashes(trim($_POST['Address'])))){
+            if(preg_match('%^([a-zA-Z\.\,\'"&:/\- ]+[ ]?[#]?[0-9][a-zA-Z0-9 ]*|[#]?[ ]?[0-9]+[ ]?[a-zA-Z][ a-zA-Z0-9\.\,\'"&:/\-]*)$%',stripslashes(trim($_POST['Address'])))){
                 $Address = $this->security->xss_clean($_POST['Address']);
             } else {
-                $errorIsTrue = true; array_push($errMessage,'invalid address, address must contains numbers');
+                $errorIsTrue = true; array_push($errMessage,'invalid address, contains unallowed special characters or it\'s incomplete');
             }
         } else { $errorIsTrue = true; array_push($errMessage,'Please enter An address');}
         

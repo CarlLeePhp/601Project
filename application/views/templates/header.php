@@ -12,7 +12,7 @@
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
     <script type="text/javascript" src="https://cdn.rawgit.com/asvd/dragscroll/master/dragscroll.js"></script>
-    <title>Document</title>
+    <title>Lee Recruitment</title>
 </head>
 
 <body style="background-color: #FFFFFF">
