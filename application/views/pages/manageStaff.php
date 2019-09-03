@@ -5,7 +5,13 @@
 <hr />
 <!-- <p>Welcome back, <?php echo $firstName; ?>!</p>
 <p>Your cannot see this page without login.</p> -->
-
+<?php if(sizeof($errMessage)>0){
+        echo '<ul>';
+        foreach($errMessage as $mess){
+            echo '<p class="text-danger"> * ' . $mess . '</p>';
+        }
+        echo '</ul>';
+    };?>
 <div class="container mb-5 p-md-5">
 <?php if($userType == 'admin'):?>
     <div class="container">

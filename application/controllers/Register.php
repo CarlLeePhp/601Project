@@ -167,17 +167,19 @@ class Register extends CI_Controller {
                 } else { $errorIsTrue = true;  array_push($errMessage,'Invalid UserPassword');}
             } else { $errorIsTrue = true; array_push($errMessage,'Please enter a password');}
 
-            if(isset($_POST['firstName'])){
-                if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
-                    $firstName = $_POST['firstName'];
-                } else { $errorIsTrue = true; array_push($errMessage,'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
-            } else { $errorIsTrue = true; array_push($errMessage,'Please enter first name');}
+            // if(isset($_POST['firstName'])){
+            //     if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['firstName'])))){
+            //         $firstName = $_POST['firstName'];
+            //     } else { $errorIsTrue = true; array_push($errMessage,'Error The name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
+            // } else { $errorIsTrue = true; array_push($errMessage,'Please enter first name');}
     
-            if(isset($_POST['lastName'])){
-                if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
-                    $lastName = $_POST['lastName'];
-                } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
-            } else { $errorIsTrue = true; array_push($errMessage,'Please enter last name');}
+            // if(isset($_POST['lastName'])){
+            //     if(preg_match('%^[a-zA-Z\.\'\-\"\, ]{2,}$%',stripslashes(trim($_POST['lastName'])))){
+            //         $lastName = $_POST['lastName'];
+            //     } else { $errorIsTrue = true; array_push($errMessage,'Error The last name you entered, was redeemed as invalid. The reason for this is because it contains disallowed special character or it is too short. Failed to register User');}
+            // } else { $errorIsTrue = true; array_push($errMessage,'Please enter last name');}
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
             //form validation end
             $DOB = '';
             $Address = '';
@@ -190,11 +192,12 @@ class Register extends CI_Controller {
             $userType = 'staff';
             $userPasswd = do_hash($userPasswd, 'sha256');
             $data['message'] = "";
+            $data['errMessage'] = array();
             //if error is encountered give a warning else insert the data into database
             if(!$errorIsTrue){
             $this->register_model->addUser($firstName, $lastName, $userEmail, $userPasswd, $Address, $City, $ZipCode, $Suburb, $userType, $PhoneNumber, $DOB, $gender);
             } else {
-                $data['message'] = $errMessage;
+                $data['errMessage'] = $errMessage;
             }
             $userdata['userType'] = $_SESSION['userType'];
             $data['title'] = "Manage Staff";

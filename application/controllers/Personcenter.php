@@ -50,6 +50,7 @@ class Personcenter extends CI_Controller {
 
 			$data['title'] = "Manage Staff";
 			$data['message'] ="";
+			$data['errMessage'] = array();
 			$data['staffs'] = $this->User_model->getAllStaff();
 			$this->load->view('templates/header',$userdata);
 			$this->load->view('pages/manageStaff',$data);
@@ -73,6 +74,7 @@ class Personcenter extends CI_Controller {
 			$password = $_POST['newPassword'];
 			$data['title'] = "Manage Staff";
 			$data['message'] ="";
+			$data['errMessage'] = array();
 			$this->User_model->update_staffPassword($staffID,$password);
 			$data['staffs'] = $this->User_model->getAllStaff();
 			$this->load->view('templates/header',$userdata);
@@ -101,6 +103,7 @@ class Personcenter extends CI_Controller {
 			} else {
 			$this->User_model->delete_staff($staffID);
 			}
+			$data['errMessage'] = array();
 			$data['title'] = "Manage Staff";
 			$data['staffs'] = $this->User_model->getAllStaff();
 			$this->load->view('templates/header',$userdata);

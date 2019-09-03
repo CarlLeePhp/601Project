@@ -251,8 +251,9 @@
                     var re = /^[1|2]{1}(9[0-9][0-9]|0[0-9][0-9])-(0[0-9]|1[0|1|2])-(0[0-9]|1[0-9]|2[0-9]|3[0-1])$/;
                     var today = new Date();
                     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    
                     if(re.test(this.DOB)){
-                        if(this.DOB<date){
+                        if(new Date(this.DOB).getTime()< new Date(today).getTime()){
                             this.DOBError = ""
                             this.isButton = false
                         } else {
