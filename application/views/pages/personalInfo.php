@@ -14,7 +14,7 @@
         echo '</ul>';
     };?>
     <div class="container justify-content-center rounded mt-5 mb-5">
-        <form action="<?php echo base_url()?>index.php/PersonCenter/updatePassword" class="m-md-5" method="POST" @submit="checkForm">
+        <form action="<?php echo base_url()?>index.php/Personcenter/updatePassword" class="m-md-5" method="POST" @submit="checkForm">
            <h3 style="color: darkslategray">Change My Password</h3>
            <div class="row justify-content-center mt-5">
                <div class="col-md-10">
@@ -62,7 +62,7 @@
             </div>
         </form>
 
-        <form action="<?php echo base_url()?>index.php/PersonCenter/updateDetails" class="m-md-5" method="POST">
+        <form action="<?php echo base_url()?>index.php/Personcenter/updateDetails" class="m-md-5" method="POST">
            <h3 style="color: darkslategray">Update Personal Details</h3>
            <div class="row justify-content-center mt-md-5">
                <div class="col-md-10">
