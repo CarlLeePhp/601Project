@@ -11,27 +11,7 @@ var app = new Vue({
         bookmarkID: "",
         toggle: false,
         
-        jobs: [
-            <?php foreach ($jobs as $job): ?> {
-                id: "<?php echo $job['JobID']; ?>",
-                
-                clientTitle: "<?php echo $job['ClientTitle']; ?>",
-                clientName: "<?php echo $job['ClientName']; ?>",
-                company: "<?php echo $job['Company']; ?>",
-                email: "<?php echo $job['Email']; ?>",
-                contactNumber: "<?php echo $job['ContactNumber']; ?>",
-                jobTitle: "<?php echo $job['JobTitle']; ?>",
-                jobType: "<?php echo $job['JobType']; ?>",
-                address: "<?php echo $job['Address']; ?>",
-                city: "<?php echo $job['City']; ?>",
-                description: "<?php echo $job['Description']; ?>",
-                dateSubmitted: "<?php echo $job['JobSubmittedDate']?>",
-                ref: "<?php echo base_url()?>index.php/Jobs/jobDetails/<?php echo $job['JobID'];?>",
-                checked: "<?php if($job['Checked']=="true"){ echo true; } else { echo false;};?>",
-                
-            },
-            <?php endforeach; ?>
-        ],
+        jobs: <?php echo json_encode($jobs)?>,
         uncheckedJobsCount: 0,
         jobsCopy: [],
         showClientCheck: true,
@@ -97,11 +77,11 @@ var app = new Vue({
         applyFilters: function(){
             this.jobs = [];
             for(var i=0; i<this.jobsCopy.length; i++){
-                let company = this.jobsCopy[i].company.toLowerCase();
-                let city = this.jobsCopy[i].city.toLowerCase();
-                let jobTitle = this.jobsCopy[i].jobTitle.toLowerCase();
-                let contactNumber = this.jobsCopy[i].contactNumber.toLowerCase();
-                let contactPerson = this.jobsCopy[i].clientName.toLowerCase();
+                let company = this.jobsCopy[i].Company.toLowerCase();
+                let city = this.jobsCopy[i].City.toLowerCase();
+                let jobTitle = this.jobsCopy[i].JobTitle.toLowerCase();
+                let contactNumber = this.jobsCopy[i].ContactNumber.toLowerCase();
+                let contactPerson = this.jobsCopy[i].ClientName.toLowerCase();
                 if(company.search(this.filterCompany.toLowerCase()) >= 0
                     && city.search(this.filterCity.toLowerCase()) >= 0
                     && jobTitle.search(this.filterJobTitle.toLowerCase()) >= 0
