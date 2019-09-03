@@ -388,7 +388,7 @@ class Candidate_model extends CI_Model {
             'JobCV' => $fileName
         );
         $this->db->where('CandidateID', $candidateID);
-        $this->db->update('candidate', $data);
+        $this->db->update('Candidate', $data);
     }
 
     //called from: view->templates->header

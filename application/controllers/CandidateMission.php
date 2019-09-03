@@ -160,7 +160,7 @@ class CandidateMission extends CI_Controller{
             exit;
         }
         $candidateNotes = "";
-        if($_SESSION['userType']!='admin' && $_SESSION['UserType']!='staff')
+        if($_SESSION['userType']!='admin' && $_SESSION['userType']!='staff')
         {
             
             $userID = $_SESSION['userID'];
@@ -228,12 +228,13 @@ class CandidateMission extends CI_Controller{
     //called by ajax in CandidateMission->index and CandidateMission->addingNewCandidateStaffOnly
     //candidate_model->updateLinkByID($maxID, $downloadName); calling this model to update the CV link
     public function uploadCV(){
+        
         if(!isset($_SESSION['userEmail'])){
             echo "Please login";
             exit;
         }
         
-        if($_SESSION['userType']!='admin' && $_SESSION['UserType']!='staff')
+        if($_SESSION['userType']!='admin' && $_SESSION['userType']!='staff')
         {
             
             $userID = $_SESSION['userID'];
@@ -255,6 +256,7 @@ class CandidateMission extends CI_Controller{
         $candidate = $this->candidate_model->getMaxIDByUserID($userID);
         $maxID=$candidate['MaxID'];
 
+        
         $config['upload_path'] = constant('CV_PATH');
 
         $config['allowed_types'] = 'pdf|png|doc|docx';
@@ -267,22 +269,24 @@ class CandidateMission extends CI_Controller{
         {
             echo 'upload failed';
         } else {
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('JobCV')) {
-            echo "Apply Failed.";
-        } else {
-            echo "Apply Successfully";
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('JobCV')) {
+                echo "Apply Failed.";
+            } else {
+                echo "Apply Successfully";
+            }
         }
-
         
         // Update the download link
         $uploadName = $_FILES['JobCV']['name'];
         $items = explode(".", $uploadName);
         $extent = $items[count($items) - 1];
         $downloadName = $config['file_name'].'.'.$extent;
+        
         //update the filename in database to retrieve data
         $this->candidate_model->updateLinkByID($maxID, $downloadName);
-        }
+        
+        
         
     }
 

@@ -217,7 +217,13 @@ var app = new Vue({
                 this.message = 'Post was failed, please try it later.';
                 $('#myModal').modal('show');
             })
-        }
+        },
+        getUrl: function(candidateID){
+            var issetJob = "<?php if(isset($job['JobID'])){ echo $job['JobID'];}?>"
+            var goToUrl = "<?php echo base_url() . 'index.php/CandidateMission/candidateDetails/';?>"+candidateID +"/"+issetJob;
+            document.location.href = goToUrl;
+        },
+
         
     },
     mounted: function(){
@@ -241,6 +247,5 @@ var app = new Vue({
         }
         this.candidatesCopy = this.candidates;
     }
-
 })
 </script>

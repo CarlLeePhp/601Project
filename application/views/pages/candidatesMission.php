@@ -264,7 +264,8 @@ var app = new Vue({
             } else {
                 return false;
             }
-        }
+        },
+        
         
         
     }
