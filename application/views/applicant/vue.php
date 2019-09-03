@@ -203,8 +203,36 @@ var app = new Vue({
             var goToUrl = "<?php echo base_url() . 'index.php/CandidateMission/candidateDetails/';?>"+candidateID +"/"+issetJob;
             document.location.href = goToUrl;
         },
-
-        
+        targetThisBox: function(elementID){
+            const input = document.getElementById(elementID);
+            input.focus();
+            input.select();
+        },
+        clearSelection: function(){
+            if (window.getSelection) {window.getSelection().removeAllRanges();document.activeElement.blur();}
+            else if (document.selection) {document.selection.empty();}
+        },
+        updateNotes: function(candidateID){
+            
+            var formData = new FormData()
+            formData.append('candidateNotes', document.getElementById(candidateID).value);
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/Jobs/updateCandidateNotes/'+candidateID+'/'+'manageCandidate'
+            this.$http.post(urllink, formData).then(res => {
+                var result = res.body;
+                //update the changes into the data in current page.
+                for(var i=0; i<this.candidates.length; i++){
+                    if(this.candidates[i].CandidateID == candidateID){
+                        this.candidates[i].CandidateNotes = document.getElementById(candidateID).value;
+                        this.candidatesCopy[i].CandidateNotes = this.candidates[i].CandidateNotes;
+                    }
+                }
+                
+                $('#'+candidateID).html(result);
+            }, res => {
+                // error callback
+                
+            })
+        },
     },
     mounted: function(){
         this.jobsCopy = this.jobs;

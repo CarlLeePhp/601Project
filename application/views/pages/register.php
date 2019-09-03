@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-md-4 px-md-3 p-0">
                     <label for="DOBID" class="font-weight-bold"><span class="text-danger">* </span>Date of Birth:</label>
-                    <input type="date" placeholder="Enter DOB" class="form-control" @change="checkDOB" v-model="DOB" name="DOB" id="DOBID" required>
+                    <input type="date" placeholder="YYYY-MM-DD" class="form-control" @change="checkDOB" v-model="DOB" name="DOB" id="DOBID" required>
                     <div class="mt-3" v-if="DOBError.length">
                             <p class="text-danger" v-text="DOBError"></p>
                     </div>

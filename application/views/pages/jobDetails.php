@@ -131,6 +131,7 @@
         <?php $savedHoursWorked[$candidateData['CandidateID']] = $candidateData['CandidateHoursWorked'];?>
         <form>
         <tr id="targetRow<?php echo $candidateData['CandidateID'];?>"><th scope="row">
+        
         <div class="textInfoPos"><span class="textInfo">Remove Candidate</span><a onclick="removeAssignedCandidate(<?php echo $candidateData['CandidateID']?>)" class="text-danger"><i style="font-size:25px" class="icon ion-md-close-circle"></i> </a></div></th>
         <td><div class="textInfoPos"><span class="textInfo font-weight-bold" style="left:-50px;">Reset Data to 0</span><a onclick="resetCandidateData(<?php echo $candidateData['CandidateID']?>)" class="text-secondary" ><i style="font-size:25px" class="icon ion-md-trash"></i></a></div></td>
         <td><?php echo $candidateData['FirstName'] . ' ' . $candidateData['LastName'];?></td>
@@ -143,12 +144,16 @@
 		<td><input onclick="targetThisBox('jobRate<?php echo $candidateData['CandidateID']?>')" type="text" id="jobRate<?php echo $candidateData['CandidateID']?>" onchange="updateJobRate(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['JobRate'];?>"></td>
         <td><input type="text" class="border-0" id="candidateEarnings<?php echo $candidateData['CandidateID']?>" value="<?php printf('%.2f',$candidateData['CandidateEarnings']);?>"> </td>
         <td><input onclick="targetThisBox('candidateNotes<?php echo $candidateData['CandidateID']?>')" type="text" id="candidateNotes<?php echo $candidateData['CandidateID']?>" onchange="updateCandidateNotes(<?php echo $candidateData['CandidateID']?>,<?php echo $savedHoursWorked[$candidateData['CandidateID']] ;?>)" placeholder="<?php echo $candidateData['CandidateNotes'];?>"></td>
+        
         </tr>
+        
         </form>
         
-        <?php endforeach;?>    
+        <?php endforeach;?> 
+        
     </tbody>
     </table>
+    
     
     </div> <!--ajaxContentEnd-->
 </div>

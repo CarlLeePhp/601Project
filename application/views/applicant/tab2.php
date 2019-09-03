@@ -237,7 +237,7 @@
                                 <td v-text="candidate.Smoke" v-bind:class="{ 'd-none': ! showSmoke }"></td>
                                 <td v-text="candidate.Conviction" v-bind:class="{ 'd-none': ! showConviction }"></td>
                                 <td v-text="candidate.ConvictionDetails" v-bind:class="{ 'd-none': ! showConvictionDetails }"></td>
-                                <td v-bind:class="{ 'd-none': ! showCandidateNotes }"><input type="text" :id="candidate.CandidateID" v-on:change="updateNotes(candidate.CandidateID)" :value="candidate.CandidateNotes"></td>
+                                <td v-bind:class="{ 'd-none': ! showCandidateNotes }"><input type="text" @click="targetThisBox(candidate.CandidateID)" v-on:keyup.enter="clearSelection()" :id="candidate.CandidateID" v-on:change="updateNotes(candidate.CandidateID)" :value="candidate.CandidateNotes"></td>
                             
                                 
                             </tr>

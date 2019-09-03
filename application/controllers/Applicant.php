@@ -27,6 +27,18 @@ class Applicant extends CI_Controller{
             $data['message'] ="";
             //get unchecked job and candidate
             $data['jobs'] = $this->job_model->getUnchecked();
+            //adding 3 more field into jobs ref,bookmarkStat,bookmarkUrl
+            for($i=0;$i<sizeof($data['jobs']);$i++){
+                $ref = base_url() . 'index.php/Jobs/jobDetails/' . $data['jobs'][$i]['JobID'];
+                if($data['jobs'][$i]['Bookmark']=="true"){ $bookmarkStat=true;} else {$bookmarkStat=false;};
+				$bookmarkUrl= "Bookmark". $data['jobs'][$i]['JobID'];
+				//update the value of jobstatus if it's null "" or 0, to NoAction
+                if(empty($data['jobs'][$i]['JobStatus'])){ $data['jobs'][$i]['JobStatus']="NoAction"; }
+                $data['jobs'][$i]['ref'] = $ref;
+                $data['jobs'][$i]['bookmarkStat'] = $bookmarkStat;
+                $data['jobs'][$i]['bookmarkUrl'] = $bookmarkUrl;
+			}
+
             $data['candidates'] = $this->candidate_model->getUnchecked();
             
             $this->load->view('templates/header',$userdata);
