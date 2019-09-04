@@ -125,6 +125,7 @@
                 <thead>
                     <tr>
                         <th scope="col" class="pl-1" v-bind:class="{ 'd-none': ! showClientCheck }"><a href="#"   class="text-dark "><i style="font-size:22px;" class="icon ion-md-checkbox-outline ml-2"></i></a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showRemoveStatus }"><a href="#" class="text-dark">Remove</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showDetails }"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showClientTitle }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('ClientTitle')">Title</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showClientName }"><a href="#" class="text-dark" @click.stop.prevent="sortBy('ClientName')">Name</a></th>
@@ -141,9 +142,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="job in jobs" :key="job.JobID">
+                    <tr v-for="job in jobs" :key="job.JobID" :id="'rowJob'+job.JobID">
                         
                         <td v-bind:class="{ 'd-none': ! showClientCheck }"> <input type="checkbox" :id="job.bookmarkUrl" v-on:click="checkClient(job.JobID)" :checked="job.checked"></td>
+                        <th class="textInfoPos" v-bind:class="{ 'd-none': ! showRemoveStatus }"><button type="button" v-on:click="removeJobApp(job.JobID)" class="btn btn-danger"><img src="<?php echo base_url()?>lib/images/papershreeder.png" style="height:35px;width:35px;"></button></th>
                         <td v-bind:class="{ 'd-none': ! showDetails }"><a :href="job.ref" role="button"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
                         <td v-text="job.ClientTitle" v-bind:class="{ 'd-none': ! showClientTitle }"></td>
                         <td v-text="job.ClientName" v-bind:class="{ 'd-none': ! showClientName }"></td>

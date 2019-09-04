@@ -133,6 +133,8 @@ class Candidate_model extends CI_Model {
         $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
+        
+        $this->db->where('CandidateStatus !=','removed');
         if($page == "jobDetails"){
             //get the candidate that hasnt been assigned to anyjob
             $this->db->group_start();
@@ -235,6 +237,7 @@ class Candidate_model extends CI_Model {
         $this->db->select('User.City,User.FirstName,User.LastName,User.Suburb,User.Email,User.PhoneNumber,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
+        $this->db->where('CandidateStatus !=','removed');
         if($page == "jobDetails"){
             //if this function is called because of the staff is looking for someone to take the job
             //filter it by the candidate that still hasnt get any job yet
@@ -315,6 +318,7 @@ class Candidate_model extends CI_Model {
         $this->db->select('User.FirstName, User.LastName,User.DOB,User.City,User.Address,User.Suburb,User.PhoneNumber,User.Email,User.Gender,Candidate.*');
         $this->db->from('Candidate');
         $this->db->join('User', 'Candidate.UserID = User.UserID');
+        $this->db->where('CandidateStatus !=','removed');
         if($page == "jobDetails"){
             $this->db->group_start();
                 $this->db->where('Candidate.JobID',NULL);
@@ -397,5 +401,16 @@ class Candidate_model extends CI_Model {
         $mySql = "SELECT Checked FROM Candidate WHERE Checked IS NULL";
         $query = $this->db->query($mySql);
         return $query->num_rows();
+    }
+
+    //called from: Controller->CandidateMission->removeCandidateApplication()
+    //change the candidate status to removed so it wont appear in the application table anymore
+    public function removeCandidateApp($candidateID){
+        $data = array(
+            'CandidateStatus' => 'removed',
+            'Checked' => 'true',
+        );
+        $this->db->where('CandidateID',$candidateID);
+        $this->db->update('Candidate',$data);
     }
 }

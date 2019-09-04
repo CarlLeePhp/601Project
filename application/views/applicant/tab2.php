@@ -185,6 +185,7 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="pl-1" v-bind:class="{ 'd-none': ! showClientCheck }"><a href="#"  @click.stop.prevent="sortCandidate('bookmark')" class="text-dark "><i style="font-size:22px;" class="icon ion-md-checkbox-outline ml-2"></i></a></th>
+                                <th scope="col" v-bind:class="{ 'd-none': ! showRemoveStatus }"><a href="#" class="text-dark">Remove</a></th>
                                 <th scope="col"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
                                 <th scope="col" v-bind:class="{ 'd-none': ! showFirstName }"><a href="#" class="text-dark" @click.stop.prevent="sortCandidate('FirstName')">First Name</a></th>
                                 <th scope="col" v-bind:class="{ 'd-none': ! showLastName }"><a href="#" class="text-dark" @click.stop.prevent="sortCandidate('LastName')">Last Name</a></th>
@@ -212,8 +213,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
+                            <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID" :id="'rowCandidate'+candidate.CandidateID">
                                 <td v-bind:class="{ 'd-none': ! showCandidateCheck }"> <input type="checkbox" v-on:click="checkCandidate(candidate.CandidateID)" :checked="candidate.Checked"></td>
+                                <th class="textInfoPos" v-bind:class="{ 'd-none': ! showRemoveStatus }"><button type="button" v-on:click="removeCandidateApp(candidate.CandidateID)" class="btn btn-danger"><img src="<?php echo base_url()?>lib/images/papershreeder.png" style="height:35px;width:35px;"></button></th>
                                 <td><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></td>
                                 <td v-text="candidate.FirstName" v-bind:class="{ 'd-none': ! showFirstName }"></td>
                                 <td v-text="candidate.LastName" v-bind:class="{ 'd-none': ! showLastName }"></td>

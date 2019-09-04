@@ -357,4 +357,12 @@ class CandidateMission extends CI_Controller{
         $this->register_model->addUser($firstName, $lastName, $userEmail, $newUserPasswd, $userAddress, $city, $zipCode, $suburb, $userType, $phoneNumber, "0000-00-00", $gender);
 
     }
+
+    //called from: view->pages->manageCandidate , view->applicant->vue
+    //calling the model of candidate and updating the candidateStatus of candidate to removed so it wont appear in the candidate table anymore
+    public function removeCandidateApplication(){
+        $candidateID = $_POST['candidateID'];
+        
+        $this->candidate_model->removeCandidateApp($candidateID);
+    }
 }

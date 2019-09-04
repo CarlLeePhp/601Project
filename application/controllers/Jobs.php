@@ -505,4 +505,12 @@ class Jobs extends CI_Controller {
             redirect('/');
         }
 	}
+
+	//called from: view->applicant->vue
+    //calling the model of candidate and updating the candidateStatus of candidate to removed so it wont appear in the candidate table anymore
+    public function removeJobApplication(){
+        $jobID = $_POST['jobID'];
+        
+        $this->job_model->updateJobStatusToComplete($jobID);
+    }
 }

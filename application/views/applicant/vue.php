@@ -61,6 +61,7 @@ var app = new Vue({
         showAddress: false,
         showSuburb: true,
         showGender: false,
+        showRemoveStatus: false,
 
         // filters
         filterJobInterest: "",
@@ -211,6 +212,33 @@ var app = new Vue({
         clearSelection: function(){
             if (window.getSelection) {window.getSelection().removeAllRanges();document.activeElement.blur();}
             else if (document.selection) {document.selection.empty();}
+        },
+        removeCandidateApp: function(elementID){
+            var formData = new FormData()
+            formData.append('candidateID',elementID)
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/removeCandidateApplication/'
+            this.$http.post(urllink, formData).then(res => {
+                
+            }, res => {
+                
+            })
+            $('#rowCandidate'+elementID).addClass('text-muted');
+            $('#rowCandidate'+elementID).css('background-color',"#F0F0F0");
+        },
+        removeJobApp: function(elementID){
+            var formData = new FormData()
+            formData.append('jobID',elementID)
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/Jobs/removeJobApplication/'
+            this.$http.post(urllink, formData).then(res => {
+                
+            }, res => {
+                
+            })
+            $('#rowJob'+elementID).addClass('text-muted');
+            $('#rowJob'+elementID).css('background-color',"#F0F0F0");
+        },
+        showRemoveTab: function(){
+            this.showRemoveStatus = !this.showRemoveStatus
         },
         updateNotes: function(candidateID){
             

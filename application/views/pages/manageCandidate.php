@@ -12,12 +12,15 @@
     <hr />
     
     
-    <div class="container ">
+    <div class="container">
         <a href="<?php echo base_url()?>index.php/CandidateMission/addingNewCandidateStaffOnly">
             <button type="button" style="position:fixed;right: 20px; bottom:20px;z-index:1" class="btn btn-dark btn-lg border-white">
             <i style="font-size:30px;" class="icon ion-md-add m-1 text-white"></i>
             </button>
         </a>
+        <button type="button" @click="showRemoveTab" style="position:fixed;right: 20px; bottom:95px;z-index:1" class="btn btn-outline-danger bg-danger">
+            <img style="height:39px; width:35px;" src="<?php echo base_url()?>lib/images/papershreeder.png">
+        </button>
         <!-- Collapse -->
         <a class="btn btn-outline-dark border border-dark form-control" style="border-radius: 15px 15px 0px 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         <span class="font-weight-bold">Filters</span><i class="ml-1 icon ion-md-barcode mx-3"></i></a>
@@ -209,7 +212,8 @@
            
                 <thead>
                     <tr>
-                        <th scope="col" v-bind:class="{ 'd-none': ! showAssignCandidate }"><a href="#" class="text-dark" @click.stop.prevent="">Assign Candidate</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showAssignCandidate }"><a href="#" class="text-dark">Assign Candidate</a></th>
+                        <th scope="col" v-bind:class="{ 'd-none': ! showRemoveStatus }"><a href="#" class="text-dark">Remove</a></th>
                         <th scope="col"><a href="#" class="text-dark" @click.stop.prevent="">Details</a></th>
                         <th scope="col" v-bind:class="{ 'd-none': ! showCV }">CV</th>
                         <th scope="col" ><a href="#" class="text-dark pr-5" @click.stop.prevent="sortBy('ApplyDate')">Apply date</a></th>
@@ -239,8 +243,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID">
+                    <tr v-for="candidate in candidatesCopy" :key="candidate.CandidateID" :id="'row'+candidate.CandidateID">
                         <th class="textInfoPos" v-bind:class="{ 'd-none': ! showAssignCandidate }"><span class="textInfo text-center" style="left: 0px;overflow:initial;">Assign job <br>to this Candidate</span><a v-on:click="AssignIDURL(candidate.CandidateID)" role="button" class="text-info"><i style="font-size:30px;" class="ml-1 icon ion-md-contacts mx-3"></i></a></th>
+                        <th class="textInfoPos" v-bind:class="{ 'd-none': ! showRemoveStatus }"><button type="button" v-on:click="removeCandidateApp(candidate.CandidateID)" class="btn btn-danger"><img src="<?php echo base_url()?>lib/images/papershreeder.png" style="height:35px;width:35px;"></button></th>
                         <th class="textInfoPos"><span class="textInfo text-center" style="left: -35px;width:190px;">See Candidate's Details</span><a v-on:click="getUrl(candidate.CandidateID)" role="button" class="text-primary"><i style="font-size:30px;" class="ml-1 icon ion-md-document mx-3"></i></a></th>
                         <th class="textInfoPos" v-bind:class="{ 'd-none': ! showCV }"><span class="textInfo text-center" style="left: -45px;width:160px;">Download <br>Candidate's CV</span><a class="btn btn-outline-dark px-2" :href="'<?php echo base_Url(); ?>index.php/candidateMission/downloadCV/' + candidate.JobCV">CV</a></th>
                         <th v-text="candidate.ApplyDate"></th>
@@ -291,7 +296,6 @@
         </ul>
     </nav>
 
-    <p>{{ currentPageID }}</p>
     <!-- Pagination End -->
 
     <!-- Modal -->
@@ -357,6 +361,7 @@ var app = new Vue({
         showAddress: false,
         showSuburb: true,
         showGender: false,
+        showRemoveStatus: false,
         candidateNum: <?php echo $candidateNum; ?>,
         fromPage: "<?php echo $fromPage;?>",
         hiddenInput: "",
@@ -450,7 +455,21 @@ var app = new Vue({
             if (window.getSelection) {window.getSelection().removeAllRanges();document.activeElement.blur();}
             else if (document.selection) {document.selection.empty();}
         },
-        
+        showRemoveTab: function(){
+            this.showRemoveStatus = !this.showRemoveStatus
+        },
+        removeCandidateApp: function(elementID){
+            var formData = new FormData()
+            formData.append('candidateID',elementID)
+            var urllink = "<?php echo base_Url(); ?>" + 'index.php/CandidateMission/removeCandidateApplication/'
+            this.$http.post(urllink, formData).then(res => {
+                
+            }, res => {
+                
+            })
+            $('#row'+elementID).addClass('text-muted');
+            $('#row'+elementID).css('background-color',"#F0F0F0");
+        },
         getCandidates: function(offset){
             for(var i=0; i<this.pageNums.length; i++){
                 if(this.pageNums[i].id == offset){

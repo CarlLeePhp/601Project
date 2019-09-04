@@ -148,12 +148,13 @@ class Job_model extends CI_Model {
         $this->db->update('Job',$data);
     }
 
-    //called from:Controller->Jobs->updateJobToArchive()
+    //called from:Controller->Jobs->updateJobToArchive(), Controller->Job->removeJobApplication()
     //set the jobstatus for specific job to completed
     public function updateJobStatusToComplete($jobID){
         $this->db->where('JobID',$jobID);
         $data = array(
             'JobStatus' => 'completed',
+            'Checked' => 'true',
         );
         $this->db->update('Job',$data);
     }
@@ -278,4 +279,5 @@ class Job_model extends CI_Model {
         $query = $this->db->get('Job');
         return $query->result_array();
     }
+
 }
