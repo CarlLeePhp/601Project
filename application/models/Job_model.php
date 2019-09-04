@@ -14,11 +14,11 @@ class Job_model extends CI_Model {
         //if it's called from archive page get the status of completed only
         if($page=='archive'){
             $this->db->where('JobStatus','completed');
-            $this->db->limit(10,$offset);
+            $this->db->limit(10,$offset * 10);
         } else {
             $data = array('completed');
             $this->db->where_not_in('JobStatus',$data);
-            $this->db->limit(10,$offset);
+            $this->db->limit(10,$offset * 10);
         }
         $this->db->order_by('JobSubmittedDate', 'DESC');
         $query = $this->db->get('Job');

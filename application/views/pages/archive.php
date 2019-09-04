@@ -174,7 +174,9 @@
         <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item" v-for="pageNum in pageNums" :key="pageNum.id" :class="{ active: pageNum.isActive }">
-                <a class="page-link"  href="#" @click.stop.prevent="getJobs(pageNum.id)">{{ pageNum.id / 10 + 1 }}</a>
+                <div v-if="pageNum.id >= currentPageID-2 && pageNum.id <= currentPageID + 2">
+                    <a class="page-link"  href="#" @click.stop.prevent="getJobs(pageNum.id)">{{ pageNum.id + 1 }}</a>
+                </div>
             </li>
         </ul>
         </nav>
@@ -318,7 +320,17 @@ var app = new Vue({
            
         }
     },
-    
+    computed: {
+        currentPageID: function(){
+            let result;
+            for(var i=0; i<this.pageNums.length; i++){
+                if(this.pageNums[i].isActive){
+                    result = this.pageNums[i].id;
+                }
+            }
+            return result;
+        }
+    },
     mounted: function(){
         this.pageNums = [];
         for(var i=0; i<this.archiveJobNum; i=i+10){

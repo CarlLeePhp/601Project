@@ -197,7 +197,7 @@ class Candidate_model extends CI_Model {
         if(!empty($email)){
             $this->db->where('User.Email',$email);
         }
-        $this->db->limit($limitNum, $offsetNum);
+        $this->db->limit($limitNum, $offsetNum * $limitNum);
         $this->db->order_by('ApplyDate', 'DESC');
         $query = $this->db->get();
         return $query->result_array();
